@@ -22,12 +22,12 @@ public class BoardTestsExp {
 	private TestBoard board;
 	
 	@BeforeEach
-	public void estUp() {
+	public void setup() {
 		board = new TestBoard();
 	}
 	
 	@Test
-	public void testAdjacency() {	// From 'figure 1' in the assignment page might need to chage later
+	public void testAdjacency() {	// From 'figure 1' in the assignment page might need to change later
 		TestBoardCell cell = board.getCell(0, 0);
 		Set<TestBoardCell> testList = cell.getAdjList();
 		Assert.assertTrue(testList.contains(board.getCell(1, 0)));
