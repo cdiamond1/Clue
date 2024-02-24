@@ -4,7 +4,7 @@ import java.util.Set;
 /* TestBoard class - contains our board for testing
  * 
  * @Author: Carson D.
- * @Author:
+ * @Author: Charlie D.
  * 
  * @Date:
  * 
@@ -13,6 +13,7 @@ import java.util.Set;
 public class TestBoard {
 	
 	private Set<TestBoardCell> targets;
+	private Set<TestBoardCell> boardCells;
 	private TestBoardCell test;
 	
 	 public TestBoard() {
@@ -24,11 +25,17 @@ public class TestBoard {
 	 }
 	 
 	 public TestBoardCell getCell(int row, int col) {
-		 // idk how this is supposed to work, somehow get cell via row/column
-		 return test;
+		 // iterate through each cell in targets list
+		 for (TestBoardCell cell: boardCells) {
+			 if (cell.getColumn() == col && cell.getRow() == row) {
+				 return cell;
+			 }
+		 }
+		 // if no cell returned, return null
+		 return null;
 	 }
 	 
-	 public Set<TestBoardCell> getTargets(){
+	 public Set<TestBoardCell> getTargets() {
 		 return targets;
 	 }
 	 

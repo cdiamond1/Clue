@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class TestBoardCell {
 	
-	private int row,column;
+	private int row, column;
 	private boolean isOccupied = false;
 	private boolean isRoom = false;
 	private Set<TestBoardCell> adjList;
@@ -22,7 +22,7 @@ public class TestBoardCell {
 		this.column = column;
 	}
 	
-	public Set<TestBoardCell> getAdjList(){
+	public Set<TestBoardCell> getAdjList() {
 		return adjList;
 	}
 	
@@ -45,6 +45,13 @@ public class TestBoardCell {
 	public void setOccupied(boolean isOccupied) {
 		this.isOccupied = isOccupied;
 	}
-	
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
 	
 }
