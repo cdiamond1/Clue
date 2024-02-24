@@ -6,7 +6,7 @@ import java.util.Set;
  * @Author: Carson D.
  * @Author:
  * 
- * @Date:
+ * @Date: 2/24/2024
  * 
  */
 
@@ -17,7 +17,7 @@ public class TestBoardCell {
 	private boolean isRoom = false;
 	private Set<TestBoardCell> adjList;
 	
-	public void TestBoardCell(int row, int column) {
+	public TestBoardCell(int row, int column) {
 		this.row = row;
 		this.column = column;
 	}
