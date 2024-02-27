@@ -66,12 +66,12 @@ public class BoardTestsExp {
 	@Test
 	public void testTargetsRoom() {
 		TestBoardCell cell = board.getCell(0, 1);
-		board.calcTargets(cell, 3);
-		Set<TestBoardCell> targets = board.getTargets();
 		board.getCell(2, 2).setRoom(true);
 		board.getCell(0, 3).setRoom(true);
-		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(board.getCell(3, 1)));
+		board.calcTargets(cell, 3);
+		Set<TestBoardCell> targets = board.getTargets();
+		Assert.assertEquals(6, targets.size());
+		Assert.assertTrue(targets.contains(board.getCell(0, 0)));
 		Assert.assertFalse(targets.contains(board.getCell(2, 2))); // Is a room
 		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 3)));
@@ -85,10 +85,10 @@ public class BoardTestsExp {
 	@Test
 	public void testTargetsOccupied() {
 		TestBoardCell cell = board.getCell(0, 0);
-		board.calcTargets(cell, 3);
-		Set<TestBoardCell> targets = board.getTargets();
 		board.getCell(2, 1).setOccupied(true);
 		board.getCell(0, 3).setOccupied(true);
+		board.calcTargets(cell, 3);
+		Set<TestBoardCell> targets = board.getTargets();
 		Assert.assertEquals(4, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(3, 0)));
 		Assert.assertFalse(targets.contains(board.getCell(2, 1))); // Occupied
@@ -109,10 +109,10 @@ public class BoardTestsExp {
 		TestBoardCell cell = board.getCell(0, 3);
 		board.calcTargets(cell, 2);
 		Set<TestBoardCell> targets = board.getTargets();
-		Assert.assertEquals(3, targets.size());
+		Assert.assertEquals(2, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(1, 2)));
 		Assert.assertTrue(targets.contains(board.getCell(2, 3)));
-		Assert.assertTrue(targets.contains(board.getCell(0, 1)));
+		Assert.assertFalse(targets.contains(board.getCell(0, 1))); // Blocked by occupied spot
 	}
 	
 	/*
