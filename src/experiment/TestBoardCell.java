@@ -1,4 +1,5 @@
 package experiment;
+import java.util.HashSet;
 import java.util.Set;
 
 /* TestBoardCell class - contains our board cells for testing
@@ -15,7 +16,7 @@ public class TestBoardCell {
 	private int row, column;
 	private boolean isOccupied = false;
 	private boolean isRoom = false;
-	private Set<TestBoardCell> adjList;
+	private Set<TestBoardCell> adjList = new HashSet<TestBoardCell>();
 	
 	// C14A-1 variables already included
 	
