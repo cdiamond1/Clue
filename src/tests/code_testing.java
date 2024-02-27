@@ -5,6 +5,14 @@ import java.util.Set;
 import experiment.TestBoard;
 import experiment.TestBoardCell;
 
+/*
+ * Code Testing Class - Used to print out results of methods to figure out what goes wrong
+ * 
+ * @Author Carson D.
+ * 
+ * @Date 2/27/2024
+ */
+
 public class code_testing {
 	public static void main(String[] args) {
 		TestBoard board = new TestBoard();

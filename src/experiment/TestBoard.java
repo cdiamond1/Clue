@@ -27,7 +27,9 @@ public class TestBoard {
 	// Temp Vars
 	private TestBoardCell temp;
 
+	// TestBoard Constructor
 	public TestBoard() {
+		// Intializes and fills the grid with empty cells
 		grid = new TestBoardCell[ROWS][COLS];
 		for (int y = 0; y < COLS; y++) {
 			for (int x = 0; x < ROWS; x++) {
@@ -36,29 +38,29 @@ public class TestBoard {
 				boardCells.add(temp);
 			}
 		}
-		
+		// Generates each cells adjacency lists (Attempted to do in a switch/case but couldn't get it to compile)
 		for (int y = 0; y < COLS; y++) {
 			for (int x = 0; x < ROWS; x++) {
 				test = getCell(x, y);
-				temp = getCell(x + 1, y);
+				temp = getCell(x + 1, y); // Tests adjacent cell to the right
 				if (temp != null) {
 					if (temp.isOccupied() == false && temp.isRoom() == false) {
 						test.addAdjacency(temp);
 					}
 				}
-				temp = getCell(x - 1, y);
+				temp = getCell(x - 1, y); // Tests adjacent cell to the left
 				if (temp != null) {
 					if (temp.isOccupied() == false && temp.isRoom() == false) {
 						test.addAdjacency(temp);
 					}
 				}
-				temp = getCell(x, y + 1);
+				temp = getCell(x, y + 1); // Tests adjacent cell above
 				if (temp != null) {
 					if (temp.isOccupied() == false && temp.isRoom() == false) {
 						test.addAdjacency(temp);
 					}
 				}
-				temp = getCell(x, y - 1);
+				temp = getCell(x, y - 1); // Tests adjacent cell below
 				if (temp != null) {
 					if (temp.isOccupied() == false && temp.isRoom() == false) {
 						test.addAdjacency(temp);
