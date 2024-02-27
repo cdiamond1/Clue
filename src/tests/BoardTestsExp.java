@@ -69,13 +69,13 @@ public class BoardTestsExp {
 		board.calcTargets(cell, 3);
 		Set<TestBoardCell> targets = board.getTargets();
 		board.getCell(2, 2).setRoom(true);
-		board.getCell(0, 4).setRoom(true);
+		board.getCell(0, 3).setRoom(true);
 		Assert.assertEquals(4, targets.size());
 		Assert.assertTrue(targets.contains(board.getCell(3, 1)));
 		Assert.assertFalse(targets.contains(board.getCell(2, 2))); // Is a room
 		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
 		Assert.assertTrue(targets.contains(board.getCell(1, 3)));
-		Assert.assertFalse(targets.contains(board.getCell(0, 4))); // Is a room
+		Assert.assertFalse(targets.contains(board.getCell(0, 3))); // Is a room
 		Assert.assertTrue(targets.contains(board.getCell(1, 1)));
 	}
 	
