@@ -66,14 +66,15 @@ public class TestBoard {
 				}
 			}
 		}
-
 	}
-		 
+	
 	 public void calcTargets(TestBoardCell startCell, int pathLength) {
+		 visited.add(startCell);
+		 
 		 // iterate through every cell of startCell adjacent list
 		 for (TestBoardCell cell: startCell.getAdjList()) {
-			 // if already visited, skip this cell
-			 if (visited.contains(cell)) continue;
+			 // if already visited/isRoom/isOccupied, skip this cell
+			 if (visited.contains(cell) || cell.isOccupied() || cell.isRoom()) continue;
 			 
 			 // add cell to visited list
 			 visited.add(cell);
