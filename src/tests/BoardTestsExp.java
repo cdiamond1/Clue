@@ -103,10 +103,10 @@ public class BoardTestsExp {
 	 */
 	@Test
 	public void testTargetsMixed() {
+		TestBoardCell cell = board.getCell(0, 3);
 		//	Occupied cells
 		board.getCell(0, 2).setOccupied(true);
 		board.getCell(1, 1).setRoom(true);
-		TestBoardCell cell = board.getCell(0, 3);
 		board.calcTargets(cell, 2);
 		Set<TestBoardCell> targets = board.getTargets();
 		Assert.assertEquals(2, targets.size());
