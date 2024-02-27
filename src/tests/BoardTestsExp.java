@@ -113,6 +113,7 @@ public class BoardTestsExp {
 		Assert.assertTrue(targets.contains(board.getCell(1, 2)));
 		Assert.assertTrue(targets.contains(board.getCell(2, 3)));
 		Assert.assertFalse(targets.contains(board.getCell(0, 1))); // Blocked by occupied spot
+		Assert.assertFalse(targets.contains(board.getCell(0, 3))); // Itself
 	}
 	
 	/*
