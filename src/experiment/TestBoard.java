@@ -16,6 +16,12 @@ public class TestBoard {
 	private Set<TestBoardCell> boardCells;
 	private TestBoardCell test;
 	
+	// C14A-1 variables
+	private TestBoardCell[][] grid;
+	private Set<TestBoardCell> visited;
+	final static int COLS = 4;
+	final static int ROWS = 4;
+	
 	 public TestBoard() {
 		 
 	 }

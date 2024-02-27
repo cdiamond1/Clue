@@ -17,6 +17,8 @@ public class TestBoardCell {
 	private boolean isRoom = false;
 	private Set<TestBoardCell> adjList;
 	
+	// C14A-1 variables already included
+	
 	public TestBoardCell(int row, int column) {
 		this.row = row;
 		this.column = column;
