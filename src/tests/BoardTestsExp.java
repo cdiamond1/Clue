@@ -21,6 +21,7 @@ public class BoardTestsExp {
 
 	private TestBoard board;
 	
+	// called before each test
 	@BeforeEach
 	public void setup() {
 		board = new TestBoard();

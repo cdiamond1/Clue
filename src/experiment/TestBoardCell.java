@@ -4,7 +4,7 @@ import java.util.Set;
 /* TestBoardCell class - contains our board cells for testing
  * 
  * @Author: Carson D.
- * @Author:
+ * @Author: Charlie D.
  * 
  * @Date: 2/24/2024
  * 
@@ -19,6 +19,7 @@ public class TestBoardCell {
 	
 	// C14A-1 variables already included
 	
+	// Constructor
 	public TestBoardCell(int row, int column) {
 		this.row = row;
 		this.column = column;
@@ -28,6 +29,7 @@ public class TestBoardCell {
 		return adjList;
 	}
 	
+	// add cell to adjacency list
 	public void addAdjacency(TestBoardCell cell) {
 		adjList.add(cell);
 	}
