@@ -19,6 +19,13 @@ public class BoardCell {
 	private boolean isRoom = false;
 	private Set<BoardCell> adjList = new HashSet<BoardCell>();
 	
+	// C14A-2 additional variables
+	private char intial;
+	private DoorDirection doorDirection;
+	private boolean roomLabel;
+	private boolean roomCenter;
+	private char seceretPassage;
+	
 	public BoardCell(int row, int column) {
 		this.row = row;
 		this.column = column;

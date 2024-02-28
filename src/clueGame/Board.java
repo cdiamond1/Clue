@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /* Board class - contains our board
@@ -18,12 +19,18 @@ public class Board {
 	private Set<BoardCell> boardCells = new HashSet<BoardCell>();
 	private BoardCell test;
 
-	// C14A-1 variables
+	// C14A-1 additional variables
 	private BoardCell[][] grid;
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
 	final static int COLS = 4;
 	final static int ROWS = 4;
 
+	// C14A-2 additional variables
+	private String layoutConfigFile;
+	private String setupConfigFile;
+	private Map<Character, Room> roomMap;
+	private static Board theInsrance;
+	
 	// Temp Vars
 	private BoardCell temp;
 
@@ -111,4 +118,17 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
+	
+	public void initialize() {
+		
+	}
+	
+	public void loadConfigSetup() {
+		
+	}
+	
+	public void loadLayoutSetup() {
+		
+	}
+	
 }
