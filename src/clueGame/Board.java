@@ -133,10 +133,6 @@ public class Board {
 		return targets;
 	}
 	
-	public void initialize() {
-		
-	}
-	
 	public void loadConfigSetup() {
 		
 	}
