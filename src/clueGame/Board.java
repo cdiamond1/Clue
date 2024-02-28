@@ -27,49 +27,63 @@ public class Board {
 	// Temp Vars
 	private BoardCell temp;
 
-	// Board Constructor
-	public Board() {
+	/*
+     * variable and methods used for singleton pattern
+     */
+     private static Board theInstance = new Board();
+     // constructor is private to ensure only one can be created
+     private Board() {
+            super();
+     }
+     // this method returns the only Board
+     public static Board getInstance() {
+            return theInstance;
+     }
+     /*
+      * initialize the board (since we are using singleton pattern)
+      */
+     public void initialize() {
 		// Intializes and fills the grid with empty cells
 		grid = new BoardCell[ROWS][COLS];
 		for (int y = 0; y < COLS; y++) {
 			for (int x = 0; x < ROWS; x++) {
 				temp = new BoardCell(x, y);
-				grid[x][y] = temp;
-				boardCells.add(temp);
-			}
-		}
-		// Generates each cells adjacency lists (Attempted to do in a switch/case but
-		// couldn't get it to compile)
-		for (int y = 0; y < COLS; y++) {
-			for (int x = 0; x < ROWS; x++) {
-				test = getCell(x, y);
-				temp = getCell(x + 1, y); // Tests adjacent cell to the right
-				if (temp != null) {
-					if (temp.isOccupied() == false && temp.isRoom() == false) {
-						test.addAdjacency(temp);
-					}
-				}
-				temp = getCell(x - 1, y); // Tests adjacent cell to the left
-				if (temp != null) {
-					if (temp.isOccupied() == false && temp.isRoom() == false) {
-						test.addAdjacency(temp);
-					}
-				}
-				temp = getCell(x, y + 1); // Tests adjacent cell above
-				if (temp != null) {
-					if (temp.isOccupied() == false && temp.isRoom() == false) {
-						test.addAdjacency(temp);
-					}
-				}
-				temp = getCell(x, y - 1); // Tests adjacent cell below
-				if (temp != null) {
-					if (temp.isOccupied() == false && temp.isRoom() == false) {
-						test.addAdjacency(temp);
-					}
-				}
-			}
-		}
-	}
+ 				grid[x][y] = temp;
+ 				boardCells.add(temp);
+ 			}
+ 		}
+ 		// Generates each cells adjacency lists (Attempted to do in a switch/case but
+ 		// couldn't get it to compile)
+ 		for (int y = 0; y < COLS; y++) {
+ 			for (int x = 0; x < ROWS; x++) {
+ 				test = getCell(x, y);
+ 				temp = getCell(x + 1, y); // Tests adjacent cell to the right
+ 				if (temp != null) {
+ 					if (temp.isOccupied() == false && temp.isRoom() == false) {
+ 						test.addAdjacency(temp);
+ 					}
+ 				}
+ 				temp = getCell(x - 1, y); // Tests adjacent cell to the left
+ 				if (temp != null) {
+ 					if (temp.isOccupied() == false && temp.isRoom() == false) {
+ 						test.addAdjacency(temp);
+ 					}
+ 				}
+ 				temp = getCell(x, y + 1); // Tests adjacent cell above
+ 				if (temp != null) {
+ 					if (temp.isOccupied() == false && temp.isRoom() == false) {
+ 						test.addAdjacency(temp);
+ 					}
+ 				}
+ 				temp = getCell(x, y - 1); // Tests adjacent cell below
+ 				if (temp != null) {
+ 					if (temp.isOccupied() == false && temp.isRoom() == false) {
+ 						test.addAdjacency(temp);
+ 					}
+ 				}
+ 			}
+ 		}
+    }
 
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		visited.add(startCell);
