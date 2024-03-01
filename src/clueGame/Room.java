@@ -14,9 +14,9 @@ public class Room {
 	private BoardCell labelCell;
 	
 	
-	public Object getName() {
+	public String getName() {
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	public BoardCell getLabelCell() {

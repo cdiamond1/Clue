@@ -125,8 +125,9 @@ public class Board {
 				return cell;
 			}
 		}
-		// if no cell returned, return null
-		return null;
+		// if no cell returned, return null (temp for now)
+		BoardCell temp = new BoardCell(row, col);
+		return temp;
 	}
 
 	public Set<BoardCell> getTargets() {
@@ -145,8 +146,8 @@ public class Board {
 		
 	}
 	public Room getRoom(char c) {
-		// TODO Auto-generated method stub
-		return null;
+		Room temp = new Room();
+		return temp;
 	}
 	public Room getRoom(BoardCell cell) {
 		// TODO Auto-generated method stub
