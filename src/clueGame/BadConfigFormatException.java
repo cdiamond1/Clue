@@ -1,5 +1,14 @@
 package clueGame;
 
+/* BadConfigFormatException - Creates custom exception for bad config files
+ * 
+ * @Author Carson D.
+ * @Author
+ * 
+ * @Date 3/1/2024
+ * 
+ */
+
 public class BadConfigFormatException extends Exception {
 
 	/*
@@ -17,5 +26,13 @@ public class BadConfigFormatException extends Exception {
 	 * 
 	 * 
 	 */
+	
+	public BadConfigFormatException() { 
+		super("Error: bad config file format"); 
+	}
+	
+	public BadConfigFormatException(String message) {
+		 super(message); 
+	}
 
 }
