@@ -140,5 +140,35 @@ public class Board {
 	public void loadLayoutSetup() {
 		
 	}
+	public void setConfigFiles(String string, String string2) {
+		// TODO Auto-generated method stub
+		
+	}
+	public Room getRoom(char c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public Room getRoom(BoardCell cell) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public int getNumRows() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	public int getNumColumns() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	public void loadSetupConfig() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void loadLayoutConfig() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	
 }
