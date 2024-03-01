@@ -1,0 +1,13 @@
+// Rooms and room symbols
+Room, Engine Room, E
+Room, Navigation, N
+Room, Shields, S
+Room, Life Support, L
+Room, Weapons, P
+Room, Medical Bay, M
+Rom, Cargo, C
+Room, Hydroponics, H
+Room, Reactor, R
+// Other spaces
+Space, Unused, X
+Space, Walkway, W
