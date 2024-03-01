@@ -1,7 +1,10 @@
 package clueGame;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 /* Board class - contains our board
@@ -46,6 +49,28 @@ public class Board {
      public static Board getInstance() {
             return theInstance;
      }
+     
+     public void readData(String fileName) {
+    	 String data = "";
+    	 // TODO: split data into array
+    	 
+    	 // read file
+    	 try {
+    		 File file = new File(fileName);
+    		 Scanner scanner = new Scanner(file);
+    		 
+    		 while(scanner.hasNextLine()) {
+    			 // add all file data to string
+    			 data += scanner.nextLine();
+    		 }
+
+    	 }
+    	 catch (FileNotFoundException e) {
+    		 e.printStackTrace();
+    	 }
+     }
+     
+     
      /*
       * initialize the board (since we are using singleton pattern)
       */
