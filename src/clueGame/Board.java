@@ -2,6 +2,7 @@ package clueGame;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
@@ -51,19 +52,23 @@ public class Board {
      }
      
      public void readData(String fileName) {
-    	 String data = "";
-    	 // TODO: split data into array
+    	 ArrayList<String[]> dataList = new ArrayList<>();
     	 
     	 // read file
     	 try {
     		 File file = new File(fileName);
     		 Scanner scanner = new Scanner(file);
     		 
+    		 int rows = 0;
+    		 String currLine;
     		 while(scanner.hasNextLine()) {
+    			 rows++;
     			 // add all file data to string
-    			 data += scanner.nextLine();
+    			 currLine = scanner.nextLine();
+    			 dataList.add(currLine.split(","));
     		 }
-
+    		 
+    		 scanner.close();
     	 }
     	 catch (FileNotFoundException e) {
     		 e.printStackTrace();
