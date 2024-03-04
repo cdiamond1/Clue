@@ -13,33 +13,38 @@ import java.util.Set;
  */
 
 public class BoardCell {
-	
+
 	private int row, column;
 	private boolean isOccupied = false;
 	private boolean isRoom = false;
 	private Set<BoardCell> adjList = new HashSet<BoardCell>();
-	
+
 	// C14A-2 additional variables
-	private char intial;
+	private String intial;
 	private DoorDirection doorDirection;
 	private boolean roomLabel;
 	private boolean roomCenter;
+	private boolean doorway;
+	private boolean secretPass;
 	private char seceretPassage;
-	
-	public BoardCell(int row, int column) {
+	private Room room;
+
+	public BoardCell(int row, int column, String intial) {
 		this.row = row;
 		this.column = column;
+		this.intial = intial;
 	}
-	
+
 	public Set<BoardCell> getAdjList() {
 		return adjList;
 	}
-	
+
 	// add cell to adjacency list
 	public void addAdjacency(BoardCell cell) {
 		adjList.add(cell);
 	}
 
+	// Getters and Setters
 	public boolean isRoom() {
 		return isRoom;
 	}
@@ -47,7 +52,19 @@ public class BoardCell {
 	public void setRoom(boolean isRoom) {
 		this.isRoom = isRoom;
 	}
-
+	
+	public Room getRoom() {
+		return room;
+	}
+	
+	public void setRoomLoc(Room room) {
+		this.room = room;
+	}
+	
+	public void setRoomLabel(boolean isLabel) {
+		this.roomLabel = isLabel;
+	}
+	
 	public boolean isOccupied() {
 		return isOccupied;
 	}
@@ -65,28 +82,52 @@ public class BoardCell {
 	}
 
 	public boolean isDoorway() {
-		// TODO Auto-generated method stub
-		return false;
+		return doorway;
+	}
+
+	public void setDoorway(boolean door) {
+		this.doorway = door;
 	}
 
 	public DoorDirection getDoorDirection() {
-		// TODO Auto-generated method stub
-		return null;
+		return doorDirection;
+	}
+
+	public void setDoorDirection(DoorDirection direction) {
+		this.doorDirection = direction;
 	}
 
 	public boolean isLabel() {
-		// TODO Auto-generated method stub
-		return false;
+		return roomLabel;
+	}
+
+	public void setLabel(boolean label) {
+		this.roomLabel = label;
 	}
 
 	public boolean isRoomCenter() {
-		// TODO Auto-generated method stub
-		return false;
+		return roomCenter;
+	}
+
+	public void setRoomCenter(boolean roomCenter) {
+		this.roomCenter = roomCenter;
 	}
 
 	public char getSecretPassage() {
-		// TODO Auto-generated method stub
-		return 0;
+		return seceretPassage;
+	}
+
+	public boolean getSecretPassageBool() { // Might be able to get rid of this one
+		return secretPass;
+	}
+
+	public void setSecretPassage(char room) {
+		secretPass = true;
+		this.seceretPassage = room;
+	}
+	
+	public String getSymbol() {
+		return intial;
 	}
 
 }

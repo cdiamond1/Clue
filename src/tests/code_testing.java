@@ -1,9 +1,9 @@
 package tests;
 
-import java.util.Set;
+import java.io.FileNotFoundException;
 
-import experiment.TestBoard;
-import experiment.TestBoardCell;
+import clueGame.Board;
+import clueGame.BoardCell;
 
 /*
  * Code Testing Class - Used to print out results of methods to figure out what goes wrong
@@ -14,16 +14,21 @@ import experiment.TestBoardCell;
  */
 
 public class code_testing {
-	public static void main(String[] args) {
-		TestBoard board = new TestBoard();
-		TestBoardCell cell = board.getCell(0, 3);
-		board.getCell(0, 2).setOccupied(true);
-		board.getCell(1, 1).setRoom(true);
-		board.calcTargets(cell, 2);
-		Set<TestBoardCell> targets = board.getTargets();
-		for(TestBoardCell e : targets) {
-			System.out.println(e.getRow() + ", " + e.getColumn());
-		}
 
+	private static Board board = Board.getInstance();;
+		
+	public static void main(String[] args) throws FileNotFoundException {
+		board.setConfigFiles("data/ClueLayout.csv", "data/ClueSetup.txt");
+		board.initialize();
+				
+		BoardCell cell = board.getCell(4, 2);
+		
+		System.out.println("Row: " + cell.getRow() + ", Column: " + cell.getColumn());
+		System.out.println("Is doorway? " + cell.isDoorway());
+		System.out.println("Is room? " + cell.isRoom());
+		System.out.println("Is room lable? " + cell.isLabel());
+		System.out.println("Room name: " + cell.getRoom().getName());
+		System.out.println("Symbol: " + cell.getSymbol());
+		
 	}
 }

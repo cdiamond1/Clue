@@ -10,22 +10,40 @@ package clueGame;
 
 public class Room {
 	private String name;
+	private String symbol;
 	private BoardCell centerCell;
 	private BoardCell labelCell;
 	
 	
+	public Room() {
+		name = "Unused";
+	}
+	
+	public Room(String name) {
+		this.name = name;
+	}
+	
+	public String getSymbol() {
+		return symbol;
+	}
+	
 	public String getName() {
-		// TODO Auto-generated method stub
-		return "";
+		return name;
 	}
 
 	public BoardCell getLabelCell() {
-		// TODO Auto-generated method stub
-		return null;
+		return labelCell;
 	}
-
+	
+	public void setLabelCell(BoardCell cell) {
+		this.labelCell = cell;
+	}
+	
 	public BoardCell getCenterCell() {
-		// TODO Auto-generated method stub
-		return null;
+		return centerCell;
+	}
+	
+	public void setCenterCell(BoardCell cell) {
+		this.centerCell = cell;
 	}
 }
