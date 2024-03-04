@@ -331,4 +331,9 @@ public class Board {
 		return boardCols;
 	}
 
+	public Set<BoardCell> getAdjList(int i, int j) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
