@@ -2,6 +2,7 @@ package clueGame;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -57,6 +58,7 @@ public class Board {
 	private BoardCell temp;
 
 	/*
+<<<<<<< HEAD
 	 * variable and methods used for singleton pattern
 	 */
 	private static Board theInstance = new Board();
@@ -82,6 +84,30 @@ public class Board {
 			e.printStackTrace();
 		}
 	}
+	
+     public void readData(String fileName) {
+    	 ArrayList<String[]> dataList = new ArrayList<>();
+    	 
+    	 // read file
+    	 try {
+    		 File file = new File(fileName);
+    		 Scanner scanner = new Scanner(file);
+    		 
+    		 int rows = 0;
+    		 String currLine;
+    		 while(scanner.hasNextLine()) {
+    			 rows++;
+    			 // add all file data to string
+    			 currLine = scanner.nextLine();
+    			 dataList.add(currLine.split(","));
+    		 }
+    		 
+    		 scanner.close();
+    	 }
+    	 catch (FileNotFoundException e) {
+    		 e.printStackTrace();
+    	 }
+     }
 
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		visited.add(startCell);
