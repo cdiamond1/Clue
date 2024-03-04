@@ -166,7 +166,9 @@ public class Board {
 				continue;
 			}
 			lineSplit = line.split(", ");
-			if(!lineSplit[0].equals("Room") || !lineSplit[0].equals("Space")) {
+			if(lineSplit[0].equals("Room") || lineSplit[0].equals("Space")) {
+				
+			} else {
 				throw new BadConfigFormatException("Format error in setup file: " + lineSplit[0]);
 			}
 		}
