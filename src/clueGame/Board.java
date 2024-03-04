@@ -28,8 +28,6 @@ public class Board {
 	// C14A-1 additional variables
 	public BoardCell[][] grid;
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
-//	private final static int COLS = 30;
-//	private final static int ROWS = 30;
 
 	private static int boardCols = 30;
 	private static int boardRows = 30;
@@ -87,6 +85,11 @@ public class Board {
 		}
 	}
 	
+	public void setConfigFiles(String string, String string2) {
+		csv = new File(string);
+		txt = new File(string2);
+	}
+	
 	// readData gets passed a file name, and returns a 2D array of the
 	// information in the file
      public ArrayList<String[]> readData(File file) throws BadConfigFormatException {
@@ -129,45 +132,7 @@ public class Board {
     	 return dataList;
     }
 
-	public void calcTargets(BoardCell startCell, int pathLength) {
-		visited.add(startCell);
-
-		// iterate through every cell of startCell adjacent list
-		for (BoardCell cell : startCell.getAdjList()) {
-			// if already visited/isRoom/isOccupied, skip this cell
-			if (visited.contains(cell) || cell.isOccupied() || cell.isRoom())
-				continue;
-
-			// add cell to visited list
-			visited.add(cell);
-
-			// add cell to targets if out of moves
-			if (pathLength == 1) {
-				targets.add(cell);
-			}
-			// recursive call if moves left
-			else {
-				this.calcTargets(cell, pathLength - 1);
-			}
-
-			visited.remove(cell);
-		}
-	}
-
-	// getCell: returns cell given row+column. If cell doesn't exist, returns null
-	public BoardCell getCell(int row, int col) {
-		// iterate through each cell in targets list
-//		for (BoardCell cell : boardCells) {
-//			if (cell.getColumn() == col && cell.getRow() == row) {
-//				return cell;
-//			}
-//		}
-		return grid[row][col];
-	}
-
-	public Set<BoardCell> getTargets() {
-		return targets;
-	}
+	
 
 	// Loads setup file, populating roomMap
 	public void loadSetupConfig() throws BadConfigFormatException {
@@ -316,15 +281,41 @@ public class Board {
 		}
 	}
 	
-	
-	public void setConfigFiles(String string, String string2) {
-		csv = new File(string);
-		txt = new File(string2);
+	public void calcTargets(BoardCell startCell, int pathLength) {
+		visited.add(startCell);
+
+		// iterate through every cell of startCell adjacent list
+		for (BoardCell cell : startCell.getAdjList()) {
+			// if already visited/isRoom/isOccupied, skip this cell
+			if (visited.contains(cell) || cell.isOccupied() || cell.isRoom())
+				continue;
+
+			// add cell to visited list
+			visited.add(cell);
+
+			// add cell to targets if out of moves
+			if (pathLength == 1) {
+				targets.add(cell);
+			}
+			// recursive call if moves left
+			else {
+				this.calcTargets(cell, pathLength - 1);
+			}
+
+			visited.remove(cell);
+		}
+	}
+
+	// getCell: returns cell given row+column. If cell doesn't exist, returns null
+	public BoardCell getCell(int row, int col) {
+		return grid[row][col];
+	}
+
+	public Set<BoardCell> getTargets() {
+		return targets;
 	}
 
 	public Room getRoom(char c) {
-		Room room = new Room();
-		
 		return roomMap.get(c);
 	}
 
