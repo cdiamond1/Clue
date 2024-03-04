@@ -155,7 +155,7 @@ public class Board {
 	}
 
 	// getCell: returns cell given row+column. If cell doesn't exist, returns null
-	public BoardCell getCell(int col, int row) {
+	public BoardCell getCell(int row, int col) {
 		// iterate through each cell in targets list
 //		for (BoardCell cell : boardCells) {
 //			if (cell.getColumn() == col && cell.getRow() == row) {
@@ -275,10 +275,10 @@ public class Board {
 		// Generates each cells adjacency lists
 		for (int y = 0; y < boardRows; y++) {
 			for (int x = 0; x < boardCols; x++) {
-				test = getCell(x, y);
+				test = getCell(y, x);
 				
 				if (x + 1 < boardCols) {
-					temp = getCell(x + 1, y); // Tests adjacent cell to the right
+					temp = getCell(y, x + 1); // Tests adjacent cell to the right
 					if (temp != null) {
 						if (temp.isOccupied() == false && temp.isRoom() == false) {
 							test.addAdjacency(temp);
@@ -287,7 +287,7 @@ public class Board {
 				}
 				
 				if (x - 1 >= 0) {
-					temp = getCell(x - 1, y); // Tests adjacent cell to the left
+					temp = getCell(y, x - 1); // Tests adjacent cell to the left
 					if (temp != null) {
 						if (temp.isOccupied() == false && temp.isRoom() == false) {
 							test.addAdjacency(temp);
@@ -296,7 +296,7 @@ public class Board {
 				}
 				
 				if (y + 1 < boardRows) {
-					temp = getCell(x, y + 1); // Tests adjacent cell above
+					temp = getCell(y + 1, x); // Tests adjacent cell above
 					if (temp != null) {
 						if (temp.isOccupied() == false && temp.isRoom() == false) {
 							test.addAdjacency(temp);
@@ -305,7 +305,7 @@ public class Board {
 				}
 				
 				if (y - 1 >= 0) {
-					temp = getCell(x, y - 1); // Tests adjacent cell below
+					temp = getCell(y - 1, x); // Tests adjacent cell below
 					if (temp != null) {
 						if (temp.isOccupied() == false && temp.isRoom() == false) {
 							test.addAdjacency(temp);
@@ -324,51 +324,8 @@ public class Board {
 
 	public Room getRoom(char c) {
 		Room room = new Room();
-		switch (c) {
-		case 'E':
-			room = new Room("Engine Room");
-			break;
-
-		case 'N':
-			room = new Room("Navigation");
-			break;
-
-		case 'S':
-			room = new Room("Shields");
-			break;
-
-		case 'L':
-			room = new Room("Life Support");
-			break;
-
-		case 'P':
-			room = new Room("Weapons");
-			break;
-
-		case 'M':
-			room = new Room("Medical Bay");
-			break;
-
-		case 'C':
-			room = new Room("Cargo");
-			break;
-
-		case 'H':
-			room = new Room("Hydroponics");
-			break;
-
-		case 'R':
-			room = new Room("Reactor");
-			break;
-
-		case 'W':
-			room = new Room("Walkway");
-			break;
-
-		default:
-			break;
-		}
-		return room;
+		
+		return roomMap.get(c);
 	}
 
 	public Room getRoom(BoardCell cell) {
