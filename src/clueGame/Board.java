@@ -27,8 +27,11 @@ public class Board {
 	// C14A-1 additional variables
 	public BoardCell[][] grid;
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
-	private final static int COLS = 30;
-	private final static int ROWS = 30;
+//	private final static int COLS = 30;
+//	private final static int ROWS = 30;
+
+	private static int boardCols = 30;
+	private static int boardRows = 30;
 
 	// C14A-2 additional variables
 	private String layoutConfigFile;
@@ -85,29 +88,47 @@ public class Board {
 		}
 	}
 	
-     public void readData(String fileName) {
+	// readData gets passed a file name, and returns a 2D array of the
+	// information in the file
+     public ArrayList<String[]> readData(File file) throws BadConfigFormatException {
     	 ArrayList<String[]> dataList = new ArrayList<>();
     	 
     	 // read file
     	 try {
-    		 File file = new File(fileName);
     		 Scanner scanner = new Scanner(file);
     		 
-    		 int rows = 0;
+    		 boardRows = 0;
     		 String currLine;
+    		 // get lines from file one at a time - split each line at comma
     		 while(scanner.hasNextLine()) {
-    			 rows++;
     			 // add all file data to string
     			 currLine = scanner.nextLine();
     			 dataList.add(currLine.split(","));
+    			 
+    			 // check configuration
+    			 for (String item: dataList.get(boardRows)) {
+    				 if (item.equals("") || item.equals(" ") || item.equals(null)) {
+    					 throw new BadConfigFormatException();
+    				 }
+    			 }
+    			 
+    			 boardRows++;
     		 }
+    		 
+    		 boardCols = dataList.get(0).length;
     		 
     		 scanner.close();
     	 }
     	 catch (FileNotFoundException e) {
     		 e.printStackTrace();
     	 }
-     }
+    	 catch (BadConfigFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	 
+    	 return dataList;
+    }
 
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		visited.add(startCell);
@@ -174,157 +195,306 @@ public class Board {
 		}
 	}
 
+	/*
 	public void loadLayoutConfig() throws BadConfigFormatException {
-		// Intializes and fills the grid with cells
-				grid = new BoardCell[ROWS][COLS];
-				try {
-					in = new Scanner(csv);
-					in.useDelimiter(",");
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-				for (int rows = 0; rows < ROWS; rows++) {
-					for (int cols = 0; cols < COLS - 1; cols++) {
-						if (in.hasNext()) {
-							initial = in.next();
-							if(initial.equals("") || initial.equals(" ") || initial.equals(null)) {
-								throw new BadConfigFormatException();
-							}
-							temp = new BoardCell(rows, cols, initial);
-							
-							// Reading first char
-							switch (initial.charAt(0)) {
-							case 'E':
-								temp.setRoomLoc(Engine_Room);
-								temp.setRoom(true);
-								break;
+		// Initializes and fills the grid with cells
+		grid = new BoardCell[boardRows][boardCols];
+		try {
+			in = new Scanner(csv);
+			in.useDelimiter(",");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		for (int rows = 0; rows < boardRows; rows++) {
+			for (int cols = 0; cols < boardCols - 1; cols++) {
+				if (in.hasNext()) {
+					initial = in.next();
+					if(initial.equals("") || initial.equals(" ") || initial.equals(null)) {
+						throw new BadConfigFormatException();
+					}
+					temp = new BoardCell(rows, cols, initial);
+					
+					// Reading first char
+					switch (initial.charAt(0)) {
+					case 'E':
+						temp.setRoomLoc(Engine_Room);
+						temp.setRoom(true);
+						break;
 
-							case 'N':
-								temp.setRoomLoc(Navigation);
-								temp.setRoom(true);
-								break;
+					case 'N':
+						temp.setRoomLoc(Navigation);
+						temp.setRoom(true);
+						break;
 
-							case 'S':
-								temp.setRoomLoc(Shields);
-								temp.setRoom(true);
-								break;
+					case 'S':
+						temp.setRoomLoc(Shields);
+						temp.setRoom(true);
+						break;
 
-							case 'L':
-								temp.setRoomLoc(Life_Support);
-								temp.setRoom(true);
-								break;
+					case 'L':
+						temp.setRoomLoc(Life_Support);
+						temp.setRoom(true);
+						break;
 
-							case 'P':
-								temp.setRoomLoc(Weapons);
-								temp.setRoom(true);
-								break;
+					case 'P':
+						temp.setRoomLoc(Weapons);
+						temp.setRoom(true);
+						break;
 
-							case 'M':
-								temp.setRoomLoc(Medical_Bay);
-								temp.setRoom(true);
-								break;
+					case 'M':
+						temp.setRoomLoc(Medical_Bay);
+						temp.setRoom(true);
+						break;
 
-							case 'C':
-								temp.setRoomLoc(Cargo);
-								temp.setRoom(true);
-								break;
+					case 'C':
+						temp.setRoomLoc(Cargo);
+						temp.setRoom(true);
+						break;
 
-							case 'H':
-								temp.setRoomLoc(Hydroponics);
-								temp.setRoom(true);
-								break;
+					case 'H':
+						temp.setRoomLoc(Hydroponics);
+						temp.setRoom(true);
+						break;
 
-							case 'R':
-								temp.setRoomLoc(Reactor);
-								temp.setRoom(true);
-								break;
+					case 'R':
+						temp.setRoomLoc(Reactor);
+						temp.setRoom(true);
+						break;
 
-							case 'W':
-								temp.setRoomLoc(Walkway);
-								temp.setRoom(true);
-								break;
-								
-							default:
-								if(initial.charAt(0) != 'X') {
-									throw new BadConfigFormatException("Bad room symbol: " + initial.charAt(0));
-								}
-								temp.setRoomLoc(Unused);
-								temp.setRoom(false);
-								temp.setOccupied(true);
-								break;
-							}
+					case 'W':
+						temp.setRoomLoc(Walkway);
+						temp.setRoom(true);
+						break;
+						
+					default:
+						if(initial.charAt(0) != 'X') {
+							throw new BadConfigFormatException("Bad room symbol: " + initial.charAt(0));
+						}
+						temp.setRoomLoc(Unused);
+						temp.setRoom(false);
+						temp.setOccupied(true);
+						break;
+					}
 
-							// Reading second char if there is one
-							if (initial.length() > 1) {
-								switch (initial.charAt(1)) {
-								case '<':
-									temp.setDoorway(true);
-									temp.setDoorDirection(DoorDirection.LEFT);
-									break;
-								case '^':
-									temp.setDoorway(true);
-									temp.setDoorDirection(DoorDirection.UP);
-									break;
-								case '>':
-									temp.setDoorway(true);
-									temp.setDoorDirection(DoorDirection.RIGHT);
-									break;
-								case 'v':
-									temp.setDoorway(true);
-									temp.setDoorDirection(DoorDirection.DOWN);
-									break;
-								case '*':
-									temp.setRoomCenter(true);
-									temp.getRoom().setCenterCell(temp);
-									break;
-								case '#':
-									temp.setRoomLabel(true);
-									temp.getRoom().setLabelCell(temp);
-									break;
-								default:
-									temp.setSecretPassage(initial.charAt(1));
-									break;
-								}
-							}
-							grid[rows][cols] = temp;
-							boardCells.add(temp);
+					// Reading second char if there is one
+					if (initial.length() > 1) {
+						switch (initial.charAt(1)) {
+						case '<':
+							temp.setDoorway(true);
+							temp.setDoorDirection(DoorDirection.LEFT);
+							break;
+						case '^':
+							temp.setDoorway(true);
+							temp.setDoorDirection(DoorDirection.UP);
+							break;
+						case '>':
+							temp.setDoorway(true);
+							temp.setDoorDirection(DoorDirection.RIGHT);
+							break;
+						case 'v':
+							temp.setDoorway(true);
+							temp.setDoorDirection(DoorDirection.DOWN);
+							break;
+						case '*':
+							temp.setRoomCenter(true);
+							temp.getRoom().setCenterCell(temp);
+							break;
+						case '#':
+							temp.setRoomLabel(true);
+							temp.getRoom().setLabelCell(temp);
+							break;
+						default:
+							temp.setSecretPassage(initial.charAt(1));
+							break;
 						}
 					}
+					grid[rows][cols] = temp;
+					boardCells.add(temp);
 				}
+			}
+		}
 
-				// Generates each cells adjacency lists (Attempted to do in a switch/case but
-				// couldn't get it to compile)
-				for (int y = 0; y < ROWS; y++) {
-					for (int x = 0; x < COLS; x++) {
-						test = getCell(x, y);
-						temp = getCell(x + 1, y); // Tests adjacent cell to the right
-						if (temp != null) {
-							if (temp.isOccupied() == false && temp.isRoom() == false) {
-								test.addAdjacency(temp);
-							}
-						}
-						temp = getCell(x - 1, y); // Tests adjacent cell to the left
-						if (temp != null) {
-							if (temp.isOccupied() == false && temp.isRoom() == false) {
-								test.addAdjacency(temp);
-							}
-						}
-						temp = getCell(x, y + 1); // Tests adjacent cell above
-						if (temp != null) {
-							if (temp.isOccupied() == false && temp.isRoom() == false) {
-								test.addAdjacency(temp);
-							}
-						}
-						temp = getCell(x, y - 1); // Tests adjacent cell below
-						if (temp != null) {
-							if (temp.isOccupied() == false && temp.isRoom() == false) {
-								test.addAdjacency(temp);
-							}
-						}
+		// Generates each cells adjacency lists (Attempted to do in a switch/case but
+		// couldn't get it to compile)
+		for (int y = 0; y < boardRows; y++) {
+			for (int x = 0; x < boardCols; x++) {
+				test = getCell(x, y);
+				temp = getCell(x + 1, y); // Tests adjacent cell to the right
+				if (temp != null) {
+					if (temp.isOccupied() == false && temp.isRoom() == false) {
+						test.addAdjacency(temp);
 					}
 				}
+				temp = getCell(x - 1, y); // Tests adjacent cell to the left
+				if (temp != null) {
+					if (temp.isOccupied() == false && temp.isRoom() == false) {
+						test.addAdjacency(temp);
+					}
+				}
+				temp = getCell(x, y + 1); // Tests adjacent cell above
+				if (temp != null) {
+					if (temp.isOccupied() == false && temp.isRoom() == false) {
+						test.addAdjacency(temp);
+					}
+				}
+				temp = getCell(x, y - 1); // Tests adjacent cell below
+				if (temp != null) {
+					if (temp.isOccupied() == false && temp.isRoom() == false) {
+						test.addAdjacency(temp);
+					}
+				}
+			}
+		}
 	}
+	*/
 
+	public void loadLayoutConfig() throws BadConfigFormatException {
+		ArrayList<String[]> dataList = new ArrayList<>();
+		
+		// read data from file
+		dataList = readData(csv);
+		
+		// create grid with proper size
+		grid = new BoardCell[boardRows][boardCols];
+		
+		for (int row = 0; row < boardRows; row++) {
+			for (int col = 0; col < boardCols; col++) {
+				initial = dataList.get(row)[col];
+				temp = new BoardCell(row, col, initial);
+				
+				// Reading first char
+				switch (initial.charAt(0)) {
+				case 'E':
+					temp.setRoomLoc(Engine_Room);
+					temp.setRoom(true);
+					break;
+
+				case 'N':
+					temp.setRoomLoc(Navigation);
+					temp.setRoom(true);
+					break;
+
+				case 'S':
+					temp.setRoomLoc(Shields);
+					temp.setRoom(true);
+					break;
+
+				case 'L':
+					temp.setRoomLoc(Life_Support);
+					temp.setRoom(true);
+					break;
+
+				case 'P':
+					temp.setRoomLoc(Weapons);
+					temp.setRoom(true);
+					break;
+
+				case 'M':
+					temp.setRoomLoc(Medical_Bay);
+					temp.setRoom(true);
+					break;
+
+				case 'C':
+					temp.setRoomLoc(Cargo);
+					temp.setRoom(true);
+					break;
+
+				case 'H':
+					temp.setRoomLoc(Hydroponics);
+					temp.setRoom(true);
+					break;
+
+				case 'R':
+					temp.setRoomLoc(Reactor);
+					temp.setRoom(true);
+					break;
+
+				case 'W':
+					temp.setRoomLoc(Walkway);
+					temp.setRoom(true);
+					break;
+					
+				default:
+					if(initial.charAt(0) != 'X') {
+						throw new BadConfigFormatException("Bad room symbol: " + initial.charAt(0));
+					}
+					temp.setRoomLoc(Unused);
+					temp.setRoom(false);
+					temp.setOccupied(true);
+					break;
+				}
+
+				// Reading second char if there is one
+				if (initial.length() > 1) {
+					switch (initial.charAt(1)) {
+					case '<':
+						temp.setDoorway(true);
+						temp.setDoorDirection(DoorDirection.LEFT);
+						break;
+					case '^':
+						temp.setDoorway(true);
+						temp.setDoorDirection(DoorDirection.UP);
+						break;
+					case '>':
+						temp.setDoorway(true);
+						temp.setDoorDirection(DoorDirection.RIGHT);
+						break;
+					case 'v':
+						temp.setDoorway(true);
+						temp.setDoorDirection(DoorDirection.DOWN);
+						break;
+					case '*':
+						temp.setRoomCenter(true);
+						temp.getRoom().setCenterCell(temp);
+						break;
+					case '#':
+						temp.setRoomLabel(true);
+						temp.getRoom().setLabelCell(temp);
+						break;
+					default:
+						temp.setSecretPassage(initial.charAt(1));
+						break;
+					}
+				}
+				grid[row][col] = temp;
+				boardCells.add(temp);
+			}
+		}
+
+		// Generates each cells adjacency lists (Attempted to do in a switch/case but
+		// couldn't get it to compile)
+		for (int y = 0; y < boardRows; y++) {
+			for (int x = 0; x < boardCols; x++) {
+				test = getCell(x, y);
+				temp = getCell(x + 1, y); // Tests adjacent cell to the right
+				if (temp != null) {
+					if (temp.isOccupied() == false && temp.isRoom() == false) {
+						test.addAdjacency(temp);
+					}
+				}
+				temp = getCell(x - 1, y); // Tests adjacent cell to the left
+				if (temp != null) {
+					if (temp.isOccupied() == false && temp.isRoom() == false) {
+						test.addAdjacency(temp);
+					}
+				}
+				temp = getCell(x, y + 1); // Tests adjacent cell above
+				if (temp != null) {
+					if (temp.isOccupied() == false && temp.isRoom() == false) {
+						test.addAdjacency(temp);
+					}
+				}
+				temp = getCell(x, y - 1); // Tests adjacent cell below
+				if (temp != null) {
+					if (temp.isOccupied() == false && temp.isRoom() == false) {
+						test.addAdjacency(temp);
+					}
+				}
+			}
+		}
+	}
+	
+	
 	public void setConfigFiles(String string, String string2) {
 		csv = new File(string);
 		txt = new File(string2);
@@ -385,11 +555,11 @@ public class Board {
 	}
 
 	public int getNumRows() {
-		return ROWS;
+		return boardRows;
 	}
 
 	public int getNumColumns() {
-		return COLS;
+		return boardCols;
 	}
 
 }
