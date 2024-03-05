@@ -36,26 +36,52 @@ public class BoardAdjTargetTest {
 		board.initialize();
 	}
 	
+	// Adjacency tests
+	
+	// Ensure that open space has 4 adjacent squares
+	@Test
+	public void onlyWalkways() {
+		Set<BoardCell> testList = board.getAdjList(9, 16);
+		assertEquals(4, testList.size());
+		assertTrue(testList.contains(board.getCell(9, 15)));
+		assertTrue(testList.contains(board.getCell(8, 16)));
+		assertTrue(testList.contains(board.getCell(9, 17)));
+		assertTrue(testList.contains(board.getCell(10, 16)));
+	}
+	
 	// Ensure that player does not move around within room
 	@Test
-	public void testAdjacenciesRooms() {
-		
+	public void roomNotCenter() {
+		Set<BoardCell> testList = board.getAdjList(2, 16);
+		assertEquals(0, testList.size());
 	}
 	
-	
-	// Ensure door locations include their rooms and also additional walkways
+	// Test corner of map
 	@Test
-	public void testAdjacencyDoor() {
-		
+	public void edgeOfMap() {
+		Set<BoardCell> testList = board.getAdjList(28, 28);
+		assertEquals(2, testList.size());
+		assertTrue(testList.contains(board.getCell(27, 28)));
+		assertTrue(testList.contains(board.getCell(28, 27)));
 	}
 	
-	// Test a variety of walkway scenarios
+	// test cell next to room
 	@Test
-	public void testAdjacencyWalkways() {
-		
+	public void besideRoomNoDoor() {
+		Set<BoardCell> testList = board.getAdjList(6, 26);
+		assertEquals(3, testList.size());
+		assertTrue(testList.contains(board.getCell(6, 25)));
+		assertTrue(testList.contains(board.getCell(7, 26)));
+		assertTrue(testList.contains(board.getCell(6, 27)));
 	}
 	
-	
+	// test room with secret passage
+	@Test
+	public void secretPassage() {
+		Set<BoardCell> testList = board.getAdjList(9, 9);
+		assertEquals(3, testList.size()); // 2 doors, 1 passage
+		assertTrue(testList.contains(board.getCell(12, 7)));
+	}
 	
 	// Target tests
 	
