@@ -18,10 +18,10 @@ public class code_testing {
 	private static Board board = Board.getInstance();;
 		
 	public static void main(String[] args) throws FileNotFoundException {
-		board.setConfigFiles("data/ClueLayout.csv", "data/ClueSetup.txt");
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
 				
-		BoardCell cell = board.getCell(4, 2);
+		BoardCell cell = board.getCell(18, 9);
 		
 		System.out.println("Row: " + cell.getRow() + ", Column: " + cell.getColumn());
 		System.out.println("Is doorway? " + cell.isDoorway());
