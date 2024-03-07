@@ -62,6 +62,7 @@ public class Board {
 		try {
 			loadSetupConfig();
 			loadLayoutConfig();
+			calcAdjacencyList();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -220,7 +221,7 @@ public class Board {
 				boardCells.add(temp);
 			}
 		}
-
+		/*
 		// Generates each cells adjacency lists
 		// consider moving this to it's own method for modularity (calcAdjacencyList)
 		for (int y = 0; y < boardRows; y++) {
@@ -255,6 +256,46 @@ public class Board {
 					}
 				}
 			}
+		} */
+	}
+	
+	public void calcAdjacencyList() {
+		BoardCell currCell = new BoardCell(0, 0, null);
+		BoardCell temp = new BoardCell(0, 0, null);
+		
+		// iterate through every cell
+		for (int y = 9; y < boardRows; y++) {
+		for (int x = 16; x < boardCols; x++) {
+			currCell = getCell(y, x);
+			
+			if (x + 1 < boardCols) {
+				temp = getCell(y, x + 1); // Tests adjacent cell to the right
+				if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
+					currCell.addAdjacency(temp);
+				}
+			}
+
+			if (x - 1 >= 0) {
+				temp = getCell(y, x - 1); // Tests adjacent cell to the left
+				if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
+					currCell.addAdjacency(temp);
+				}
+			}
+
+			if (y + 1 < boardRows) {
+				temp = getCell(y + 1, x); // Tests adjacent cell above
+				if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
+					currCell.addAdjacency(temp);
+				}
+			}
+
+			if (y - 1 >= 0) {
+				temp = getCell(y - 1, x); // Tests adjacent cell below
+				if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
+					currCell.addAdjacency(temp);
+				}
+			}
+		}
 		}
 	}
 
