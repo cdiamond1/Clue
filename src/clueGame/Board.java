@@ -326,14 +326,18 @@ public class Board {
 		}
 		}
 	}
+	
+	public void clearTargets() {
+		targets = new HashSet<BoardCell>();
+	}
 
-	public void calcTargets(BoardCell startCell, int pathLength) {
+	public void recurseTarget(BoardCell startCell, int pathLength) {
 		visited.add(startCell);
 
 		// iterate through every cell of startCell adjacent list
 		for (BoardCell cell : startCell.getAdjList()) {
 			// if already visited/isRoom/isOccupied, skip this cell
-			if ((visited.contains(cell) || cell.isOccupied()) && (!cell.isRoomCenter() && !cell.getRoom().getName().equals("Walkway")))
+			if ((visited.contains(cell) || (cell.isOccupied() && !cell.isRoomCenter())) || !(cell.isRoomCenter() || cell.getRoom().getName().equals("Walkway")))
 				continue;
 
 			// add cell to visited list
@@ -345,11 +349,16 @@ public class Board {
 			}
 			// recursive call if moves left
 			else {
-				this.calcTargets(cell, pathLength - 1);
+				this.recurseTarget(cell, pathLength - 1);
 			}
 
 			visited.remove(cell);
 		}
+	}
+	
+	public void calcTargets(BoardCell startCell, int pathLength) {
+		clearTargets();
+		recurseTarget(startCell, pathLength);
 	}
 
 	// getCell: returns cell given row+column. If cell doesn't exist, returns null

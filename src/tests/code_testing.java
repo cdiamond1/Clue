@@ -25,11 +25,8 @@ public class code_testing {
 		board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");
 		board.initialize();
 				
-		board.getCell(15, 7).setOccupied(true);
-		board.calcTargets(board.getCell(13, 7), 4);
-		board.getCell(15, 7).setOccupied(false);
-		Set<BoardCell> targets = board.getTargets();
-		
+		board.calcTargets(board.getCell(8, 17), 1);
+		Set<BoardCell> targets= board.getTargets();		
 		System.out.println(targets.size());
 		
 		for(BoardCell test : targets) {
