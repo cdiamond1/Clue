@@ -1,6 +1,9 @@
 package tests;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.FileNotFoundException;
+import java.util.Set;
 
 import clueGame.Board;
 import clueGame.BoardCell;
@@ -18,17 +21,23 @@ public class code_testing {
 	private static Board board = Board.getInstance();;
 		
 	public static void main(String[] args) throws FileNotFoundException {
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		//board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");
 		board.initialize();
 				
-		BoardCell cell = board.getCell(18, 9);
+		board.getCell(15, 7).setOccupied(true);
+		board.calcTargets(board.getCell(13, 7), 4);
+		board.getCell(15, 7).setOccupied(false);
+		Set<BoardCell> targets = board.getTargets();
 		
-		System.out.println("Row: " + cell.getRow() + ", Column: " + cell.getColumn());
-		System.out.println("Is doorway? " + cell.isDoorway());
-		System.out.println("Is room? " + cell.isRoom());
-		System.out.println("Is room lable? " + cell.isLabel());
-		System.out.println("Room name: " + cell.getRoom().getName());
-		System.out.println("Symbol: " + cell.getSymbol());
+		System.out.println(targets.size());
+		
+		for(BoardCell test : targets) {
+			System.out.println("Row: " + test.getRow() + ", Column: " + test.getColumn());
+			System.out.println("Symbol: " + test.getSymbol());
+		}
+		
+		
 		
 	}
 }

@@ -21,7 +21,7 @@ import java.util.Set;
 
 public class Board {
 
-	private Set<BoardCell> targets = new HashSet<BoardCell>();;
+	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> boardCells = new HashSet<BoardCell>();
 	private BoardCell test;
 
@@ -167,7 +167,7 @@ public class Board {
 				// global variables that can be moved into methods
 				temp = new BoardCell(row, col, initial);
 
-				// make initial.charAt(0) a variable for readibility, can also use a switch
+				// make initial.charAt(0) a variable for readability, can also use a switch
 				// statement
 				if (initial.charAt(0) == 'X') {
 					temp.setRoomLoc(roomMap.get('X'));
@@ -333,7 +333,7 @@ public class Board {
 		// iterate through every cell of startCell adjacent list
 		for (BoardCell cell : startCell.getAdjList()) {
 			// if already visited/isRoom/isOccupied, skip this cell
-			if (visited.contains(cell) || cell.isOccupied() || cell.isRoom())
+			if ((visited.contains(cell) || cell.isOccupied()) && (!cell.isRoomCenter() && !cell.getRoom().getName().equals("Walkway")))
 				continue;
 
 			// add cell to visited list
