@@ -81,6 +81,23 @@ public class BoardAdjTargetTest {
 		Set<BoardCell> testList = board.getAdjList(9, 9);
 		assertEquals(3, testList.size()); // 2 doors, 1 passage
 		assertTrue(testList.contains(board.getCell(24, 3)));
+		assertTrue(testList.contains(board.getCell(5, 10)));
+		assertTrue(testList.contains(board.getCell(13, 10)));
+		
+		testList = board.getAdjList(21, 25);
+		assertEquals(3, testList.size());
+		assertTrue(testList.contains(board.getCell(13, 26)));
+		assertTrue(testList.contains(board.getCell(23, 14)));
+		assertTrue(testList.contains(board.getCell(16, 18)));
+	}
+	
+	// test door
+	@Test
+	public void door() {
+		Set<BoardCell> testList = board.getAdjList(7, 2);
+		assertEquals(4, testList.size());
+		assertTrue(testList.contains(board.getCell(7, 1))); // next
+		assertTrue(testList.contains(board.getCell(3, 3))); // room center
 	}
 	
 	// Target tests

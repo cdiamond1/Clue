@@ -62,7 +62,6 @@ public class Board {
 		try {
 			loadSetupConfig();
 			loadLayoutConfig();
-			addDoorways();
 			calcAdjacencyList();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
@@ -226,7 +225,7 @@ public class Board {
 	}
 	
 	// iterate through every cell and add doorways to their associated room 
-	public void addDoorways() {
+	public void addDoorwaysAndSecretPassages() {
 		BoardCell currCell = new BoardCell(0, 0, null);
 		BoardCell currTargetCell = new BoardCell(0, 0, null);
 		Room currRoom = new Room();
@@ -248,10 +247,10 @@ public class Board {
 					currTargetCell = getCell(row, col + 1);
 					break;
 				case UP:
-					currTargetCell = getCell(row + 1, col);
+					currTargetCell = getCell(row - 1, col);
 					break;
 				case DOWN:
-					currTargetCell = getCell(row - 1, col);
+					currTargetCell = getCell(row + 1, col);
 					break;
 				default:
 					continue;
@@ -262,6 +261,9 @@ public class Board {
 				if (adjRoom.getName().equals("Walkway")) continue;
 				adjRoom.addDoorCell(currCell);
 				
+				// add room center to doorway
+				currCell.addAdjacency(adjRoom.getCenterCell());
+				
 			} 
 			else if (currCell.isSecretPassage()) {
 				currRoom = roomMap.get(currCell.getSymbol().charAt(0));
@@ -270,11 +272,7 @@ public class Board {
 				currTargetCell = adjRoom.getCenterCell();
 				currRoom.addDoorCell(currTargetCell);
 			}
-			else {
-				continue;
-			}
-			
-			
+			else continue;
 		}
 		}
 	}
@@ -282,6 +280,9 @@ public class Board {
 	public void calcAdjacencyList() {
 		BoardCell currCell = new BoardCell(0, 0, null);
 		BoardCell temp = new BoardCell(0, 0, null);
+		
+		// add doorway cells to room objects
+		addDoorwaysAndSecretPassages();
 		
 		// iterate through every cell
 		for (int y = 0; y < boardRows; y++) {
