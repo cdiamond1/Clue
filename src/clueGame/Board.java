@@ -329,6 +329,7 @@ public class Board {
 	
 	public void clearTargets() {
 		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
 	}
 
 	public void recurseTarget(BoardCell startCell, int pathLength) {
@@ -337,14 +338,15 @@ public class Board {
 		// iterate through every cell of startCell adjacent list
 		for (BoardCell cell : startCell.getAdjList()) {
 			// if already visited/isRoom/isOccupied, skip this cell
-			if ((visited.contains(cell) || (cell.isOccupied() && !cell.isRoomCenter())) || !(cell.isRoomCenter() || cell.getRoom().getName().equals("Walkway")))
+			if (visited.contains(cell) || (cell.isOccupied() && !cell.isRoomCenter()) ) {
 				continue;
+			}
 
 			// add cell to visited list
 			visited.add(cell);
 
 			// add cell to targets if out of moves
-			if (pathLength == 1) {
+			if (pathLength == 1 || cell.isRoomCenter()) {
 				targets.add(cell);
 			}
 			// recursive call if moves left
