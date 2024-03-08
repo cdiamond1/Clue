@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.util.ArrayList;
+
 /*
  * Room Class - Stores data for rooms 
  *  
@@ -13,14 +15,21 @@ public class Room {
 	private String symbol;
 	private BoardCell centerCell;
 	private BoardCell labelCell;
-	
-	
+
+	private ArrayList<BoardCell> doors = new ArrayList<BoardCell>();
+	private BoardCell secretPassageCell;
+//	private char secretPassageTargetKey;
+
 	public Room() {
 		name = "Unused";
 	}
 	
 	public Room(String name) {
 		this.name = name;
+	}
+	
+	public void addDoorCell(BoardCell door) {
+		doors.add(door);
 	}
 	
 	public String getSymbol() {
@@ -45,5 +54,9 @@ public class Room {
 	
 	public void setCenterCell(BoardCell cell) {
 		this.centerCell = cell;
+	}
+	
+	public ArrayList<BoardCell> getDoors() {
+		return doors;
 	}
 }

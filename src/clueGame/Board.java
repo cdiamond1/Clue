@@ -62,6 +62,7 @@ public class Board {
 		try {
 			loadSetupConfig();
 			loadLayoutConfig();
+			addDoorways();
 			calcAdjacencyList();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
@@ -184,7 +185,7 @@ public class Board {
 				}
 
 				// Reading second char if there is one
-				if (initial.length() > 1) {
+				if (initial.length() > 1) {					
 					switch (initial.charAt(1)) {
 					case '<':
 						temp.setDoorway(true);
@@ -212,6 +213,7 @@ public class Board {
 						break;
 					default:
 						temp.setSecretPassage(initial.charAt(1));
+						
 						break;
 					}
 				}
@@ -221,42 +223,60 @@ public class Board {
 				boardCells.add(temp);
 			}
 		}
-		/*
-		// Generates each cells adjacency lists
-		// consider moving this to it's own method for modularity (calcAdjacencyList)
-		for (int y = 0; y < boardRows; y++) {
-			for (int x = 0; x < boardCols; x++) {
-				test = getCell(y, x);
-
-				if (x + 1 < boardCols) {
-					temp = getCell(y, x + 1); // Tests adjacent cell to the right
-					if (temp != null && temp.isOccupied() == false && temp.isRoom() == false) {
-						test.addAdjacency(temp);
-					}
+	}
+	
+	// iterate through every cell and add doorways to their associated room 
+	public void addDoorways() {
+		BoardCell currCell = new BoardCell(0, 0, null);
+		BoardCell currTargetCell = new BoardCell(0, 0, null);
+		Room currRoom = new Room();
+		Room adjRoom = new Room();
+		
+		// iterate through each row
+		for (int row = 0; row < boardRows; row++) {
+		for (int col = 0; col < boardCols; col++) {
+			currCell = getCell(row, col);
+			
+			// skip cells that aren't doorways
+			if (currCell.isDoorway()) {
+				// get direction
+				switch (currCell.getDoorDirection()) {
+				case LEFT:
+					currTargetCell = getCell(row, col - 1);
+					break;
+				case RIGHT:
+					currTargetCell = getCell(row, col + 1);
+					break;
+				case UP:
+					currTargetCell = getCell(row + 1, col);
+					break;
+				case DOWN:
+					currTargetCell = getCell(row - 1, col);
+					break;
+				default:
+					continue;
 				}
-
-				if (x - 1 >= 0) {
-					temp = getCell(y, x - 1); // Tests adjacent cell to the left
-					if (temp != null && temp.isOccupied() == false && temp.isRoom() == false) {
-						test.addAdjacency(temp);
-					}
-				}
-
-				if (y + 1 < boardRows) {
-					temp = getCell(y + 1, x); // Tests adjacent cell above
-					if (temp != null && temp.isOccupied() == false && temp.isRoom() == false) {
-						test.addAdjacency(temp);
-					}
-				}
-
-				if (y - 1 >= 0) {
-					temp = getCell(y - 1, x); // Tests adjacent cell below
-					if (temp != null && temp.isOccupied() == false && temp.isRoom() == false) {
-						test.addAdjacency(temp);
-					}
-				}
+				
+				adjRoom = currTargetCell.getRoom();
+				// skip walkways
+				if (adjRoom.getName().equals("Walkway")) continue;
+				adjRoom.addDoorCell(currCell);
+				
+			} 
+			else if (currCell.isSecretPassage()) {
+				currRoom = roomMap.get(currCell.getSymbol().charAt(0));
+				adjRoom = roomMap.get(currCell.getSecretPassage());
+				
+				currTargetCell = adjRoom.getCenterCell();
+				currRoom.addDoorCell(currTargetCell);
 			}
-		} */
+			else {
+				continue;
+			}
+			
+			
+		}
+		}
 	}
 	
 	public void calcAdjacencyList() {
@@ -264,35 +284,42 @@ public class Board {
 		BoardCell temp = new BoardCell(0, 0, null);
 		
 		// iterate through every cell
-		for (int y = 9; y < boardRows; y++) {
-		for (int x = 16; x < boardCols; x++) {
+		for (int y = 0; y < boardRows; y++) {
+		for (int x = 0; x < boardCols; x++) {
 			currCell = getCell(y, x);
 			
-			if (x + 1 < boardCols) {
-				temp = getCell(y, x + 1); // Tests adjacent cell to the right
-				if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
-					currCell.addAdjacency(temp);
+			if (currCell.isRoomCenter()) {
+				for (BoardCell cell: currCell.getRoom().getDoors()) {
+					currCell.addAdjacency(cell);
 				}
 			}
-
-			if (x - 1 >= 0) {
-				temp = getCell(y, x - 1); // Tests adjacent cell to the left
-				if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
-					currCell.addAdjacency(temp);
+			else {
+				if (x + 1 < boardCols) {
+					temp = getCell(y, x + 1); // Tests adjacent cell to the right
+					if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
+						currCell.addAdjacency(temp);
+					}
 				}
-			}
-
-			if (y + 1 < boardRows) {
-				temp = getCell(y + 1, x); // Tests adjacent cell above
-				if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
-					currCell.addAdjacency(temp);
+	
+				if (x - 1 >= 0) {
+					temp = getCell(y, x - 1); // Tests adjacent cell to the left
+					if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
+						currCell.addAdjacency(temp);
+					}
 				}
-			}
-
-			if (y - 1 >= 0) {
-				temp = getCell(y - 1, x); // Tests adjacent cell below
-				if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
-					currCell.addAdjacency(temp);
+	
+				if (y + 1 < boardRows) {
+					temp = getCell(y + 1, x); // Tests adjacent cell above
+					if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
+						currCell.addAdjacency(temp);
+					}
+				}
+	
+				if (y - 1 >= 0) {
+					temp = getCell(y - 1, x); // Tests adjacent cell below
+					if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
+						currCell.addAdjacency(temp);
+					}
 				}
 			}
 		}
@@ -349,8 +376,8 @@ public class Board {
 		return boardCols;
 	}
 
-	public Set<BoardCell> getAdjList(int i, int j) {
-		return getCell(i, j).getAdjList();
+	public Set<BoardCell> getAdjList(int row, int col) {
+		return getCell(row, col).getAdjList();
 	}
 
 }

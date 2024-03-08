@@ -80,7 +80,7 @@ public class BoardAdjTargetTest {
 	public void secretPassage() {
 		Set<BoardCell> testList = board.getAdjList(9, 9);
 		assertEquals(3, testList.size()); // 2 doors, 1 passage
-		assertTrue(testList.contains(board.getCell(12, 7)));
+		assertTrue(testList.contains(board.getCell(24, 3)));
 	}
 	
 	// Target tests

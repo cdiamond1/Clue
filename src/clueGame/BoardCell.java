@@ -117,7 +117,7 @@ public class BoardCell {
 		return seceretPassage;
 	}
 
-	public boolean getSecretPassageBool() { // Might be able to get rid of this one
+	public boolean isSecretPassage() { // Might be able to get rid of this one
 		return secretPass;
 	}
 
