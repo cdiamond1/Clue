@@ -22,10 +22,10 @@ public class BoardCell {
 	// C14A-2 additional variables
 	private String intial;
 	private DoorDirection doorDirection;
-	private boolean roomLabel;
-	private boolean roomCenter;
-	private boolean doorway;
-	private boolean secretPass;
+	private boolean isRoomLabel;
+	private boolean isRoomCenter;
+	private boolean isDoorway;
+	private boolean isSecretPassage;
 	private char seceretPassage;
 	private Room room;
 
@@ -62,7 +62,7 @@ public class BoardCell {
 	}
 	
 	public void setRoomLabel(boolean isLabel) {
-		this.roomLabel = isLabel;
+		this.isRoomLabel = isLabel;
 	}
 	
 	public boolean isOccupied() {
@@ -82,11 +82,11 @@ public class BoardCell {
 	}
 
 	public boolean isDoorway() {
-		return doorway;
+		return isDoorway;
 	}
 
 	public void setDoorway(boolean door) {
-		this.doorway = door;
+		this.isDoorway = door;
 	}
 
 	public DoorDirection getDoorDirection() {
@@ -98,19 +98,19 @@ public class BoardCell {
 	}
 
 	public boolean isLabel() {
-		return roomLabel;
+		return isRoomLabel;
 	}
 
 	public void setLabel(boolean label) {
-		this.roomLabel = label;
+		this.isRoomLabel = label;
 	}
 
 	public boolean isRoomCenter() {
-		return roomCenter;
+		return isRoomCenter;
 	}
 
-	public void setRoomCenter(boolean roomCenter) {
-		this.roomCenter = roomCenter;
+	public void setRoomCenter(boolean isRoomCenter) {
+		this.isRoomCenter = isRoomCenter;
 	}
 
 	public char getSecretPassage() {
@@ -118,11 +118,11 @@ public class BoardCell {
 	}
 
 	public boolean isSecretPassage() { // Might be able to get rid of this one
-		return secretPass;
+		return isSecretPassage;
 	}
 
 	public void setSecretPassage(char room) {
-		secretPass = true;
+		isSecretPassage = true;
 		this.seceretPassage = room;
 	}
 	
