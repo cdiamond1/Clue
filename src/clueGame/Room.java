@@ -17,8 +17,7 @@ public class Room {
 	private BoardCell labelCell;
 
 	private ArrayList<BoardCell> doors = new ArrayList<BoardCell>();
-	private BoardCell secretPassageCell;
-//	private char secretPassageTargetKey;
+	// Removed two unused vars (BoardCell secretPassageCell, char secretPassageTargetKey)
 
 	public Room() {
 		name = "Unused";

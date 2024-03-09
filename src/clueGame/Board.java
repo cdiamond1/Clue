@@ -5,10 +5,10 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+// Removed unused iterator import (for each instead for set)
 
 /* Board class - contains our board
  * 
@@ -23,8 +23,8 @@ public class Board {
 
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> boardCells = new HashSet<BoardCell>();
-	private BoardCell test;
-
+	// Removed unused var BoardCell test and theInstance
+	
 	// C14A-1 additional variables
 	public BoardCell[][] grid;
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
@@ -35,8 +35,6 @@ public class Board {
 	// C14A-2 additional variables
 	private String initial;
 	private Map<Character, Room> roomMap = new HashMap<Character, Room>();
-	private static Board theInsrance;
-
 	private File csv;
 	private File txt;
 
@@ -327,7 +325,7 @@ public class Board {
 		}
 	}
 	
-	public void clearTargets() {
+	public void clearSets() {
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 	}
@@ -359,7 +357,7 @@ public class Board {
 	}
 	
 	public void calcTargets(BoardCell startCell, int pathLength) {
-		clearTargets();
+		clearSets();
 		recurseTarget(startCell, pathLength);
 	}
 
