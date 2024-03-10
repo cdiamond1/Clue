@@ -77,6 +77,7 @@ public class Board {
 		try {
 			Scanner scanner = new Scanner(file);
 
+			// reset boardRows count
 			boardRows = 0;
 			String currLine;
 			// get lines from file one at a time - split each line at comma
@@ -94,18 +95,21 @@ public class Board {
 
 				boardRows++;
 			}
-
+			// get column count by length of first list in array
 			boardCols = dataList.get(0).length;
 
 			scanner.close();
-			
-		} catch (FileNotFoundException e) {
+		}
+		
+		catch (FileNotFoundException e) {
 			System.out.println("File not found ");
 			e.printStackTrace();
-		} catch (BadConfigFormatException e) {
+		}
+		catch (BadConfigFormatException e) {
 			System.out.println("Bad config format ");
 			e.printStackTrace();
 		}
+		// return dataList at the end of the method
 		return dataList;
 	}
 
@@ -164,8 +168,7 @@ public class Board {
 				// global variables that can be moved into methods
 				temp = new BoardCell(row, col, initial);
 
-				// make initial.charAt(0) a variable for readability, can also use a switch
-				// statement
+				// make initial.charAt(0) a variable for readability
 				if (initial.charAt(0) == 'X') {
 					temp.setRoomLoc(roomMap.get('X'));
 					temp.setRoom(false);
@@ -269,7 +272,6 @@ public class Board {
 				currTargetCell = adjRoom.getCenterCell();
 				currRoom.addDoorCell(currTargetCell);
 			}
-			else continue;
 		}
 		}
 	}
