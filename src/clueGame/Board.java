@@ -276,8 +276,8 @@ public class Board {
 	}
 	
 	public void calcAdjacencyList() {
-		BoardCell currCell = new BoardCell(0, 0, null);
-		BoardCell temp = new BoardCell(0, 0, null);
+		BoardCell currCell = new BoardCell();
+		BoardCell temp = new BoardCell();
 		
 		// add doorway cells to room objects
 		addDoorwaysAndSecretPassages();

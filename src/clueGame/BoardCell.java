@@ -29,6 +29,13 @@ public class BoardCell {
 	private char seceretPassage;
 	private Room room;
 
+	// default constructor
+	public BoardCell() {
+		this.row = 0;
+		this.column = 0;
+		this.intial = null;
+	}
+	
 	public BoardCell(int row, int column, String intial) {
 		this.row = row;
 		this.column = column;
