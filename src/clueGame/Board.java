@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-// Removed unused iterator import (for each instead for set)
 
 /* Board class - contains our board
  * 
@@ -16,14 +15,12 @@ import java.util.Set;
  * @Author: Charlie D.
  * 
  * @Date: 2/27/2024
- * 
  */
 
 public class Board {
 
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> boardCells = new HashSet<BoardCell>();
-	// Removed unused var BoardCell test and theInstance
 	
 	// C14A-1 additional variables
 	public BoardCell[][] grid;
@@ -101,10 +98,12 @@ public class Board {
 			boardCols = dataList.get(0).length;
 
 			scanner.close();
+			
 		} catch (FileNotFoundException e) {
+			System.out.println("File not found ");
 			e.printStackTrace();
 		} catch (BadConfigFormatException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Bad config format ");
 			e.printStackTrace();
 		}
 		return dataList;
@@ -224,8 +223,8 @@ public class Board {
 	
 	// iterate through every cell and add doorways to their associated room 
 	public void addDoorwaysAndSecretPassages() {
-		BoardCell currCell = new BoardCell(0, 0, null);
-		BoardCell currTargetCell = new BoardCell(0, 0, null);
+		BoardCell currCell = new BoardCell();
+		BoardCell currTargetCell = new BoardCell();
 		Room currRoom = new Room();
 		Room adjRoom = new Room();
 		
