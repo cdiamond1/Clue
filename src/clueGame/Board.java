@@ -324,11 +324,6 @@ public class Board {
 		}
 		}
 	}
-	
-	public void clearSets() {
-		targets = new HashSet<BoardCell>();
-		visited = new HashSet<BoardCell>();
-	}
 
 	public void recurseTarget(BoardCell startCell, int pathLength) {
 		visited.add(startCell);
@@ -357,7 +352,8 @@ public class Board {
 	}
 	
 	public void calcTargets(BoardCell startCell, int pathLength) {
-		clearSets();
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
 		recurseTarget(startCell, pathLength);
 	}
 
