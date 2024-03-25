@@ -21,7 +21,7 @@ public class Board {
 
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> boardCells = new HashSet<BoardCell>();
-	
+
 	// C14A-1 additional variables
 	public BoardCell[][] grid;
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
@@ -63,55 +63,9 @@ public class Board {
 		}
 	}
 
-	public void setConfigFiles(String string, String string2) {
-		csv = new File(string);
-		txt = new File(string2);
-	}
-
 	// readData gets passed a file name, and returns a 2D array of the
 	// information in the file
-	public ArrayList<String[]> readData(File file) throws BadConfigFormatException {
-		ArrayList<String[]> dataList = new ArrayList<>();
-
-		// read file
-		try {
-			Scanner scanner = new Scanner(file);
-
-			// reset boardRows count
-			boardRows = 0;
-			String currLine;
-			// get lines from file one at a time - split each line at comma
-			while (scanner.hasNextLine()) {
-				// add all file data to string
-				currLine = scanner.nextLine();
-				dataList.add(currLine.split(","));
-
-				// check configuration
-				for (String item : dataList.get(boardRows)) {
-					if (item.equals("") || item.equals(" ") || item.equals(null)) {
-						throw new BadConfigFormatException();
-					}
-				}
-
-				boardRows++;
-			}
-			// get column count by length of first list in array
-			boardCols = dataList.get(0).length;
-
-			scanner.close();
-		}
-		
-		catch (FileNotFoundException e) {
-			System.out.println("File not found ");
-			e.printStackTrace();
-		}
-		catch (BadConfigFormatException e) {
-			System.out.println("Bad config format ");
-			e.printStackTrace();
-		}
-		// return dataList at the end of the method
-		return dataList;
-	}
+	
 
 	// Loads setup file, populating roomMap
 	public void loadSetupConfig() throws BadConfigFormatException {
@@ -184,7 +138,7 @@ public class Board {
 				}
 
 				// Reading second char if there is one
-				if (initial.length() > 1) {					
+				if (initial.length() > 1) {
 					switch (initial.charAt(1)) {
 					case '<':
 						temp.setDoorway(true);
@@ -212,7 +166,7 @@ public class Board {
 						break;
 					default:
 						temp.setSecretPassage(initial.charAt(1));
-						
+
 						break;
 					}
 				}
@@ -224,115 +178,117 @@ public class Board {
 		}
 	}
 	
-	// iterate through every cell and add doorways to their associated room 
+	public ArrayList<String[]> readData(File file) throws BadConfigFormatException {
+		ArrayList<String[]> dataList = new ArrayList<>();
+
+		// read file
+		try {
+			Scanner scanner = new Scanner(file);
+
+			// reset boardRows count
+			boardRows = 0;
+			String currLine;
+			// get lines from file one at a time - split each line at comma
+			while (scanner.hasNextLine()) {
+				// add all file data to string
+				currLine = scanner.nextLine();
+				dataList.add(currLine.split(","));
+
+				// check configuration
+				for (String item : dataList.get(boardRows)) {
+					if (item.equals("") || item.equals(" ") || item.equals(null)) {
+						throw new BadConfigFormatException();
+					}
+				}
+
+				boardRows++;
+			}
+			// get column count by length of first list in array
+			boardCols = dataList.get(0).length;
+
+			scanner.close();
+		}
+
+		catch (FileNotFoundException e) {
+			System.out.println("File not found ");
+			e.printStackTrace();
+		} catch (BadConfigFormatException e) {
+			System.out.println("Bad config format ");
+			e.printStackTrace();
+		}
+		// return dataList at the end of the method
+		return dataList;
+	}
+
+	public void deal() {
+
+	}
+
+	// iterate through every cell and add doorways to their associated room
 	public void addDoorwaysAndSecretPassages() {
 		BoardCell currCell = new BoardCell();
 		BoardCell currTargetCell = new BoardCell();
 		Room currRoom = new Room();
 		Room adjRoom = new Room();
-		
+
 		// iterate through each row
 		for (int row = 0; row < boardRows; row++) {
-		for (int col = 0; col < boardCols; col++) {
-			currCell = getCell(row, col);
-			
-			// skip cells that aren't doorways
-			if (currCell.isDoorway()) {
-				// get direction
-				switch (currCell.getDoorDirection()) {
-				case LEFT:
-					currTargetCell = getCell(row, col - 1);
-					break;
-				case RIGHT:
-					currTargetCell = getCell(row, col + 1);
-					break;
-				case UP:
-					currTargetCell = getCell(row - 1, col);
-					break;
-				case DOWN:
-					currTargetCell = getCell(row + 1, col);
-					break;
-				default:
-					continue;
-				}
-				
-				adjRoom = currTargetCell.getRoom();
-				// skip walkways
-				if (adjRoom.getName().equals("Walkway")) continue;
-				adjRoom.addDoorCell(currCell);
-				
-				// add room center to doorway
-				currCell.addAdjacency(adjRoom.getCenterCell());
-				
-			} 
-			else if (currCell.isSecretPassage()) {
-				currRoom = roomMap.get(currCell.getSymbol().charAt(0));
-				adjRoom = roomMap.get(currCell.getSecretPassage());
-				
-				currTargetCell = adjRoom.getCenterCell();
-				currRoom.addDoorCell(currTargetCell);
-			}
-		}
-		}
-	}
-	
-	public void calcAdjacencyList() {
-		BoardCell currCell = new BoardCell();
-		BoardCell temp = new BoardCell();
-		
-		// add doorway cells to room objects
-		addDoorwaysAndSecretPassages();
-		
-		// iterate through every cell
-		for (int y = 0; y < boardRows; y++) {
-		for (int x = 0; x < boardCols; x++) {
-			currCell = getCell(y, x);
-			
-			if (currCell.isRoomCenter()) {
-				for (BoardCell cell: currCell.getRoom().getDoors()) {
-					currCell.addAdjacency(cell);
-				}
-			}
-			else {
-				if (x + 1 < boardCols) {
-					temp = getCell(y, x + 1); // Tests adjacent cell to the right
-					if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
-						currCell.addAdjacency(temp);
-					}
-				}
-	
-				if (x - 1 >= 0) {
-					temp = getCell(y, x - 1); // Tests adjacent cell to the left
-					if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
-						currCell.addAdjacency(temp);
-					}
-				}
-	
-				if (y + 1 < boardRows) {
-					temp = getCell(y + 1, x); // Tests adjacent cell above
-					if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
-						currCell.addAdjacency(temp);
-					}
-				}
-	
-				if (y - 1 >= 0) {
-					temp = getCell(y - 1, x); // Tests adjacent cell below
-					if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W") ) {
-						currCell.addAdjacency(temp);
-					}
-				}
-			}
-		}
-		}
-	}
+			for (int col = 0; col < boardCols; col++) {
+				currCell = getCell(row, col);
 
+				// skip cells that aren't doorways
+				if (currCell.isDoorway()) {
+					// get direction
+					switch (currCell.getDoorDirection()) {
+					case LEFT:
+						currTargetCell = getCell(row, col - 1);
+						break;
+					case RIGHT:
+						currTargetCell = getCell(row, col + 1);
+						break;
+					case UP:
+						currTargetCell = getCell(row - 1, col);
+						break;
+					case DOWN:
+						currTargetCell = getCell(row + 1, col);
+						break;
+					default:
+						continue;
+					}
+
+					adjRoom = currTargetCell.getRoom();
+					// skip walkways
+					if (adjRoom.getName().equals("Walkway"))
+						continue;
+					adjRoom.addDoorCell(currCell);
+
+					// add room center to doorway
+					currCell.addAdjacency(adjRoom.getCenterCell());
+
+				} else if (currCell.isSecretPassage()) {
+					currRoom = roomMap.get(currCell.getSymbol().charAt(0));
+					adjRoom = roomMap.get(currCell.getSecretPassage());
+
+					currTargetCell = adjRoom.getCenterCell();
+					currRoom.addDoorCell(currTargetCell);
+				}
+			}
+		}
+	}
+	
+	public void calcTargets(BoardCell startCell, int pathLength) {
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
+		recurseTarget(startCell, pathLength);
+	}
+	
 	public void recurseTarget(BoardCell startCell, int pathLength) {
 		visited.add(startCell);
 
 		// iterate through every cell of startCell adjacent list
 		for (BoardCell cell : startCell.getAdjList()) {
 			// if already visited/isRoom/isOccupied, skip this cell
-			if (visited.contains(cell) || (cell.isOccupied() && !cell.isRoomCenter()) ) {
+			if (visited.contains(cell) || (cell.isOccupied() && !cell.isRoomCenter())) {
 				continue;
 			}
 
@@ -351,13 +307,62 @@ public class Board {
 			visited.remove(cell);
 		}
 	}
-	
-	public void calcTargets(BoardCell startCell, int pathLength) {
-		targets = new HashSet<BoardCell>();
-		visited = new HashSet<BoardCell>();
-		recurseTarget(startCell, pathLength);
-	}
 
+	public void calcAdjacencyList() {
+		BoardCell currCell = new BoardCell();
+		BoardCell temp = new BoardCell();
+
+		// add doorway cells to room objects
+		addDoorwaysAndSecretPassages();
+
+		// iterate through every cell
+		for (int y = 0; y < boardRows; y++) {
+			for (int x = 0; x < boardCols; x++) {
+				currCell = getCell(y, x);
+
+				if (currCell.isRoomCenter()) {
+					for (BoardCell cell : currCell.getRoom().getDoors()) {
+						currCell.addAdjacency(cell);
+					}
+				} else {
+					if (x + 1 < boardCols) {
+						temp = getCell(y, x + 1); // Tests adjacent cell to the right
+						if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W")) {
+							currCell.addAdjacency(temp);
+						}
+					}
+
+					if (x - 1 >= 0) {
+						temp = getCell(y, x - 1); // Tests adjacent cell to the left
+						if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W")) {
+							currCell.addAdjacency(temp);
+						}
+					}
+
+					if (y + 1 < boardRows) {
+						temp = getCell(y + 1, x); // Tests adjacent cell above
+						if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W")) {
+							currCell.addAdjacency(temp);
+						}
+					}
+
+					if (y - 1 >= 0) {
+						temp = getCell(y - 1, x); // Tests adjacent cell below
+						if (temp != null && !temp.isOccupied() && temp.getSymbol().contains("W")) {
+							currCell.addAdjacency(temp);
+						}
+					}
+				}
+			}
+		}
+	}	
+
+	// WARNING NOW ENTERING SETTERS/GETTERS
+	
+	public void setConfigFiles(String string, String string2) {
+		csv = new File(string);
+		txt = new File(string2);
+	}
 	// getCell: returns cell given row+column. If cell doesn't exist, returns null
 	public BoardCell getCell(int row, int col) {
 		return grid[row][col];
