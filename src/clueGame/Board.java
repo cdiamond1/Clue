@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -34,6 +35,12 @@ public class Board {
 	private Map<Character, Room> roomMap = new HashMap<Character, Room>();
 	private File csv;
 	private File txt;
+	
+	private ArrayList<Card> deck = new ArrayList<Card>();
+	private ArrayList<Player> personList = new ArrayList<Player>();
+	private ArrayList<Card> roomsList = new ArrayList<Card>();
+	private ArrayList<Card> weaponsList = new ArrayList<Card>();
+	private Solution Solution = new Solution();
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -95,7 +102,16 @@ public class Board {
 				// create room object
 				Room temp = new Room(lineSplit[1]);
 				roomMap.put(lineSplit[2].charAt(0), temp);
+				deck.add(new Card(lineSplit[1], CardType.ROOM));
+				roomsList.add(new Card(lineSplit[1], CardType.ROOM));
 
+			} else if (lineSplit[0].equals("Player")) {
+				deck.add(new Card(lineSplit[1], CardType.PERSON));
+				
+			} else if (lineSplit[0].equals("Weapon")) {
+				deck.add(new Card(lineSplit[1], CardType.WEAPON));
+				weaponsList.add(new Card(lineSplit[1], CardType.WEAPON));
+				
 			} else {
 				throw new BadConfigFormatException("Format error in setup file: " + lineSplit[0]);
 			}
@@ -219,9 +235,35 @@ public class Board {
 		// return dataList at the end of the method
 		return dataList;
 	}
-
+	
 	public void deal() {
+		Random r = new Random();
+		int low = 0;
+		int high = deck.size();
+		int result = r.nextInt(high-low) + low;
+		
+		//	Generating Solution
+		while(deck.get(result).getCardType() != CardType.ROOM) {
+			result = r.nextInt(high-low) + low;
+		}
+		Solution.setSolRoom(deck.get(result));
+		while(deck.get(result).getCardType() != CardType.PERSON) {
+			result = r.nextInt(high-low) + low;
+		}
+		Solution.setSolPerson(deck.get(result));
+		while(deck.get(result).getCardType() != CardType.WEAPON) {
+			result = r.nextInt(high-low) + low;
+		}
+		Solution.setSolWeapon(deck.get(result));
 
+		
+	}
+	
+	public boolean accuse(Card person, Card room, Card weapon) {
+		if(person.equals(Solution.getSolPerson()) && room.equals(Solution.getSolRoom()) && weapon.equals(Solution.getSolWeapon())) {
+			return true;
+		}
+		return false;
 	}
 
 	// iterate through every cell and add doorways to their associated room

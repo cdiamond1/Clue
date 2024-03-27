@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /*
  * Player Class - 
@@ -14,6 +15,8 @@ public abstract class Player {
 	private String name;
 	private Color color;
 	private int row, column;
+	
+	private ArrayList<Card> hand = new ArrayList<Card>();
 	
 	public void updateHand(Card card) {
 		

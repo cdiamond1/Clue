@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.util.ArrayList;
+
 /*
  * ComputerPlayer Class - 
  *  
@@ -10,4 +12,6 @@ package clueGame;
 
 public class ComputerPlayer extends Player {
 
+	private ArrayList<Card> hand = new ArrayList<Card>();
+	
 }

@@ -3,6 +3,7 @@ package tests;
 import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.Set;
 
 import clueGame.Board;
@@ -22,7 +23,7 @@ public class code_testing {
 		
 	public static void main(String[] args) throws FileNotFoundException {
 		//board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-		board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");
+		/*board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");
 		board.initialize();
 				
 		board.calcTargets(board.getCell(8, 17), 1);
@@ -33,7 +34,13 @@ public class code_testing {
 			System.out.println("Row: " + test.getRow() + ", Column: " + test.getColumn());
 			System.out.println("Symbol: " + test.getSymbol());
 		}
+		*/
 		
+		Random r = new Random();
+		int low = 0;
+		int high = 5; 
+		
+		System.out.println(r.nextInt(high-low) + low); // low (inclusive) to high (exclusive)
 		
 		
 	}

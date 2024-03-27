@@ -12,4 +12,40 @@ public class Solution {
 	private Card room;
 	private Card person;
 	private Card weapon;
+	
+	public Solution() {
+		this.room = null;
+		this.person = null;
+		this.weapon = null;
+	}
+	
+	public Solution(Card room, Card person, Card weapon) {
+		this.room = room;
+		this.person = person;
+		this.weapon = weapon;
+	}
+	
+	public Card getSolRoom() {
+		return room;
+	}
+	
+	public void setSolRoom(Card room) {
+		this.room = room;
+	}
+	
+	public Card getSolPerson() {
+		return person;
+	}
+	
+	public void setSolPerson(Card person) {
+		this.person = person;
+	}
+
+	public Card getSolWeapon() {
+		return weapon;
+	}
+	
+	public void setSolWeapon(Card weapon) {
+		this.weapon = weapon;
+	}
 }
