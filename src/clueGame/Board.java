@@ -37,7 +37,7 @@ public class Board {
 	private File txt;
 	
 	private ArrayList<Card> deck = new ArrayList<Card>();
-	private ArrayList<Player> personList = new ArrayList<Player>();
+	private ArrayList<Player> playerList = new ArrayList<Player>();
 	private ArrayList<Card> roomsList = new ArrayList<Card>();
 	private ArrayList<Card> weaponsList = new ArrayList<Card>();
 	private Solution Solution = new Solution();
@@ -116,6 +116,7 @@ public class Board {
 				throw new BadConfigFormatException("Format error in setup file: " + lineSplit[0]);
 			}
 		}
+		
 		in.close();
 	}
 
@@ -234,36 +235,6 @@ public class Board {
 		}
 		// return dataList at the end of the method
 		return dataList;
-	}
-	
-	public void deal() {
-		Random r = new Random();
-		int low = 0;
-		int high = deck.size();
-		int result = r.nextInt(high-low) + low;
-		
-		//	Generating Solution
-		while(deck.get(result).getCardType() != CardType.ROOM) {
-			result = r.nextInt(high-low) + low;
-		}
-		Solution.setSolRoom(deck.get(result));
-		while(deck.get(result).getCardType() != CardType.PERSON) {
-			result = r.nextInt(high-low) + low;
-		}
-		Solution.setSolPerson(deck.get(result));
-		while(deck.get(result).getCardType() != CardType.WEAPON) {
-			result = r.nextInt(high-low) + low;
-		}
-		Solution.setSolWeapon(deck.get(result));
-
-		
-	}
-	
-	public boolean accuse(Card person, Card room, Card weapon) {
-		if(person.equals(Solution.getSolPerson()) && room.equals(Solution.getSolRoom()) && weapon.equals(Solution.getSolWeapon())) {
-			return true;
-		}
-		return false;
 	}
 
 	// iterate through every cell and add doorways to their associated room
@@ -399,6 +370,38 @@ public class Board {
 		}
 	}	
 
+	public void deal() {
+		Random r = new Random();
+		int low = 0;
+		int high = deck.size();
+		int result = r.nextInt(high-low) + low;
+		
+		//	Generating Solution
+		while(deck.get(result).getCardType() != CardType.ROOM) {
+			result = r.nextInt(high-low) + low;
+		}
+		Solution.setSolRoom(deck.get(result));
+		while(deck.get(result).getCardType() != CardType.PERSON) {
+			result = r.nextInt(high-low) + low;
+		}
+		Solution.setSolPerson(deck.get(result));
+		while(deck.get(result).getCardType() != CardType.WEAPON) {
+			result = r.nextInt(high-low) + low;
+		}
+		Solution.setSolWeapon(deck.get(result));
+
+	}
+	
+	public boolean accuse(Card person, Card room, Card weapon) {
+		if(person.equals(Solution.getSolPerson()) && room.equals(Solution.getSolRoom()) && weapon.equals(Solution.getSolWeapon())) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
 	// WARNING NOW ENTERING SETTERS/GETTERS
 	
 	public void setConfigFiles(String string, String string2) {
@@ -433,5 +436,15 @@ public class Board {
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return getCell(row, col).getAdjList();
 	}
+
+	public ArrayList<Player> getPlayerList() {
+		return playerList;
+	}
+
+	public Solution getSolution() {
+		return Solution;
+	}
+	
+	
 
 }
