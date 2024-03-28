@@ -19,4 +19,9 @@ Player, Tadg Helios, computer, 29, 29, Black
 Player, Glaukos Zal, computer, 29, 9, Yellow
 Player, Atreus Alcides, computer, 19, 10, Red
 // Weapons
-Weapon, 
+Weapon, Knife
+Weapon, Metal Bar
+Weapon, Shovel
+Weapon, Meal Tray
+Weapon, Steering Wheel
+Weapon, Space Suit Helmet
