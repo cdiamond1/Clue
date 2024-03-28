@@ -381,15 +381,43 @@ public class Board {
 			result = r.nextInt(high-low) + low;
 		}
 		Solution.setSolRoom(deck.get(result));
+		deck.remove(result);
+		
 		while(deck.get(result).getCardType() != CardType.PERSON) {
 			result = r.nextInt(high-low) + low;
 		}
 		Solution.setSolPerson(deck.get(result));
+		deck.remove(result);
+		
 		while(deck.get(result).getCardType() != CardType.WEAPON) {
 			result = r.nextInt(high-low) + low;
 		}
 		Solution.setSolWeapon(deck.get(result));
+		deck.remove(result);
+		
+		
+		// Deal cards for players and remove them from the deck (as opposed to the solution the player can have duplicate types)
+		for(Player p : playerList) {
+			for(int cardCount = 0 ; cardCount < 3 ; cardCount++) {	// Nested for loop but easier than writing 'add card and reroll random 3 times' also makes it variable if each player gets 4 cards etc. 
+				result = r.nextInt(high-low) + low;
+				p.updateHand(deck.get(result));
+				deck.remove(result);
+			}
+		}
 
+	}
+	
+	public void suggest(Card person, Card room, Card weapon) { // WIP (7 possible options of true/false)
+		/* Possible option (Probably possible to do without a ton of ifs but I can think of it rn)
+		 * 
+		 * 	All false
+		 * 	Person true, Room false, Weapon false
+		 * 	Person true, Room true, Weapon false
+		 * 	Person false, Room true, Weapon true
+		 * 	Person false, Room false, Weapon true
+		 * 	Person false, Room true, Weapon false
+		 * 	All true
+		 */
 	}
 	
 	public boolean accuse(Card person, Card room, Card weapon) {

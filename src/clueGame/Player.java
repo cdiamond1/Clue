@@ -15,19 +15,12 @@ public abstract class Player {
 	private String name;
 	private Color color;
 	private int row, column;
-	private boolean human;
 	
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	
-	public void updateHand(Card card) {
-		
-	}
+	public abstract void updateHand(Card card);
 
-	public boolean isHuman() {
-		return human;
-	}
+	public abstract boolean isHuman();
 
-	public ArrayList<Card> getHand() {
-		return hand;
-	}
+	public abstract ArrayList<Card> getHand();
 }
