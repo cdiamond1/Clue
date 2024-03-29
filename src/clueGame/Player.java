@@ -18,6 +18,10 @@ public abstract class Player {
 	
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	
+	public Player(String name) {
+		this.name = name;
+	}
+	
 	public abstract void updateHand(Card card);
 
 	public abstract boolean isHuman();

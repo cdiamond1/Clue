@@ -13,6 +13,10 @@ import java.util.ArrayList;
 public class HumanPlayer extends Player{
 
 	private ArrayList<Card> hand = new ArrayList<Card>();
+	
+	public HumanPlayer(String name) {
+		super(name);
+	}
 
 	@Override
 	public void updateHand(Card card) {

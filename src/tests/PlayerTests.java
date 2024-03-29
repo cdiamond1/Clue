@@ -33,8 +33,11 @@ public class PlayerTests {
 		int humanCount = 0;
 		int compCount = 0;
 		
-		for (Player player: board.getPlayerList()) {
-			if (player.isHuman()) {
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		playerList = board.getPlayerList();
+		
+		for (int i = 0; i < playerList.size(); i++) {
+			if (playerList.get(i).isHuman()) {
 				humanCount++;
 			}
 			else {
@@ -51,16 +54,32 @@ public class PlayerTests {
 	@Test
 	public void testDeck() {
 		ArrayList<Card> deck = new ArrayList<Card>();
-		Card playerCard = new Card("Circe Calypso", CardType.PERSON);
-		Card roomCard = new Card("Shields", CardType.ROOM);
-		Card weaponCard = new Card("Banana", CardType.WEAPON);
+		int weaponCardCount = 0;
+		int roomCardCount = 0;
+		int playerCardCount = 0;
 		
 		deck = board.getDeck();
 		
-		assertEquals(18, deck.size()); // 9 rooms, 6 people, 6 weapons = 21 cards
-		assertTrue(deck.contains(playerCard));
-		assertTrue(deck.contains(roomCard));
-		assertTrue(deck.contains(weaponCard));	
+		for (Card card: deck) {
+			switch (card.getCardType()) {
+			case WEAPON:
+				weaponCardCount++;
+				break;
+			case ROOM:
+				roomCardCount++;
+				break;
+			case PERSON:
+				playerCardCount++;
+				break;
+			}
+		}
+		
+		assertEquals(18, deck.size());
+		assertEquals(5, weaponCardCount); // 6 cards - 1 solution card
+		assertEquals(8, roomCardCount);	  // 9 cards - 1 solution card
+		assertEquals(5, playerCardCount);
+		
+		
 	}
 	
 	

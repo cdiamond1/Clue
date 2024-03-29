@@ -14,6 +14,10 @@ public class ComputerPlayer extends Player {
 
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	
+	public ComputerPlayer(String name) {
+		super(name);
+	}
+
 	@Override
 	public void updateHand(Card card) {
 		hand.add(card);

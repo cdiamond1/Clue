@@ -37,7 +37,7 @@ public class Board {
 	private File txt;
 	
 	private ArrayList<Card> deck = new ArrayList<Card>();
-	private ArrayList<Player> playerList;
+	private ArrayList<Player> playerList = new ArrayList<Player>();
 	private ArrayList<Card> roomsList = new ArrayList<Card>();
 	private ArrayList<Card> weaponsList = new ArrayList<Card>();
 	private Solution Solution = new Solution();
@@ -111,6 +111,17 @@ public class Board {
 
 			} else if (lineSplit[0].equals("Player")) {
 				deck.add(new Card(lineSplit[1], CardType.PERSON));
+				
+				// add human player
+				if (lineSplit[2].equals("human")) {
+					Player human = new HumanPlayer(lineSplit[1]);
+					playerList.add(human);
+				}
+				else {
+					Player comp = new ComputerPlayer(lineSplit[1]);
+					playerList.add(comp);
+				}
+				
 				
 			} else if (lineSplit[0].equals("Weapon")) {
 				deck.add(new Card(lineSplit[1], CardType.WEAPON));
@@ -402,11 +413,12 @@ public class Board {
 		deck.remove(result);
 		high = deck.size();
 		
-		playerList = new ArrayList<Player>(6);
+//		playerList = new ArrayList<Player>(6);
 		
 		// Deal cards for players and remove them from the deck (as opposed to the solution the player can have duplicate types)
 		for(Player p : playerList) {
 			for(int cardCount = 0 ; cardCount < 3 ; cardCount++) {	// Nested for loop but easier than writing 'add card and reroll random 3 times' also makes it variable if each player gets 4 cards etc. 
+				high = deck.size();
 				result = r.nextInt(high-low) + low;
 				p.updateHand(deck.get(result));
 				deck.remove(result);
