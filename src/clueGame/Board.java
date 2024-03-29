@@ -65,7 +65,8 @@ public class Board {
 			loadSetupConfig();
 			loadLayoutConfig();
 			calcAdjacencyList();
-			deal();
+			generateSolution();
+			//deal();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -99,6 +100,12 @@ public class Board {
 
 			// split at comma
 			lineSplit = line.split(", ");
+			if(lineSplit[0].equals("Room") || lineSplit[0].equals("Space") || lineSplit[0].equals("Player") || lineSplit[0].equals("Weapon")) {
+				
+			} else {
+				throw new BadConfigFormatException("Bad config file: " + lineSplit[0]);
+			}
+			
 			if ((lineSplit[0].equals("Room") || lineSplit[0].equals("Space")) && lineSplit.length == 3) {
 				// create room object
 				Room temp = new Room(lineSplit[1]);
@@ -109,9 +116,9 @@ public class Board {
 					roomsList.add(new Card(lineSplit[1], CardType.ROOM));
 				}
 
-			} else if (lineSplit[0].equals("Player")) {
+			} 
+			if (lineSplit[0].equals("Player")) {
 				deck.add(new Card(lineSplit[1], CardType.PERSON));
-				
 				// add human player
 				if (lineSplit[2].equals("human")) {
 					Player human = new HumanPlayer(lineSplit[1]);
@@ -123,15 +130,13 @@ public class Board {
 				}
 				
 				
-			} else if (lineSplit[0].equals("Weapon")) {
+			} 
+			if (lineSplit[0].equals("Weapon")) {
 				deck.add(new Card(lineSplit[1], CardType.WEAPON));
 				weaponsList.add(new Card(lineSplit[1], CardType.WEAPON));
 				
-			} else {
-				throw new BadConfigFormatException("Format error in setup file: " + lineSplit[0]);
 			}
 		}
-		
 		in.close();
 	}
 
@@ -251,7 +256,7 @@ public class Board {
 		// return dataList at the end of the method
 		return dataList;
 	}
-
+	
 	// iterate through every cell and add doorways to their associated room
 	public void addDoorwaysAndSecretPassages() {
 		BoardCell currCell = new BoardCell();
@@ -391,6 +396,23 @@ public class Board {
 		int high = deck.size();
 		int result = r.nextInt(high-low) + low;
 		
+		// Deal cards for players and remove them from the deck (as opposed to the solution the player can have duplicate types)
+		for(Player p : playerList) {
+			for(int cardCount = 0 ; cardCount < 3 ; cardCount++) {	// Nested for loop but easier than writing 'add card and reroll random 3 times' also makes it variable if each player gets 4 cards etc. 
+				high = deck.size();
+				result = r.nextInt(high-low) + low;
+				p.updateHand(deck.get(result));
+				deck.remove(result);
+			}
+		}
+	}
+	
+	public void generateSolution() {
+		Random r = new Random();
+		int low = 0;
+		int high = deck.size();
+		int result = r.nextInt(high-low) + low;
+		
 		//	Generating Solution
 		while(deck.get(result).getCardType() != CardType.ROOM) {
 			result = r.nextInt(high-low) + low;
@@ -412,19 +434,6 @@ public class Board {
 		Solution.setSolWeapon(deck.get(result));
 		deck.remove(result);
 		high = deck.size();
-		
-//		playerList = new ArrayList<Player>(6);
-		
-		// Deal cards for players and remove them from the deck (as opposed to the solution the player can have duplicate types)
-		for(Player p : playerList) {
-			for(int cardCount = 0 ; cardCount < 3 ; cardCount++) {	// Nested for loop but easier than writing 'add card and reroll random 3 times' also makes it variable if each player gets 4 cards etc. 
-				high = deck.size();
-				result = r.nextInt(high-low) + low;
-				p.updateHand(deck.get(result));
-				deck.remove(result);
-			}
-		}
-
 	}
 
 	public void suggest(Card person, Card room, Card weapon) { // WIP (7 possible options of true/false)
