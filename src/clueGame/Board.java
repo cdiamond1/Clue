@@ -37,7 +37,7 @@ public class Board {
 	private File txt;
 	
 	private ArrayList<Card> deck = new ArrayList<Card>();
-	private ArrayList<Player> playerList = new ArrayList<Player>();
+	private ArrayList<Player> playerList;
 	private ArrayList<Card> roomsList = new ArrayList<Card>();
 	private ArrayList<Card> weaponsList = new ArrayList<Card>();
 	private Solution Solution = new Solution();
@@ -65,6 +65,7 @@ public class Board {
 			loadSetupConfig();
 			loadLayoutConfig();
 			calcAdjacencyList();
+			deal();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -102,8 +103,11 @@ public class Board {
 				// create room object
 				Room temp = new Room(lineSplit[1]);
 				roomMap.put(lineSplit[2].charAt(0), temp);
-				deck.add(new Card(lineSplit[1], CardType.ROOM));
-				roomsList.add(new Card(lineSplit[1], CardType.ROOM));
+				
+				if (lineSplit[0].equals("Room")) {
+					deck.add(new Card(lineSplit[1], CardType.ROOM));
+					roomsList.add(new Card(lineSplit[1], CardType.ROOM));
+				}
 
 			} else if (lineSplit[0].equals("Player")) {
 				deck.add(new Card(lineSplit[1], CardType.PERSON));
@@ -382,19 +386,23 @@ public class Board {
 		}
 		Solution.setSolRoom(deck.get(result));
 		deck.remove(result);
+		high = deck.size();
 		
 		while(deck.get(result).getCardType() != CardType.PERSON) {
 			result = r.nextInt(high-low) + low;
 		}
 		Solution.setSolPerson(deck.get(result));
 		deck.remove(result);
+		high = deck.size();
 		
 		while(deck.get(result).getCardType() != CardType.WEAPON) {
 			result = r.nextInt(high-low) + low;
 		}
 		Solution.setSolWeapon(deck.get(result));
 		deck.remove(result);
+		high = deck.size();
 		
+		playerList = new ArrayList<Player>(6);
 		
 		// Deal cards for players and remove them from the deck (as opposed to the solution the player can have duplicate types)
 		for(Player p : playerList) {
@@ -406,7 +414,7 @@ public class Board {
 		}
 
 	}
-	
+
 	public void suggest(Card person, Card room, Card weapon) { // WIP (7 possible options of true/false)
 		/* Possible option (Probably possible to do without a ton of ifs but I can think of it rn)
 		 * 
@@ -473,6 +481,9 @@ public class Board {
 		return Solution;
 	}
 	
+	public ArrayList<Card> getDeck() {
+		return deck;
+	}
 	
 
 }

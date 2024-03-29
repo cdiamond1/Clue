@@ -55,7 +55,9 @@ public class PlayerTests {
 		Card roomCard = new Card("Shields", CardType.ROOM);
 		Card weaponCard = new Card("Banana", CardType.WEAPON);
 		
-		assertEquals(21, deck.size()); // 9 rooms, 6 people, 6 weapons = 21 cards
+		deck = board.getDeck();
+		
+		assertEquals(18, deck.size()); // 9 rooms, 6 people, 6 weapons = 21 cards
 		assertTrue(deck.contains(playerCard));
 		assertTrue(deck.contains(roomCard));
 		assertTrue(deck.contains(weaponCard));	
@@ -91,14 +93,5 @@ public class PlayerTests {
 		assertEquals(18, seenCards.size()); // 21 cards - 3 solution cards = 18 dealt cards
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
