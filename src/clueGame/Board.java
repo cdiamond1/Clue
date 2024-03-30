@@ -40,6 +40,7 @@ public class Board {
 	private ArrayList<Player> playerList = new ArrayList<Player>();
 	private ArrayList<Card> roomsList = new ArrayList<Card>();
 	private ArrayList<Card> weaponsList = new ArrayList<Card>();
+	private ArrayList<Boolean> suggestionCheck = new ArrayList<Boolean>();
 	private Solution Solution = new Solution();
 
 	/*
@@ -436,8 +437,8 @@ public class Board {
 		high = deck.size();
 	}
 
-	public void suggest(Card person, Card room, Card weapon) { // WIP (7 possible options of true/false)
-		/* Possible option (Probably possible to do without a ton of ifs but I can think of it rn)
+	public void suggest(Card person, Card room, Card weapon) {
+		/* Possible option
 		 * 
 		 * 	All false
 		 * 	Person true, Room false, Weapon false
@@ -447,6 +448,23 @@ public class Board {
 		 * 	Person false, Room true, Weapon false
 		 * 	All true
 		 */
+		suggestionCheck = new ArrayList<Boolean>();
+		if(person.equals(Solution.getSolPerson())) {
+			suggestionCheck.add(true);
+		} else {
+			suggestionCheck.add(false);
+		}
+		if(room.equals(Solution.getSolRoom())) {
+			suggestionCheck.add(true);
+		} else {
+			suggestionCheck.add(false);
+		}
+		if(weapon.equals(Solution.getSolWeapon())) {
+			suggestionCheck.add(true);
+		} else {
+			suggestionCheck.add(false);
+		}
+		
 	}
 	
 	public boolean accuse(Card person, Card room, Card weapon) {
