@@ -167,7 +167,8 @@ public class Board {
 				} else if (initial.charAt(0) == 'W') {
 					temp.setRoomLoc(roomMap.get('W'));
 					temp.setRoom(true);
-				} else if (roomMap.get(initial.charAt(0)) != null) {
+				} 
+				if (roomMap.get(initial.charAt(0)) != null) {
 					temp.setRoomLoc(roomMap.get(initial.charAt(0)));
 					temp.setRoom(true);
 				} else {
@@ -233,7 +234,7 @@ public class Board {
 
 				// check configuration
 				for (String item : dataList.get(boardRows)) {
-					if (item.equals("") || item.equals(" ") || item.equals(null)) {
+					if (item.equals("") || item.equals(" ") || item.equals(null) || (item.length() > 1 && (item.charAt(1) != '*' || item.charAt(1) != '#' || item.charAt(1) != '^' || item.charAt(1) != '>' || item.charAt(1) != 'v' || item.charAt(1) != '<'))) {
 						throw new BadConfigFormatException();
 					}
 				}
@@ -247,12 +248,11 @@ public class Board {
 		}
 
 		catch (FileNotFoundException e) {
-			System.out.println("File not found ");
 			e.printStackTrace();
-		} catch (BadConfigFormatException e) {
-			System.out.println("Bad config format ");
-			e.printStackTrace();
-		}
+		} 
+		//catch (BadConfigFormatException e) {
+		//	e.printStackTrace();
+		//}
 		// return dataList at the end of the method
 		return dataList;
 	}

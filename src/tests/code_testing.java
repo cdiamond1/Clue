@@ -22,7 +22,7 @@ public class code_testing {
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
 		Random r = new Random();
-		
+				
 		//System.out.println(r.nextInt(1));
 		//System.out.println(board.getDeck().size());
 		//System.out.println(board.getDeck());
