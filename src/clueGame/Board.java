@@ -408,6 +408,13 @@ public class Board {
 		}
 	}
 	
+	public int roll() {
+		Random r = new Random();
+		int low = 1;
+		int high = 7;
+		return r.nextInt(high-low) + low;
+	}
+		
 	public void generateSolution() {
 		Random r = new Random();
 		int low = 0;
@@ -448,6 +455,17 @@ public class Board {
 		 * 	Person false, Room true, Weapon false
 		 * 	All true
 		 */
+		Card hold = null;
+		for(Player P : playerList) {
+			hold = P.disproveSuggestion(person, room, weapon);
+		}
+		if(hold != null) {
+			for(Player P : playerList) {
+				P.updateSeen(hold);
+			}
+		}
+		
+		
 		suggestionCheck = new ArrayList<Boolean>();
 		if(person.equals(Solution.getSolPerson())) {
 			suggestionCheck.add(true);
@@ -491,6 +509,10 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
+	
+	public Set<BoardCell> getVisited() {
+		return visited;
+	}
 
 	public Room getRoom(char c) {
 		return roomMap.get(c);
@@ -514,6 +536,10 @@ public class Board {
 
 	public ArrayList<Player> getPlayerList() {
 		return playerList;
+	}
+	
+	public ArrayList<Card> getWeaponsList(){
+		return weaponsList;
 	}
 
 	public Solution getSolution() {

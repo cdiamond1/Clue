@@ -23,8 +23,12 @@ public abstract class Player {
 	}
 	
 	public abstract void updateHand(Card card);
+	
+	public abstract void updateSeen(Card card);
 
 	public abstract boolean isHuman();
 
 	public abstract ArrayList<Card> getHand();
+	
+	public abstract Card disproveSuggestion(Card person, Card room, Card weapon);
 }
