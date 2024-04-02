@@ -76,7 +76,7 @@ public class ComputerPlayer extends Player {
 		Random r = new Random();
 		board.calcTargets(board.getCell(row, column), roll);
 		for (BoardCell B : board.getTargets()) {
-			if (B.isRoomCenter() && !(board.getVisited().contains(B))) {
+			if (B.isRoomCenter()) {
 				this.column = B.getColumn();
 				this.row = B.getRow();
 				return board.getCell(row, column);

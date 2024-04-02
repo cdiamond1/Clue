@@ -43,6 +43,24 @@ public class ComputerAITest {
 		BoardCell temp = CPU.selectTarget(1);
 		
 		assertTrue(targets.contains(temp));
+		
+		CPU = (ComputerPlayer) board.getPlayerList().get(2);
+		
+		System.out.println("Currently: " + CPU.getCurrCell().getRow() + ", " + CPU.getCurrCell().getColumn());
+		
+		board.calcTargets(CPU.getCurrCell(), 5);
+		targets = board.getTargets();
+		temp = CPU.selectTarget(5);
+		
+		for(BoardCell B : targets) {
+			System.out.println(B.getRow() + ", " + B.getColumn());
+		}
+		
+		assertTrue(targets.contains(temp));
+		assertTrue(targets.contains(board.getCell(22, 26)));
+		assertEquals(temp.getRow(), 22);
+		assertEquals(temp.getColumn(), 26);
+		
 	}
 	
 	@Test

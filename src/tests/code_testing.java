@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.Random;
 
 import clueGame.Board;
+import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.ComputerPlayer;
 
@@ -24,11 +25,19 @@ public class code_testing {
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
 		
-		ComputerPlayer CPU = (ComputerPlayer) board.getPlayerList().get(1);
-		Card CPUCard = board.getPlayerCardList().get(1);
 		
-		System.out.println(CPUCard.getCardName());
-		System.out.println(CPU.getCurrCell().getColumn());
+		System.out.println(board.getCell(4, 4).isRoomCenter());
+		
+		/*
+		board.calcTargets(board.getCell(3, 9), 3);
+		for(BoardCell C : board.getTargets()) {
+			System.out.println(C.getRow() + ", " + C.getColumn());
+			System.out.println(C.isRoomCenter());
+			System.out.println(C.isDoorway());
+			System.out.println();
+		}
+		*/
+		
 				
 	}
 }
