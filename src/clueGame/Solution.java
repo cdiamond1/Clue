@@ -33,12 +33,20 @@ public class Solution {
 		this.room = room;
 	}
 	
+	public String getSolRoomName() {
+		return room.getCardName();
+	}
+	
 	public Card getSolPerson() {
 		return person;
 	}
 	
 	public void setSolPerson(Card person) {
 		this.person = person;
+	}
+	
+	public String getSolPersonName() {
+		return person.getCardName();
 	}
 
 	public Card getSolWeapon() {
@@ -47,5 +55,9 @@ public class Solution {
 	
 	public void setSolWeapon(Card weapon) {
 		this.weapon = weapon;
+	}
+	
+	public String getSolWeaponName() {
+		return weapon.getCardName();
 	}
 }

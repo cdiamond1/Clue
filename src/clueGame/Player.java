@@ -27,4 +27,9 @@ public abstract class Player {
 	public abstract boolean isHuman();
 
 	public abstract ArrayList<Card> getHand();
+	
+	public Card disproveSuggestion(String room, String person, String weapon) {
+
+		return null;
+	}
 }

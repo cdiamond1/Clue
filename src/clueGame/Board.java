@@ -235,8 +235,8 @@ public class Board {
 
 				// check configuration
 				for (String item : dataList.get(boardRows)) {
-					if (item.equals("") || item.equals(" ") || item.equals(null) || (item.length() > 1 && (item.charAt(1) != '*' || item.charAt(1) != '#' || item.charAt(1) != '^' || item.charAt(1) != '>' || item.charAt(1) != 'v' || item.charAt(1) != '<'))) {
-						throw new BadConfigFormatException();
+					if (item.equals("") || item.equals(" ") || item.equals(null) || (item.length() > 1 && (item.charAt(1) != '*' && item.charAt(1) != '#' && item.charAt(1) != '^' && item.charAt(1) != '>' && item.charAt(1) != 'v' && item.charAt(1) != '<'))) {
+						throw new BadConfigFormatException("Bad config file format: " + item);
 					}
 				}
 
@@ -474,11 +474,29 @@ public class Board {
 		return false;
 	}
 	
+	public boolean checkAccusation(String person, String room, String weapon) {
+		if (Solution.getSolPersonName() != person ||
+			Solution.getSolRoomName() != room ||
+			Solution.getSolWeaponName() != weapon) {
+			return false;
+		}
+		return true;
+	}
 	
+	public Card handleSuggestion(Solution sol, Player startingPlayer) {
+		return null;
+	}
 	
+	public void removeCardFromDeck(Card card) {
+		for (int i = 0; i < deck.size(); i++) {
+			if (deck.get(i).getCardName().equals(card.getCardName())) {
+				deck.remove(i);
+			}
+		}
+	}
 	
 	// WARNING NOW ENTERING SETTERS/GETTERS
-	
+
 	public void setConfigFiles(String string, String string2) {
 		csv = new File(string);
 		txt = new File(string2);
@@ -518,6 +536,10 @@ public class Board {
 
 	public Solution getSolution() {
 		return Solution;
+	}
+	
+	public void setSolution(Solution solution) {
+		Solution = solution;
 	}
 	
 	public ArrayList<Card> getDeck() {
