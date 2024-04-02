@@ -44,5 +44,11 @@ public class HumanPlayer extends Player{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void setSeenPeople(ArrayList<Card> seenList) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

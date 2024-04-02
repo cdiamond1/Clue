@@ -109,6 +109,7 @@ public class ComputerPlayer extends Player {
 					tempPerson = C;
 					break;
 				}
+			}
 			for(Card C : totalWeapons) {
 				if(seenWeapons.contains(C)) {
 					continue;
@@ -116,9 +117,12 @@ public class ComputerPlayer extends Player {
 					
 				}
 			}
-			}
 		}
 		return null;
+	}
+	
+	public void setSeenPeople(ArrayList<Card> seenPeople) {
+		this.seenPeople = seenPeople;
 	}
 
 }

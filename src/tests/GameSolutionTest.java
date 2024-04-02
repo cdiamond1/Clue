@@ -124,9 +124,39 @@ public class GameSolutionTest {
 		
 		assertNull(board.handleSuggestion(allRight, startingPlayer));
 		assertEquals(board.handleSuggestion(oneWrong, startingPlayer).getCardName(), "Shovel");
+	}
+	
+	@Test
+	public void computerSuggestionTest() {
+		ComputerPlayer compPlayer = new ComputerPlayer("comp");
 		
+		ArrayList<Card> seenList = new ArrayList<Card>() {{
+			add(new Card("Wolfgang Gwawl", CardType.PERSON));
+			add(new Card("Circe Calypso", CardType.PERSON));
+			add(new Card("Poseidon Alcyone", CardType.PERSON));
+			add(new Card("Tadg Helios", CardType.PERSON));
+			add(new Card("Glaukos Zal", CardType.PERSON));
+		}};
+		
+		compPlayer.setSeenPeople(seenList);
+		
+		int atreusCount = 0;
+		int knifeCount = 0;
+		int shovelCount = 0;
+		
+		for (int i = 0; i < 1000; i++) {
+			Solution currSol = compPlayer.createSuggestion();
+			
+			if (currSol.getSolPersonName().equals("Atreus Alcides")) atreusCount++;
+			if (currSol.getSolWeaponName().equals("Knife")) knifeCount++;
+			if (currSol.getSolWeaponName().equals("Shovel")) shovelCount++;
+		}
+		
+		assertEquals(1000, atreusCount);
+		assertTrue((knifeCount + shovelCount) < 1000 && knifeCount != shovelCount);
 		
 	}
+	
 	
 	
 	

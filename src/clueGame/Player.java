@@ -31,4 +31,6 @@ public abstract class Player {
 	public abstract ArrayList<Card> getHand();
 	
 	public  abstract Card disproveSuggestion(String room, String person, String weapon);
+
+	public abstract void setSeenPeople(ArrayList<Card> seenList);
 }

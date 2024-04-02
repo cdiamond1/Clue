@@ -241,7 +241,7 @@ public class Board {
 				dataList.add(temp);
 				// check configuration
 				for (String item : dataList.get(boardRows)) {
-					if (item.equals("") || item.equals(" ") || item.equals(null) || (item.length() > 1 && (item.charAt(1) != '*' && item.charAt(1) != '#' && item.charAt(1) != '^' && item.charAt(1) != '>' && item.charAt(1) != 'v' && item.charAt(1) != '<'))) {
+					if (item.equals("") || item.equals(" ") || item.equals(null)) {
 						throw new BadConfigFormatException("Bad config file format: " + item);
 					}
 				}
