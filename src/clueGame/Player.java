@@ -20,6 +20,8 @@ public abstract class Player {
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	private ArrayList<Card> seenPeople = new ArrayList<Card>();
 	private ArrayList<Card> seenWeapons = new ArrayList<Card>();
+	private ArrayList<String> seenPeopleStr = new ArrayList<String>();
+	private ArrayList<String> seenWeaponsStr = new ArrayList<String>();
 	
 	public Player(String name) {
 		this.name = name;
@@ -27,17 +29,22 @@ public abstract class Player {
 
 	public Card disproveSuggestion(String room, String person, String weapon) {
 		ArrayList<Card> matching = new ArrayList<Card>();
-		for(Card C : hand) {
-			if(room.equals(C.getCardName()) || person.equals(C.getCardName()) || weapon.equals(C.getCardName())) {
+		
+		// iterate through hand
+		for (Card C : hand) {
+			if (room.equals(C.getCardName()) || person.equals(C.getCardName()) || weapon.equals(C.getCardName())) {
 				matching.add(C);
 			}
 		}
-		if(matching.size() > 1) {
+		
+		// if multiple matches, pick one randomly
+		if (matching.size() > 1) {
 			Random r = new Random();
 			int low = 0;
 			int high = matching.size();
 			return matching.get(r.nextInt(high-low) + low);
-		} if(matching.size() == 1) {
+		}
+		if (matching.size() == 1) {
 			return matching.get(0);
 		} 
 		return null;
@@ -46,9 +53,11 @@ public abstract class Player {
 	public void updateSeen(Card card) {
 		if (card.getCardType() == CardType.PERSON) {
 			seenPeople.add(card);
+			seenPeopleStr.add(card.getCardName());
 		}
 		if (card.getCardType() == CardType.WEAPON) {
 			seenWeapons.add(card);
+			seenWeaponsStr.add(card.getCardName());
 		}
 	}
 	
@@ -72,5 +81,26 @@ public abstract class Player {
 	
 	public void setSeenPeople(ArrayList<Card> seenPeople) {
 		this.seenPeople = seenPeople;
+	}
+	
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+	
+	public void setPos(int row, int col) {
+		this.row = row;
+		this.column = col;
+	}
+
+	public ArrayList<String> getSeenPeopleStr() {
+		return seenPeopleStr;
+	}
+
+	public ArrayList<String> getSeenWeaponsStr() {
+		return seenWeaponsStr;
 	}
 }

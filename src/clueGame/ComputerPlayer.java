@@ -13,9 +13,6 @@ import java.util.Random;
  */
 
 public class ComputerPlayer extends Player {
-
-	
-	
 	
 	private static Board board = Board.getInstance();
 	private ArrayList<Card> totalPeople = board.getPlayerCardList();
@@ -29,30 +26,9 @@ public class ComputerPlayer extends Player {
 		super(name);
 	}
 
-	
-
 	@Override
 	public boolean isHuman() {
 		return false;
-	}
-
-	@Override
-	public Card disproveSuggestion(String room, String person, String weapon) {
-		ArrayList<Card> matching = new ArrayList<Card>();
-		for(Card C : super.getHand()) {
-			if(room.equals(C.getCardName()) || person.equals(C.getCardName()) || weapon.equals(C.getCardName())) {
-				matching.add(C);
-			}
-		}
-		if(matching.size() > 1) {
-			Random r = new Random();
-			int low = 0;
-			int high = matching.size();
-			return matching.get(r.nextInt(high-low) + low);
-		} if(matching.size() == 1) {
-			return matching.get(0);
-		} 
-		return null;
 	}
 
 	public BoardCell selectTarget() {
@@ -72,36 +48,44 @@ public class ComputerPlayer extends Player {
 			}
 		}
 		return null;
-	}
-
+	}	
+	
 	public Solution createSuggestion() {
-		Card tempPerson = null;
-		Card tempWeapon = null;
-		Card tempRoom = null;
+		Card suggPerson = null;
+		Card suggWeapon = null;
+		Card suggRoom = null;
+		
 		if (board.getCell(row, column).getRoom().getName() != "Walkway") {
-			for(Card C : totalRooms) {
-				if(board.getCell(row, column).getRoom().getName().equals(C.getCardName())) {
-					tempRoom = C;
+			// find card for current room
+			for (Card C : totalRooms) {
+				if (board.getCell(row, column).getRoom().getName().equals(C.getCardName())) {
+					suggRoom = C;
 				}
 			}
-			for(Card C : totalPeople) {
-				if(super.getSeenPeople().contains(C)) {
-					continue;
-				} else {
-					tempPerson = C;
-					break;
-				}
+			
+			// pick random person and weapon, check against seen lists
+			do {
+				Random r = new Random();
+				int low = 0;
+				int high = totalPeople.size();
+				suggPerson = totalPeople.get(r.nextInt(high-low) + low);
 			}
-			for(Card C : totalWeapons) {
-				if(super.getSeenWeapons().contains(C)) {
-					continue;
-				} else {
-					
-				}
+			while(super.getSeenPeopleStr().contains(suggPerson.getCardName()));
+			
+			do {
+				Random r = new Random();
+				int low = 0;
+				int high = totalWeapons.size();
+				suggWeapon = totalWeapons.get(r.nextInt(high-low) + low);
 			}
-		}
+			while (super.getSeenWeaponsStr().contains(suggWeapon.getCardName()));
+			
+			
+			return new Solution(suggRoom, suggPerson, suggWeapon);			
+		}		
+		
 		return null;
-	}
+	} 
 	
 	
 
