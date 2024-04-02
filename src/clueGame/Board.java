@@ -231,11 +231,14 @@ public class Board {
 			while (scanner.hasNextLine()) {
 				// add all file data to string
 				currLine = scanner.nextLine();
-				dataList.add(currLine.split(","));
-
+				if(currLine.charAt(currLine.length()-1) == ',') {
+					throw new BadConfigFormatException();
+				}
+				String[] temp = currLine.split(",");
+				dataList.add(temp);
 				// check configuration
 				for (String item : dataList.get(boardRows)) {
-					if (item.equals("") || item.equals(" ") || item.equals(null) || (item.length() > 1 && (item.charAt(1) != '*' || item.charAt(1) != '#' || item.charAt(1) != '^' || item.charAt(1) != '>' || item.charAt(1) != 'v' || item.charAt(1) != '<'))) {
+					if (item.equals("") || item.equals(" ") || item.equals(null)) {
 						throw new BadConfigFormatException();
 					}
 				}

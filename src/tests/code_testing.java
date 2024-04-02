@@ -21,7 +21,6 @@ public class code_testing {
 		board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
-		Random r = new Random();
-				
+		
 	}
 }
