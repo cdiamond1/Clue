@@ -21,19 +21,19 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> totalPeople = board.getPlayerCardList();
 	private ArrayList<Card> totalWeapons = board.getWeaponsList();
 	private ArrayList<Card> totalRooms = board.getRoomsList();
-	private String name;
-	private Color color;
 	private int row, column;
 
-	public ComputerPlayer(String name) {
-		super(name);
+	public ComputerPlayer(String name, int row, int col) {
+		super(name, row, col);
+		this.row = row;
+		this.column = col;
 	}
 
 	@Override
 	public void updateHand(Card card) {
 		hand.add(card);
 	}
-
+	
 	@Override
 	public void updateSeen(Card card) {
 		if (card.getCardType() == CardType.PERSON) {
@@ -52,6 +52,10 @@ public class ComputerPlayer extends Player {
 	@Override
 	public boolean isHuman() {
 		return false;
+	}
+	
+	public BoardCell getCurrCell() {
+		return board.getCell(row, column);
 	}
 
 	@Override
@@ -73,9 +77,9 @@ public class ComputerPlayer extends Player {
 		return null;
 	}
 
-	public BoardCell selectTarget() {
+	public BoardCell selectTarget(int roll) {
 		Random r = new Random();
-		board.calcTargets(board.getCell(row, column), board.roll());
+		board.calcTargets(board.getCell(row, column), roll);
 		for (BoardCell B : board.getTargets()) {
 			if (B.isRoomCenter() && !(board.getVisited().contains(B))) {
 				this.column = B.getColumn();
@@ -109,16 +113,17 @@ public class ComputerPlayer extends Player {
 					tempPerson = C;
 					break;
 				}
+			}
 			for(Card C : totalWeapons) {
 				if(seenWeapons.contains(C)) {
 					continue;
 				} else {
-					
+					tempWeapon = C;
+					break;
 				}
 			}
-			}
 		}
-		return null;
+		return new Solution(tempRoom, tempPerson, tempWeapon);
 	}
 
 }

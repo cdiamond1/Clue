@@ -22,6 +22,12 @@ public abstract class Player {
 		this.name = name;
 	}
 	
+	public Player(String name, int row, int col) {
+		this.name = name;
+		this.row = row;
+		this.column = col;
+	}
+	
 	public abstract void updateHand(Card card);
 	
 	public abstract void updateSeen(Card card);

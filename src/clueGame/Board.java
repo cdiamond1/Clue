@@ -123,12 +123,12 @@ public class Board {
 				deck.add(new Card(lineSplit[1], CardType.PERSON));
 				// add human player
 				if (lineSplit[2].equals("human")) {
-					Player human = new HumanPlayer(lineSplit[1]);
+					HumanPlayer human = new HumanPlayer(lineSplit[1]);
 					playerList.add(human);
 					playerCardList.add(new Card(lineSplit[1], CardType.PERSON));
 				}
 				else {
-					Player comp = new ComputerPlayer(lineSplit[1]);
+					ComputerPlayer comp = new ComputerPlayer(lineSplit[1], Integer.parseInt(lineSplit[3]), Integer.parseInt(lineSplit[4]));
 					playerList.add(comp);
 					playerCardList.add(new Card(lineSplit[1], CardType.PERSON));
 				}
@@ -241,7 +241,7 @@ public class Board {
 				dataList.add(temp);
 				// check configuration
 				for (String item : dataList.get(boardRows)) {
-					if (item.equals("") || item.equals(" ") || item.equals(null) || (item.length() > 1 && (item.charAt(1) != '*' && item.charAt(1) != '#' && item.charAt(1) != '^' && item.charAt(1) != '>' && item.charAt(1) != 'v' && item.charAt(1) != '<'))) {
+					if (item.equals("") || item.equals(" ") || item.equals(null)) {
 						throw new BadConfigFormatException("Bad config file format: " + item);
 					}
 				}
