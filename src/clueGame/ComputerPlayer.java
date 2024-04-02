@@ -14,10 +14,11 @@ import java.util.Random;
 
 public class ComputerPlayer extends Player {
 
-	private ArrayList<Card> hand = new ArrayList<Card>();
-	private ArrayList<Card> seenPeople = new ArrayList<Card>();
-	private ArrayList<Card> seenWeapons = new ArrayList<Card>();
+	
+	
+	
 	private static Board board = Board.getInstance();
+	private ArrayList<Card> hand = new ArrayList<Card>();
 	private ArrayList<Card> totalPeople = board.getPlayerCardList();
 	private ArrayList<Card> totalWeapons = board.getWeaponsList();
 	private ArrayList<Card> totalRooms = board.getRoomsList();
@@ -28,20 +29,14 @@ public class ComputerPlayer extends Player {
 		this.row = row;
 		this.column = col;
 	}
+	
+	public ComputerPlayer(String name) {
+		super(name);
+	}
 
 	@Override
 	public void updateHand(Card card) {
 		hand.add(card);
-	}
-	
-	@Override
-	public void updateSeen(Card card) {
-		if (card.getCardType() == CardType.PERSON) {
-			seenPeople.add(card);
-		}
-		if (card.getCardType() == CardType.WEAPON) {
-			seenWeapons.add(card);
-		}
 	}
 
 	@Override
@@ -61,7 +56,7 @@ public class ComputerPlayer extends Player {
 	@Override
 	public Card disproveSuggestion(String room, String person, String weapon) {
 		ArrayList<Card> matching = new ArrayList<Card>();
-		for(Card C : hand) {
+		for(Card C : super.getHand()) {
 			if(room.equals(C.getCardName()) || person.equals(C.getCardName()) || weapon.equals(C.getCardName())) {
 				matching.add(C);
 			}
@@ -107,7 +102,7 @@ public class ComputerPlayer extends Player {
 				}
 			}
 			for(Card C : totalPeople) {
-				if(seenPeople.contains(C)) {
+				if(super.getSeenPeople().contains(C)) {
 					continue;
 				} else {
 					tempPerson = C;
@@ -115,7 +110,7 @@ public class ComputerPlayer extends Player {
 				}
 			}
 			for(Card C : totalWeapons) {
-				if(seenWeapons.contains(C)) {
+				if(super.getSeenWeapons().contains(C)) {
 					continue;
 				} else {
 					tempWeapon = C;
@@ -125,5 +120,7 @@ public class ComputerPlayer extends Player {
 		}
 		return new Solution(tempRoom, tempPerson, tempWeapon);
 	}
+	
+	
 
 }
