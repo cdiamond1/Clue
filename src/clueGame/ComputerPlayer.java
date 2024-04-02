@@ -119,21 +119,19 @@ public class ComputerPlayer extends Player {
 					suggRoom = C;
 				}
 			}
-
+			Random r = new Random();
+			int low = 0;
+			int high = 0;
 			// pick random person and weapon, check against seen lists
 			do {
-				Random r = new Random();
-				int low = 0;
-				int high = totalPeople.size();
+				high = totalPeople.size();
 				suggPerson = totalPeople.get(r.nextInt(high - low) + low);
-			} while (super.getSeenPeople().contains(suggPerson.getCardName()));
+			} while (super.getSeenPeople().contains(suggPerson));
 
 			do {
-				Random r = new Random();
-				int low = 0;
-				int high = totalWeapons.size();
+				high = totalWeapons.size();
 				suggWeapon = totalWeapons.get(r.nextInt(high - low) + low);
-			} while (super.getSeenWeapons().contains(suggWeapon.getCardName()));
+			} while (super.getSeenWeapons().contains(suggWeapon));
 
 			return new Solution(suggRoom, suggPerson, suggWeapon);
 		}

@@ -15,6 +15,7 @@ import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.Player;
+import clueGame.Solution;
 
 public class ComputerAITest {
 
@@ -69,5 +70,33 @@ public class ComputerAITest {
 	@Test
 	public void createSuggestion() {
 		// Suggetsion is pretty much written, just check over it and make sure it works
+		ComputerPlayer CPU = new ComputerPlayer("test");
+		CPU.setPos(3, 3);									// Setting CPU to the center of Weapons
+		Solution testSol = CPU.createSuggestion();
+		
+		assertEquals(testSol.getSolRoomName(), "Weapons");	// Test that the correct room is picked
+		assertFalse(testSol.getSolPerson() == null);		// Test that person and weapon cards are selected
+		assertFalse(testSol.getSolWeapon() == null);
+		
+		CPU = new ComputerPlayer("test");
+		CPU.setPos(3, 26);									// Setting CPU to the center of Navigation
+		for(Card C : board.getPlayerCardList()) {
+			if((C.getCardName().equals("Poseidon Alcyone"))) {	// Setting every other person card to being seen
+			} else {
+				CPU.updateSeen(C);
+			}
+		}
+		for(Card C : board.getWeaponsList()) {
+			if((C.getCardName().equals("Shovel"))) {			// Setting every other weapon card to being seen
+			} else {
+				CPU.updateSeen(C);
+			}
+		}
+		
+		testSol = CPU.createSuggestion();
+		
+		assertEquals(testSol.getSolRoomName(), "Navigation");				// Test that the correct room is picked
+		assertEquals(testSol.getSolPersonName(), "Poseidon Alcyone");		// Test that a specific unseen person and weapon cards are selected
+		assertEquals(testSol.getSolWeaponName(), "Shovel");
 	}
 }
