@@ -476,31 +476,31 @@ public class Board {
 	public Card handleSuggestion(Solution sol, Player startingPlayer) {
 		int startingPlayerIndex = 0;
 		int count = 0;
-		
+
 		for (Player currPlayer: playerList) {
 			if (currPlayer.getName().equals(startingPlayer.getName())) {
 				startingPlayerIndex = count;
 			}
 			count++;
 		}
-		
+
 		String suggRoom = sol.getSolRoomName();
 		String suggPerson = sol.getSolPersonName();
 		String suggWeapon = sol.getSolWeaponName();
-		
+
 		Card disproveCard = new Card(null, null);
-		
+
 		// iterate through every player, starting at current player index
 		for (int i = 0; i < playerList.size(); i++) {
 			Player currPlayer = playerList.get((startingPlayerIndex + i) % playerList.size());
-			
+
 			disproveCard = currPlayer.disproveSuggestion(suggRoom, suggPerson, suggWeapon);
-			
+
 			if (disproveCard != null) {
 				return disproveCard;
 			}
 		}
-		
+
 		return null;
 	}
 	
