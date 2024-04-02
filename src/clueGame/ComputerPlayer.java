@@ -18,11 +18,13 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> seenPeople = new ArrayList<Card>();
 	private ArrayList<Card> seenWeapons = new ArrayList<Card>();
 	private static Board board = Board.getInstance();
+	private ArrayList<Card> totalPeople = board.getPlayerCardList();
+	private ArrayList<Card> totalWeapons = board.getWeaponsList();
+	private ArrayList<Card> totalRooms = board.getRoomsList();
 	private String name;
 	private Color color;
 	private int row, column;
-	
-	
+
 	public ComputerPlayer(String name) {
 		super(name);
 	}
@@ -31,87 +33,92 @@ public class ComputerPlayer extends Player {
 	public void updateHand(Card card) {
 		hand.add(card);
 	}
-	
+
 	@Override
 	public void updateSeen(Card card) {
-		if(card.getCardType() == CardType.PERSON) {
+		if (card.getCardType() == CardType.PERSON) {
 			seenPeople.add(card);
 		}
-		if(card.getCardType() == CardType.WEAPON) {
+		if (card.getCardType() == CardType.WEAPON) {
 			seenWeapons.add(card);
 		}
 	}
-
 
 	@Override
 	public ArrayList<Card> getHand() {
 		return hand;
 	}
-	
+
 	@Override
 	public boolean isHuman() {
 		return false;
 	}
-	
+
 	@Override
-	public Card disproveSuggestion(Card person, Card room, Card weapon) {
-		Random r = new Random();
-		int low = 0;
-		int high = 0;
+	public Card disproveSuggestion(String room, String person, String weapon) {
+		ArrayList<Card> matching = new ArrayList<Card>();
 		for(Card C : hand) {
-			if(C.equals(weapon) || C.equals(room) || C.equals(person)) {
-				high++;
+			if(room.equals(C.getCardName()) || person.equals(C.getCardName()) || weapon.equals(C.getCardName())) {
+				matching.add(C);
 			}
 		}
-		if(high == 1 && hand.contains(weapon)) {
-			return weapon;
-		}
-		if(high == 1 && hand.contains(room)) {
-			return room;
-		}
-		if(high == 1 && hand.contains(person)) {
-			return person;
-		}
-		
-		
-		
+		if(matching.size() > 1) {
+			Random r = new Random();
+			int low = 0;
+			int high = matching.size();
+			return matching.get(r.nextInt(high-low) + low);
+		} if(matching.size() == 1) {
+			return matching.get(0);
+		} 
 		return null;
 	}
-	
-	public void selectTarget() {
+
+	public BoardCell selectTarget() {
 		Random r = new Random();
 		board.calcTargets(board.getCell(row, column), board.roll());
-		for(BoardCell B : board.getTargets()) {
-			if(B.isRoomCenter() && !(board.getVisited().contains(B))) {
+		for (BoardCell B : board.getTargets()) {
+			if (B.isRoomCenter() && !(board.getVisited().contains(B))) {
 				this.column = B.getColumn();
 				this.row = B.getRow();
-				break;
+				return board.getCell(row, column);
 			} else {
-				if(r.nextBoolean()) {
+				if (r.nextBoolean()) {
 					this.column = B.getColumn();
 					this.row = B.getRow();
-					break;
+					return board.getCell(row, column);
 				}
 			}
 		}
-	}
-	
-	public void createSuggestion() {
-		if(board.getCell(row, column).getRoom().getName() != "Walkway") {
-			if(seenPeople.size() == 5) {
-				
-			}
-			if(seenWeapons.size() == 5) {
-				for(Card C : board.getWeaponsList()) {
-					if(seenWeapons.contains(C)) {
-						
-					} else {
-						
-					}
-				}
-			}
-		}
+		return null;
 	}
 
-	
+	public Solution createSuggestion() {
+		Card tempPerson = null;
+		Card tempWeapon = null;
+		Card tempRoom = null;
+		if (board.getCell(row, column).getRoom().getName() != "Walkway") {
+			for(Card C : totalRooms) {
+				if(board.getCell(row, column).getRoom().getName().equals(C.getCardName())) {
+					tempRoom = C;
+				}
+			}
+			for(Card C : totalPeople) {
+				if(seenPeople.contains(C)) {
+					continue;
+				} else {
+					tempPerson = C;
+					break;
+				}
+			for(Card C : totalWeapons) {
+				if(seenWeapons.contains(C)) {
+					continue;
+				} else {
+					
+				}
+			}
+			}
+		}
+		return null;
+	}
+
 }

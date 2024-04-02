@@ -38,6 +38,7 @@ public class Board {
 	
 	private ArrayList<Card> deck = new ArrayList<Card>();
 	private ArrayList<Player> playerList = new ArrayList<Player>();
+	private ArrayList<Card> playerCardList = new ArrayList<Card>();
 	private ArrayList<Card> roomsList = new ArrayList<Card>();
 	private ArrayList<Card> weaponsList = new ArrayList<Card>();
 	private ArrayList<Boolean> suggestionCheck = new ArrayList<Boolean>();
@@ -124,10 +125,12 @@ public class Board {
 				if (lineSplit[2].equals("human")) {
 					Player human = new HumanPlayer(lineSplit[1]);
 					playerList.add(human);
+					playerCardList.add(new Card(lineSplit[1], CardType.PERSON));
 				}
 				else {
 					Player comp = new ComputerPlayer(lineSplit[1]);
 					playerList.add(comp);
+					playerCardList.add(new Card(lineSplit[1], CardType.PERSON));
 				}
 				
 				
@@ -238,8 +241,8 @@ public class Board {
 				dataList.add(temp);
 				// check configuration
 				for (String item : dataList.get(boardRows)) {
-					if (item.equals("") || item.equals(" ") || item.equals(null)) {
-						throw new BadConfigFormatException();
+					if (item.equals("") || item.equals(" ") || item.equals(null) || (item.length() > 1 && (item.charAt(1) != '*' && item.charAt(1) != '#' && item.charAt(1) != '^' && item.charAt(1) != '>' && item.charAt(1) != 'v' && item.charAt(1) != '<'))) {
+						throw new BadConfigFormatException("Bad config file format: " + item);
 					}
 				}
 
@@ -446,47 +449,6 @@ public class Board {
 		deck.remove(result);
 		high = deck.size();
 	}
-
-	public void suggest(Card person, Card room, Card weapon) {
-		/* Possible option
-		 * 
-		 * 	All false
-		 * 	Person true, Room false, Weapon false
-		 * 	Person true, Room true, Weapon false
-		 * 	Person false, Room true, Weapon true
-		 * 	Person false, Room false, Weapon true
-		 * 	Person false, Room true, Weapon false
-		 * 	All true
-		 */
-		Card hold = null;
-		for(Player P : playerList) {
-			hold = P.disproveSuggestion(person, room, weapon);
-		}
-		if(hold != null) {
-			for(Player P : playerList) {
-				P.updateSeen(hold);
-			}
-		}
-		
-		
-		suggestionCheck = new ArrayList<Boolean>();
-		if(person.equals(Solution.getSolPerson())) {
-			suggestionCheck.add(true);
-		} else {
-			suggestionCheck.add(false);
-		}
-		if(room.equals(Solution.getSolRoom())) {
-			suggestionCheck.add(true);
-		} else {
-			suggestionCheck.add(false);
-		}
-		if(weapon.equals(Solution.getSolWeapon())) {
-			suggestionCheck.add(true);
-		} else {
-			suggestionCheck.add(false);
-		}
-		
-	}
 	
 	public boolean accuse(Card person, Card room, Card weapon) {
 		if(person.equals(Solution.getSolPerson()) && room.equals(Solution.getSolRoom()) && weapon.equals(Solution.getSolWeapon())) {
@@ -495,11 +457,29 @@ public class Board {
 		return false;
 	}
 	
+	public boolean checkAccusation(String person, String room, String weapon) {
+		if (Solution.getSolPersonName() != person ||
+			Solution.getSolRoomName() != room ||
+			Solution.getSolWeaponName() != weapon) {
+			return false;
+		}
+		return true;
+	}
 	
+	public Card handleSuggestion(Solution sol, Player startingPlayer) {
+		return null;
+	}
 	
+	public void removeCardFromDeck(Card card) {
+		for (int i = 0; i < deck.size(); i++) {
+			if (deck.get(i).getCardName().equals(card.getCardName())) {
+				deck.remove(i);
+			}
+		}
+	}
 	
 	// WARNING NOW ENTERING SETTERS/GETTERS
-	
+
 	public void setConfigFiles(String string, String string2) {
 		csv = new File(string);
 		txt = new File(string2);
@@ -541,12 +521,24 @@ public class Board {
 		return playerList;
 	}
 	
+	public ArrayList<Card> getPlayerCardList() {
+		return playerCardList;
+	}
+	
 	public ArrayList<Card> getWeaponsList(){
 		return weaponsList;
+	}
+	
+	public ArrayList<Card> getRoomsList(){
+		return roomsList;
 	}
 
 	public Solution getSolution() {
 		return Solution;
+	}
+	
+	public void setSolution(Solution solution) {
+		Solution = solution;
 	}
 	
 	public ArrayList<Card> getDeck() {

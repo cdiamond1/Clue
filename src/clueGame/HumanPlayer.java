@@ -32,5 +32,17 @@ public class HumanPlayer extends Player{
 	public boolean isHuman() {
 		return true;
 	}
+
+	@Override
+	public void updateSeen(Card card) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Card disproveSuggestion(String room, String person, String weapon) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

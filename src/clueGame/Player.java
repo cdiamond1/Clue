@@ -30,5 +30,5 @@ public abstract class Player {
 
 	public abstract ArrayList<Card> getHand();
 	
-	public abstract Card disproveSuggestion(Card person, Card room, Card weapon);
+	public  abstract Card disproveSuggestion(String room, String person, String weapon);
 }
