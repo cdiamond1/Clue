@@ -2,6 +2,7 @@ package tests;
 
 import java.io.FileNotFoundException;
 import java.util.Random;
+import java.util.Set;
 
 import clueGame.Board;
 import clueGame.BoardCell;
@@ -26,18 +27,15 @@ public class code_testing {
 		board.initialize();
 		
 		
-		System.out.println(board.getCell(4, 4).isRoomCenter());
-		
+		ComputerPlayer CPU = (ComputerPlayer) board.getPlayerList().get(4);
+		System.out.println(CPU.getRow() + ", " + CPU.getColumn());
 		/*
-		board.calcTargets(board.getCell(3, 9), 3);
-		for(BoardCell C : board.getTargets()) {
-			System.out.println(C.getRow() + ", " + C.getColumn());
-			System.out.println(C.isRoomCenter());
-			System.out.println(C.isDoorway());
-			System.out.println();
-		}
-		*/
+		board.calcTargets(CPU.getCurrCell(), 1);
+		Set<BoardCell> targets = board.getTargets();
+		BoardCell temp = CPU.selectTarget(1);
 		
-				
+		System.out.println(temp.getRow() + ", " + temp.getColumn());
+		System.out.println(targets.contains(temp));
+		*/		
 	}
 }

@@ -89,9 +89,11 @@ public class GameSolutionTest {
 		int otherCount = 0;
 		
 		for (int i = 0; i < 100; i++) {
-			if (humanPlayer.disproveSuggestion("Shields", "Tadg Helios", "Knife").getCardName().equals("Knife")) {
+			Card disproveCard = humanPlayer.disproveSuggestion("Shields", "Tadg Helios", "Knife");
+			
+			if (disproveCard.getCardName().equals("Knife")) {
 				knifeCount++;
-			} else if (humanPlayer.disproveSuggestion("Shields", "Tadg Helios", "Knife").getCardName().equals("Shields")) {
+			} else if (disproveCard.getCardName().equals("Shields")) {
 				shieldsCount++;
 			} else {
 				otherCount++;
@@ -129,16 +131,13 @@ public class GameSolutionTest {
 	@Test
 	public void computerSuggestionTest() {
 		ComputerPlayer compPlayer = new ComputerPlayer("comp");
+		compPlayer.setPos(16, 4);
 		
-		ArrayList<Card> seenList = new ArrayList<Card>() {{
-			add(new Card("Wolfgang Gwawl", CardType.PERSON));
-			add(new Card("Circe Calypso", CardType.PERSON));
-			add(new Card("Poseidon Alcyone", CardType.PERSON));
-			add(new Card("Tadg Helios", CardType.PERSON));
-			add(new Card("Glaukos Zal", CardType.PERSON));
-		}};
-		
-		compPlayer.setSeenPeople(seenList);
+		compPlayer.updateSeen(new Card("Wolfgang Gwawl", CardType.PERSON));
+		compPlayer.updateSeen(new Card("Circe Calypso", CardType.PERSON));
+		compPlayer.updateSeen(new Card("Poseidon Alcyone", CardType.PERSON));
+		compPlayer.updateSeen(new Card("Tadg Helios", CardType.PERSON));
+		compPlayer.updateSeen(new Card("Glaukos Zal", CardType.PERSON));
 		
 		int atreusCount = 0;
 		int knifeCount = 0;
@@ -152,8 +151,10 @@ public class GameSolutionTest {
 			if (currSol.getSolWeaponName().equals("Shovel")) shovelCount++;
 		}
 		
+		assertEquals("Shields", board.getCell(16, 4).getRoom().getName());
 		assertEquals(1000, atreusCount);
 		assertTrue((knifeCount + shovelCount) < 1000 && knifeCount != shovelCount);
+		
 		
 	}
 	

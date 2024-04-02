@@ -12,12 +12,12 @@ Room, Reactor, R
 Space, Unused, X
 Space, Walkway, W
 // Players (loc. is row, col)
-Player, Wolfgang Gwawl, human, 11, 2, Green
-Player, Circe Calypso, computer, 2, 11, White
-Player, Poseidon Alcyone, computer, 11, 29, Purple
-Player, Tadg Helios, computer, 29, 29, Black
-Player, Glaukos Zal, computer, 29, 9, Yellow
-Player, Atreus Alcides, computer, 19, 10, Red
+Player, Wolfgang Gwawl, human, 10, 1, Green
+Player, Circe Calypso, computer, 1, 10, White
+Player, Poseidon Alcyone, computer, 10, 28, Purple
+Player, Tadg Helios, computer, 28, 28, Black
+Player, Glaukos Zal, computer, 28, 8, Yellow
+Player, Atreus Alcides, computer, 18, 9, Red
 // Weapons
 Weapon, Knife
 Weapon, Metal Bar
