@@ -112,6 +112,12 @@ public class GameSolutionTest {
 		Card solWeapon = new Card("Space Suit Helmet", CardType.WEAPON);
 		Solution solution = new Solution(solRoom, solPerson, solWeapon);
 		
+		// undo generate solution
+		board.addCardtoDeck(board.getSolution().getSolPerson());
+		board.addCardtoDeck(board.getSolution().getSolRoom());
+		board.addCardtoDeck(board.getSolution().getSolWeapon());
+		
+		// generate custom solution
 		board.setSolution(solution);
 		board.removeCardFromDeck(solRoom);
 		board.removeCardFromDeck(solPerson);

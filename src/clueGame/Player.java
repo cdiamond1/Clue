@@ -89,6 +89,10 @@ public abstract class Player {
 		this.seenPeople = seenPeople;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	public int getRow() {
 		return row;
 	}

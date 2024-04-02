@@ -404,10 +404,17 @@ public class Board {
 		int result = r.nextInt(high-low) + low;
 		
 		// Deal cards for players and remove them from the deck (as opposed to the solution the player can have duplicate types)
-		for(Player p : playerList) {
-			for(int cardCount = 0 ; cardCount < 3 ; cardCount++) {	// Nested for loop but easier than writing 'add card and reroll random 3 times' also makes it variable if each player gets 4 cards etc. 
+		for (Player p : playerList) {
+			for (int cardCount = 0 ; cardCount < 3 ; cardCount++) {	// Nested for loop but easier than writing 'add card and reroll random 3 times' also makes it variable if each player gets 4 cards etc. 
 				high = deck.size();
-				result = r.nextInt(high-low) + low;
+				
+//				if (high - low != 0) {
+					result = r.nextInt(high-low) + low;
+//				}
+//				else {
+//					result = 0;
+//				}
+				
 				p.updateHand(deck.get(result));
 				deck.remove(result);
 			}
@@ -467,6 +474,33 @@ public class Board {
 	}
 	
 	public Card handleSuggestion(Solution sol, Player startingPlayer) {
+		int startingPlayerIndex = 0;
+		int count = 0;
+		
+		for (Player currPlayer: playerList) {
+			if (currPlayer.getName().equals(startingPlayer.getName())) {
+				startingPlayerIndex = count;
+			}
+			count++;
+		}
+		
+		String suggRoom = sol.getSolRoomName();
+		String suggPerson = sol.getSolPersonName();
+		String suggWeapon = sol.getSolWeaponName();
+		
+		Card disproveCard = new Card(null, null);
+		
+		// iterate through every player, starting at current player index
+		for (int i = 0; i < playerList.size(); i++) {
+			Player currPlayer = playerList.get((startingPlayerIndex + i) % playerList.size());
+			
+			disproveCard = currPlayer.disproveSuggestion(suggRoom, suggPerson, suggWeapon);
+			
+			if (disproveCard != null) {
+				return disproveCard;
+			}
+		}
+		
 		return null;
 	}
 	
@@ -476,6 +510,10 @@ public class Board {
 				deck.remove(i);
 			}
 		}
+	}
+	
+	public void addCardtoDeck(Card card) {
+		deck.add(card);
 	}
 	
 	// WARNING NOW ENTERING SETTERS/GETTERS
