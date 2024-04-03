@@ -17,6 +17,15 @@ import clueGame.HumanPlayer;
 import clueGame.Player;
 import clueGame.Solution;
 
+/* GameSolutionTest class - JUnit tests that test methods
+ * related to the game solution
+ * 
+ * @Author: Carson D.
+ * @Author: Charlie D.
+ * 
+ * @Date: 4/1/2024
+ */
+
 public class GameSolutionTest {
 	
 	private static Board board;

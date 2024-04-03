@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /*
- * Player Class - 
+ * Player Class - abstract class extended by ComputerPlayer
+ * and HumanPlayer
  *  
  * @author Carson Diamond
  * @author Charlie Dupras
- * @date 3/25/2024
+ * @date 4/1/2024
  */
 
 public abstract class Player {
@@ -38,7 +39,9 @@ public abstract class Player {
 		
 		// iterate through hand
 		for (Card C : hand) {
-			if (room.equals(C.getCardName()) || person.equals(C.getCardName()) || weapon.equals(C.getCardName())) {
+			if (room.equals(C.getCardName()) || 
+				person.equals(C.getCardName()) || 
+				weapon.equals(C.getCardName())) {
 				matching.add(C);
 			}
 		}

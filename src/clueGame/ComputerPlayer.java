@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /*
- * ComputerPlayer Class - 
+ * ComputerPlayer Class - extends player class, includes methods
+ * used by computer players
  *  
  * @author Carson Diamond
  * @author Charlie Dupras
- * @date 3/25/2024
+ * @date 4/1/2024
  */
 
 public class ComputerPlayer extends Player {
 
 	private static Board board = Board.getInstance();
-	private ArrayList<Card> hand = new ArrayList<Card>();
 	private ArrayList<Card> totalPeople = board.getPlayerCardList();
 	private ArrayList<Card> totalWeapons = board.getWeaponsList();
 	private ArrayList<Card> totalRooms = board.getRoomsList();
@@ -33,16 +33,6 @@ public class ComputerPlayer extends Player {
 	}
 
 	@Override
-	public void updateHand(Card card) {
-		hand.add(card);
-	}
-
-	@Override
-	public ArrayList<Card> getHand() {
-		return hand;
-	}
-
-	@Override
 	public boolean isHuman() {
 		return false;
 	}
@@ -53,26 +43,6 @@ public class ComputerPlayer extends Player {
 	
 	public void addVisited(BoardCell cell) {
 		visitedList.add(cell);
-	}
-
-	@Override
-	public Card disproveSuggestion(String room, String person, String weapon) {
-		ArrayList<Card> matching = new ArrayList<Card>();
-		for (Card C : super.getHand()) {
-			if (room.equals(C.getCardName()) || person.equals(C.getCardName()) || weapon.equals(C.getCardName())) {
-				matching.add(C);
-			}
-		}
-		if (matching.size() > 1) {
-			Random r = new Random();
-			int low = 0;
-			int high = matching.size();
-			return matching.get(r.nextInt(high - low) + low);
-		}
-		if (matching.size() == 1) {
-			return matching.get(0);
-		}
-		return null;
 	}
 
 	public BoardCell selectTarget(int roll) {
@@ -126,12 +96,12 @@ public class ComputerPlayer extends Player {
 			do {
 				high = totalPeople.size();
 				suggPerson = totalPeople.get(r.nextInt(high - low) + low);
-			} while (super.getSeenPeople().contains(suggPerson));
+			} while (super.getSeenPeopleStr().contains(suggPerson.getCardName()));
 
 			do {
 				high = totalWeapons.size();
 				suggWeapon = totalWeapons.get(r.nextInt(high - low) + low);
-			} while (super.getSeenWeapons().contains(suggWeapon));
+			} while (super.getSeenWeaponsStr().contains(suggWeapon.getCardName()));
 
 			return new Solution(suggRoom, suggPerson, suggWeapon);
 		}

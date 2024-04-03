@@ -17,6 +17,15 @@ import clueGame.ComputerPlayer;
 import clueGame.Player;
 import clueGame.Solution;
 
+/* ComputerAITest class - JUnit tests that test methods
+ * related to the computer AI
+ * 
+ * @Author: Carson D.
+ * @Author: Charlie D.
+ * 
+ * @Date: 4/1/2024
+ */
+
 public class ComputerAITest {
 
 	private static Board board;
