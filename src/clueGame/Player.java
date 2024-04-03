@@ -34,10 +34,11 @@ public abstract class Player {
 		this.column = col;
 	}
 	
-	public Player(String name, int row, int col, String color) {
+	public Player(String name, int row, int col, Color color) {
 		this.name = name;
 		this.row = row;
 		this.column = col;
+		this.color = color;
 	}
 	
 	public Card disproveSuggestion(String room, String person, String weapon) {
@@ -121,5 +122,9 @@ public abstract class Player {
 
 	public ArrayList<String> getSeenWeaponsStr() {
 		return seenWeaponsStr;
+	}
+	
+	public Color getColor() {
+		return color;
 	}
 }

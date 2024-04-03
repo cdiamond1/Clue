@@ -28,7 +28,7 @@ public class ComputerPlayer extends Player {
 		this.column = col;
 	}
 	
-	public ComputerPlayer(String name, int row, int col, String color) {
+	public ComputerPlayer(String name, int row, int col, Color color) {
 		super(name, row, col, color);
 		this.row = row;
 		this.column = col;
