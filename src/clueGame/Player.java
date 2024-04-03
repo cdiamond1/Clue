@@ -34,6 +34,12 @@ public abstract class Player {
 		this.column = col;
 	}
 	
+	public Player(String name, int row, int col, String color) {
+		this.name = name;
+		this.row = row;
+		this.column = col;
+	}
+	
 	public Card disproveSuggestion(String room, String person, String weapon) {
 		ArrayList<Card> matching = new ArrayList<Card>();
 		
