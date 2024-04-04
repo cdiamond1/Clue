@@ -33,5 +33,10 @@ public class GameCardsPanel extends JPanel {
 	public static void main(String[] args) {
 		GameCardsPanel panel = new GameCardsPanel(); // create the panel
 		JFrame frame = new JFrame();
+		
+		frame.setContentPane(panel); // put the panel in the frame
+		frame.setSize(180, 750); // size the frame
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
+		frame.setVisible(true); // make it visible
 	}
 }
