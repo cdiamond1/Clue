@@ -35,12 +35,7 @@ public class GameCardsPanel extends JPanel {
 		addTestCards();
 		
 		add(panel);
-		panel = createPeoplePanel();
-		add(panel);
-		panel = createRoomPanel();
-		add(panel);
-		panel = createWeaponPanel();
-		add(panel);
+		this.createAll();
 	}
 
 	public void addTestCards() {
@@ -48,8 +43,9 @@ public class GameCardsPanel extends JPanel {
 		hand.add(new Card("Miss Scarlet", CardType.PERSON));
 		hand.add(new Card("Wrench", CardType.WEAPON));
 		
+		
+		//Add these to test overlapping
 		/*
-		 * Add these to test overlapping
 		seen.add(new Card("Mrs. White", CardType.PERSON));
 		seen.add(new Card("Colonel Mustard", CardType.PERSON));
 		seen.add(new Card("Reverand Green", CardType.PERSON));
@@ -72,7 +68,7 @@ public class GameCardsPanel extends JPanel {
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "People"));
 		JPanel panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "In Hand:"));
-		//panel2.setLayout(new GridLayout(0, 1));
+		panel2.setLayout(new GridLayout(0, 1));
 		JLabel Card = new JLabel();
 		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		for (Card C : hand) {
@@ -80,7 +76,6 @@ public class GameCardsPanel extends JPanel {
 				Card = new JLabel(C.getCardName());
 				cardCount++;
 				panel2.add(Card);
-				panel2.revalidate();
 			}
 		}
 		if (cardCount == 0) {
@@ -91,7 +86,7 @@ public class GameCardsPanel extends JPanel {
 		panel.add(panel2);
 		panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "Seen:"));
-		//panel2.setLayout(new GridLayout(0,1));
+		panel2.setLayout(new GridLayout(0,1));
 		Card = new JLabel();											// Tried JTextField and JPanel but JLabel seems to work the best
 		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));		// Maybe there's a better way, but JLabel overlaps the least atm
 		for (Card C : seen) {											// Assignment uses JTextFields I think
@@ -99,7 +94,6 @@ public class GameCardsPanel extends JPanel {
 				Card = new JLabel(C.getCardName());
 				cardCount++;
 				panel2.add(Card);
-				panel2.revalidate();
 			}
 		}
 		if (cardCount == 0) {
@@ -125,7 +119,6 @@ public class GameCardsPanel extends JPanel {
 				Card = new JLabel(C.getCardName());
 				cardCount++;
 				panel2.add(Card);
-				panel2.revalidate();
 			}
 		}
 		if (cardCount == 0) {
@@ -143,7 +136,6 @@ public class GameCardsPanel extends JPanel {
 				Card = new JLabel(C.getCardName());
 				cardCount++;
 				panel2.add(Card);
-				panel2.revalidate();
 			}
 		}
 		if (cardCount == 0) {
@@ -153,7 +145,7 @@ public class GameCardsPanel extends JPanel {
 		panel.add(panel2);
 		return panel;
 	}
-
+	
 	public JPanel createWeaponPanel() {
 		cardCount = 0;
 		panel = new JPanel();
@@ -168,7 +160,6 @@ public class GameCardsPanel extends JPanel {
 				Card = new JLabel(C.getCardName());
 				cardCount++;
 				panel2.add(Card);
-				panel2.revalidate();
 			}
 		}
 		if (cardCount == 0) {
@@ -186,7 +177,6 @@ public class GameCardsPanel extends JPanel {
 				Card = new JLabel(C.getCardName());
 				cardCount++;
 				panel2.add(Card);
-				panel2.revalidate();
 			}
 		}
 		if (cardCount == 0) {
@@ -197,9 +187,37 @@ public class GameCardsPanel extends JPanel {
 		return panel;
 	}
 	
+	public void createAll() {
+		panel = createPeoplePanel();
+		add(panel);
+		panel = createRoomPanel();
+		add(panel);
+		panel = createWeaponPanel();
+		add(panel);
+	}
+	
+	public void updateAll() {
+		
+		//	Cards to test
+		seen.add(new Card("Mrs. White", CardType.PERSON));
+		seen.add(new Card("Colonel Mustard", CardType.PERSON));
+		seen.add(new Card("Reverand Green", CardType.PERSON));
+		
+		this.removeAll();
+		
+		panel = new JPanel();
+		
+		this.createAll();
+		this.repaint();
+		this.revalidate();
+		
+	}
+		
 	public static void main(String[] args) {
 		GameCardsPanel panel = new GameCardsPanel(); // create the panel
 		JFrame frame = new JFrame();
+		
+		panel.updateAll();
 		
 		frame.setContentPane(panel); // put the panel in the frame
 		frame.setSize(180, 750); // size the frame
