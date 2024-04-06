@@ -22,22 +22,31 @@ import javax.swing.border.TitledBorder;
  */
 
 public class GameCardsPanel extends JPanel {
-	JPanel panel = new JPanel();
-	ArrayList<Card> hand = new ArrayList<Card>();
-	ArrayList<Card> seen = new ArrayList<Card>();
-	int cardCount;
+	private JPanel panel = new JPanel();
+	private ArrayList<Card> hand = new ArrayList<Card>();
+	private ArrayList<Card> seen = new ArrayList<Card>();
+	private int cardCount;
 
 	// constructor
 	public GameCardsPanel() {
 		setLayout(new GridLayout(3, 0));
 		setBorder(new TitledBorder(new EtchedBorder(), "Known Cards"));
 		
-		addTestCards();
-		
+		addTestCards(); // just for testing functionality
 		add(panel);
+		
 		this.createAll();
 	}
 
+	public void createAll() {
+		panel = createPeoplePanel();
+		add(panel);
+		panel = createRoomPanel();
+		add(panel);
+		panel = createWeaponPanel();
+		add(panel);
+	}
+	
 	public void addTestCards() {
 		hand.add(new Card("Professor Plum", CardType.PERSON));
 		hand.add(new Card("Miss Scarlet", CardType.PERSON));
@@ -64,13 +73,17 @@ public class GameCardsPanel extends JPanel {
 	
 	public JPanel createPeoplePanel() {
 		cardCount = 0;
+		// panel setup
 		panel.setLayout(new GridLayout(2, 0));
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "People"));
 		JPanel panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "In Hand:"));
 		panel2.setLayout(new GridLayout(0, 1));
+		
 		JLabel Card = new JLabel();
 		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
+		// iterate through every card in hand
 		for (Card C : hand) {
 			if (C.getCardType() == CardType.PERSON) {
 				Card = new JLabel(C.getCardName());
@@ -82,14 +95,17 @@ public class GameCardsPanel extends JPanel {
 			Card = new JLabel("None");
 			panel2.add(Card);
 		}
+		
 		cardCount = 0;
 		panel.add(panel2);
 		panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "Seen:"));
 		panel2.setLayout(new GridLayout(0,1));
-		Card = new JLabel();											// Tried JTextField and JPanel but JLabel seems to work the best
-		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));		// Maybe there's a better way, but JLabel overlaps the least atm
-		for (Card C : seen) {											// Assignment uses JTextFields I think
+		Card = new JLabel();										// Tried JTextField and JPanel but JLabel seems to work the best
+		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));	// Maybe there's a better way, but JLabel overlaps the least atm
+																	// Assignment uses JTextFields I think
+		// iterate through every card that's been seen
+		for (Card C : seen) {
 			if (C.getCardType() == CardType.PERSON) {
 				Card = new JLabel(C.getCardName());
 				cardCount++;
@@ -100,6 +116,7 @@ public class GameCardsPanel extends JPanel {
 			Card = new JLabel("None");
 			panel2.add(Card);
 		}
+		
 		panel2.revalidate();
 		panel.add(panel2);
 		return panel;
@@ -114,6 +131,8 @@ public class GameCardsPanel extends JPanel {
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "In Hand:"));
 		JLabel Card = new JLabel();
 		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
+		// iterate through every card in hand
 		for (Card C : hand) {
 			if (C.getCardType() == CardType.ROOM) {
 				Card = new JLabel(C.getCardName());
@@ -125,12 +144,15 @@ public class GameCardsPanel extends JPanel {
 			Card = new JLabel("None");
 			panel2.add(Card);
 		}
+		
 		cardCount = 0;
 		panel.add(panel2);
 		panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "Seen:"));
 		Card = new JLabel();
 		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
+		// iterate through every card that's been seen
 		for (Card C : seen) {
 			if (C.getCardType() == CardType.ROOM) {
 				Card = new JLabel(C.getCardName());
@@ -142,6 +164,7 @@ public class GameCardsPanel extends JPanel {
 			Card = new JLabel("None");
 			panel2.add(Card);
 		}
+		
 		panel.add(panel2);
 		return panel;
 	}
@@ -155,6 +178,7 @@ public class GameCardsPanel extends JPanel {
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "In Hand:"));
 		JLabel Card = new JLabel();
 		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
 		for (Card C : hand) {
 			if (C.getCardType() == CardType.WEAPON) {
 				Card = new JLabel(C.getCardName());
@@ -166,12 +190,14 @@ public class GameCardsPanel extends JPanel {
 			Card = new JLabel("None");
 			panel2.add(Card);
 		}
+		
 		cardCount = 0;
 		panel.add(panel2);
 		panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "Seen:"));
 		Card = new JLabel();
 		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
 		for (Card C : seen) {
 			if (C.getCardType() == CardType.WEAPON) {
 				Card = new JLabel(C.getCardName());
@@ -183,25 +209,12 @@ public class GameCardsPanel extends JPanel {
 			Card = new JLabel("None");
 			panel2.add(Card);
 		}
+		
 		panel.add(panel2);
 		return panel;
 	}
 	
-	public void createAll() {
-		panel = createPeoplePanel();
-		add(panel);
-		panel = createRoomPanel();
-		add(panel);
-		panel = createWeaponPanel();
-		add(panel);
-	}
-	
 	public void updateAll() {
-		
-		//	Cards to test
-		seen.add(new Card("Mrs. White", CardType.PERSON));
-		seen.add(new Card("Colonel Mustard", CardType.PERSON));
-		seen.add(new Card("Reverand Green", CardType.PERSON));
 		
 		this.removeAll();
 		
@@ -210,7 +223,6 @@ public class GameCardsPanel extends JPanel {
 		this.createAll();
 		this.repaint();
 		this.revalidate();
-		
 	}
 		
 	public static void main(String[] args) {
