@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,10 +29,10 @@ public class BoardCell {
 	private boolean isRoomCenter;
 	private boolean isDoorway;
 	private boolean isSecretPassage;
+	private char seceretPassage;
 	private boolean isWalkway = false;
 	private boolean isWall = false;
 
-	private char seceretPassage;
 	private Room room;
 	
 	private Color color;
@@ -59,8 +60,18 @@ public class BoardCell {
 	}
 	
 	public void drawCell(Graphics g, int width, int height, int x, int y) {
+		// info on how to center text: https://coderanch.com/t/336616/java/Center-Align-text-drawString
+		
+		int stringLen = (int) g.getFontMetrics().getStringBounds(room.getName(), g).getWidth();
+	    int start = width/2 - stringLen/2;
+		
 		g.setColor(Color.BLACK);
 		g.drawRect(x, y, width, height);
+		
+		if(isRoomLabel) {
+			g.setColor(color.BLUE);
+			g.drawString(room.getName(), start+x, y-3);
+		}
 		
 		if (this.isWalkway()) {
 			g.setColor(Color.YELLOW);
@@ -77,7 +88,6 @@ public class BoardCell {
 		
 		g.fillRect(x, y, width, height);
 		
-		// TODO: add room labels
 	}
 
 	// Getters and Setters

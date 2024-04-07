@@ -548,6 +548,12 @@ public class Board extends JPanel {
 			
 			cellY += cellHeight;
 		}
+		
+		// iterate through every player
+		for (Player P : playerList) {
+			System.out.println(P.getName() + ", Col: " + P.getColumn() +", Row: " + P.getRow());
+			P.drawPlayer(g, cellHeight-4, P.getColumn()*cellWidth+2, P.getRow()*cellHeight+2);
+		}
 	}
 	
 	

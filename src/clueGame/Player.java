@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -75,6 +76,12 @@ public abstract class Player {
 			seenWeapons.add(card);
 			seenWeaponsStr.add(card.getCardName());
 		}
+	}
+	
+	public void drawPlayer(Graphics g, int rad, int x, int y) {
+		g.setColor(Color.GREEN);
+		g.drawOval(x, y, rad, rad);
+		g.fillOval(x, y, rad, rad);
 	}
 	
 	public abstract boolean isHuman();
