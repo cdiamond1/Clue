@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +30,8 @@ public class BoardCell {
 	private boolean isSecretPassage;
 	private char seceretPassage;
 	private Room room;
+	
+	private Color color;
 
 	// default constructor
 	public BoardCell() {
@@ -49,6 +53,15 @@ public class BoardCell {
 	// add cell to adjacency list
 	public void addAdjacency(BoardCell cell) {
 		adjList.add(cell);
+	}
+	
+	public void drawCell(Graphics g, int width, int height, int x, int y) {
+		g.setColor(color);
+		
+		g.drawRect(x, y, width, height);
+		g.fillRect(x, y, width, height);
+		
+		// TODO: add room labels
 	}
 
 	// Getters and Setters

@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -9,6 +10,18 @@ public class ClueGame extends JFrame {
 	private static final int WINDOW_HEIGHT = 1000;
 	
 	public ClueGame() {
+		// create display panel object
+		JPanel display = new JPanel();
+		display.setLayout(new BorderLayout());
+		
+		// add sub-JPanels
+		display.add(new GameControlPanel(), BorderLayout.SOUTH);
+		display.add(new GameCardsPanel(), BorderLayout.EAST);
+		display.add(new GameBoardPanel(), BorderLayout.CENTER);
+		
+		add(display);
+		
+		
 		
 	}
 	

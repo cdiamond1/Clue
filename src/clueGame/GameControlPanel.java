@@ -20,6 +20,9 @@ public class GameControlPanel extends JPanel {
 	private JTextField Roll = new JTextField();
 	private JTextField GuessResult = new JTextField();
 	private JTextField PlayerTurn = new JTextField();
+	
+	private static final int WINDOW_WIDTH = 750;
+	private static final int WINDOW_HEIGHT = 100;
 
 	/**
 	 * Constructor for the panel, it does 90% of the work
@@ -147,7 +150,7 @@ public class GameControlPanel extends JPanel {
 		panel.setGuessResult("So you have nothing?");
 		
 		frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(750, 180); // size the frame
+		frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT); // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
 	}

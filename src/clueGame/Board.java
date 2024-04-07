@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JPanel;
+
 /* Board class - contains our board
  * 
  * @Author: Carson D.
@@ -18,7 +21,7 @@ import java.util.Set;
  * @Date: 4/1/2024
  */
 
-public class Board {
+public class Board extends JPanel {
 
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> boardCells = new HashSet<BoardCell>();
@@ -43,6 +46,8 @@ public class Board {
 	private ArrayList<Card> weaponsList = new ArrayList<Card>();
 	private ArrayList<Boolean> suggestionCheck = new ArrayList<Boolean>();
 	private Solution Solution = new Solution();
+	
+	private int panelWidth, panelHeight;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -516,6 +521,31 @@ public class Board {
 		deck.add(card);
 	}
 	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		int cellWidth = panelWidth / boardCols;   // Not sure how to get panelWidth and panelHeight
+		int cellHeight = panelHeight / boardRows;
+		
+		int cellX = 0;
+		int cellY = 0;
+		
+		// iterate through every cell in grid[][]
+		for (BoardCell[] gridCol : grid) {
+			cellX = 0;
+			
+			for (BoardCell cell : gridCol) {
+				cell.drawCell(g, cellWidth, cellHeight, cellX, cellY);
+				
+				cellX += cellWidth;
+			}
+			
+			cellY += cellHeight;
+		}
+	}
+	
+	
+	
 	// WARNING NOW ENTERING SETTERS/GETTERS
 
 	public void setConfigFiles(String string, String string2) {
@@ -581,6 +611,11 @@ public class Board {
 	
 	public ArrayList<Card> getDeck() {
 		return deck;
+	}
+	
+	public void setPanelDimensions(int w, int h) {
+		panelWidth = w;
+		panelHeight = h;
 	}
 	
 

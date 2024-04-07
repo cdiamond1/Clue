@@ -232,7 +232,7 @@ public class GameCardsPanel extends JPanel {
 		panel.updateAll();
 		
 		frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(180, 750); // size the frame
+		frame.setSize(250, 750); // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
 	}
