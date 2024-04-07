@@ -7,11 +7,9 @@ public class GameBoardPanel extends JPanel {
 	
 	public GameBoardPanel() {
 		JPanel test = new JPanel();
-		
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		GameBoardPanel panel = new GameBoardPanel(); // create the panel
 		JFrame frame = new JFrame();
 		
