@@ -28,6 +28,9 @@ public class BoardCell {
 	private boolean isRoomCenter;
 	private boolean isDoorway;
 	private boolean isSecretPassage;
+	private boolean isWalkway = false;
+	private boolean isWall = false;
+
 	private char seceretPassage;
 	private Room room;
 	
@@ -56,9 +59,22 @@ public class BoardCell {
 	}
 	
 	public void drawCell(Graphics g, int width, int height, int x, int y) {
-		g.setColor(color);
-		
+		g.setColor(Color.BLACK);
 		g.drawRect(x, y, width, height);
+		
+		if (this.isWalkway()) {
+			g.setColor(Color.YELLOW);
+		} 
+		else if (this.isWall()) {
+			g.setColor(Color.BLACK);
+		}
+		else if (this.isRoom()) {
+			g.setColor(Color.GRAY);
+		}
+		else {
+			g.setColor(Color.BLACK);
+		}
+		
 		g.fillRect(x, y, width, height);
 		
 		// TODO: add room labels
@@ -148,6 +164,22 @@ public class BoardCell {
 	
 	public String getSymbol() {
 		return intial;
+	}
+	
+	public boolean isWalkway() {
+		return isWalkway;
+	}
+
+	public void setWalkway(boolean isWalkway) {
+		this.isWalkway = isWalkway;
+	}
+	
+	public boolean isWall() {
+		return isWall;
+	}
+
+	public void setWall(boolean isWall) {
+		this.isWall = isWall;
 	}
 
 }

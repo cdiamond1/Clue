@@ -175,14 +175,18 @@ public class Board extends JPanel {
 					temp.setRoomLoc(roomMap.get('X'));
 					temp.setRoom(false);
 					temp.setOccupied(true);
-				} else if (initial.charAt(0) == 'W') {
+					temp.setWall(true);
+				}
+				else if (initial.charAt(0) == 'W') {
 					temp.setRoomLoc(roomMap.get('W'));
 					temp.setRoom(true);
+					temp.setWalkway(true);
 				} 
 				if (roomMap.get(initial.charAt(0)) != null) {
 					temp.setRoomLoc(roomMap.get(initial.charAt(0)));
 					temp.setRoom(true);
-				} else {
+				}
+				else {
 					throw new BadConfigFormatException("Bad room symbol: " + initial.charAt(0));
 				}
 
