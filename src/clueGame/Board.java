@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /* Board class - contains our board
@@ -47,7 +48,8 @@ public class Board extends JPanel {
 	private ArrayList<Boolean> suggestionCheck = new ArrayList<Boolean>();
 	private Solution Solution = new Solution();
 	
-	private int panelWidth, panelHeight;
+	private static int panelWidth = 570;
+	private static int panelHeight = 570;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -616,6 +618,30 @@ public class Board extends JPanel {
 	public void setPanelDimensions(int w, int h) {
 		panelWidth = w;
 		panelHeight = h;
+	}
+	
+	public static int getPanelWidth() {
+		return panelWidth;
+	}
+
+	public static int getPanelHeight() {
+		return panelHeight;
+	}
+	
+	
+	// MAIN
+
+	public static void main(String[] args) {
+		JFrame frame = new JFrame();
+		
+		Board board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.initialize();
+		
+		frame.setContentPane(Board.getInstance()); // put the panel in the frame
+		frame.setSize(Board.getPanelWidth(), Board.getPanelHeight()); // size the frame
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
+		frame.setVisible(true); // make it visible
 	}
 	
 

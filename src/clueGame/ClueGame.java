@@ -17,15 +17,16 @@ public class ClueGame extends JFrame {
 		// add sub-JPanels
 		display.add(new GameControlPanel(), BorderLayout.SOUTH);
 		display.add(new GameCardsPanel(), BorderLayout.EAST);
-		display.add(new GameBoardPanel(), BorderLayout.CENTER);
+//		display.add(new GameBoardPanel(), BorderLayout.CENTER);
+		
+		Board board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.initialize();
+		
+		display.add(board, BorderLayout.CENTER);
 		
 		add(display);
-		
-		
-		
 	}
-	
-	
 	
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame(); // create the panel
