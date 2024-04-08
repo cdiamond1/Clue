@@ -555,6 +555,20 @@ public class Board extends JPanel {
 		for (Player P : playerList) {
 			P.drawPlayer(g, cellHeight-4, P.getColumn()*cellWidth+2, P.getRow()*cellHeight+2);
 		}
+		
+		cellY = 0;
+		
+		for (BoardCell[] gridCol : grid) {
+			cellX = 0;
+			
+			for (BoardCell cell : gridCol) {
+				cell.drawLabels(g, cellWidth, cellHeight, cellX, cellY);
+				
+				cellX += cellWidth;
+			}
+			
+			cellY += cellHeight;
+		}
 	}
 	
 	

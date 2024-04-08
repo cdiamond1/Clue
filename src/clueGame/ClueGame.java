@@ -16,12 +16,12 @@ public class ClueGame extends JFrame {
 		
 		// add sub-JPanels
 		GameControlPanel temp = new GameControlPanel();
-		temp.setSize(602, 100);
+		temp.setSize(602, 175);
 		temp.setLocation(0, 600);
 		display.add(temp);
 		
 		GameCardsPanel temp2 = new GameCardsPanel();
-		temp2.setSize(200,725);
+		temp2.setSize(200,775);
 		temp2.setLocation(602,0);
 		display.add(temp2);
 //		display.add(new GameBoardPanel(), BorderLayout.CENTER);
@@ -38,6 +38,7 @@ public class ClueGame extends JFrame {
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame(); // create the panel
 
+		game.setResizable(false); // Players not allowed to change panel size as to not mess with the proportions
 		game.setSize(WINDOW_WIDTH, WINDOW_HEIGHT); // size the frame
 		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		game.setVisible(true); // make it visible

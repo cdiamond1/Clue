@@ -34,7 +34,7 @@ public class BoardCell {
 	private boolean isWall = false;
 
 	private Room room;
-	
+
 	private Color color;
 
 	// default constructor
@@ -43,7 +43,7 @@ public class BoardCell {
 		this.column = 0;
 		this.intial = null;
 	}
-	
+
 	public BoardCell(int row, int column, String intial) {
 		this.row = row;
 		this.column = column;
@@ -58,38 +58,27 @@ public class BoardCell {
 	public void addAdjacency(BoardCell cell) {
 		adjList.add(cell);
 	}
-	
+
 	public void drawCell(Graphics g, int width, int height, int x, int y) {
-		// info on how to center text: https://coderanch.com/t/336616/java/Center-Align-text-drawString
-		
-		int stringLen = (int) g.getFontMetrics().getStringBounds(room.getName(), g).getWidth();
-	    int start = width/2 - stringLen/2;
-		
+
 		g.setColor(Color.BLACK);
-		g.drawRect(x, y, width, height);
-		
-		if(isRoomLabel) {
-			g.setColor(color.BLUE);
-			g.drawString(room.getName(), start+x, y-3);
-		}
-		
+		// g.drawRect(x, y, width, height);
+
 		if (this.isWalkway()) {
-			g.setColor(Color.YELLOW);
-		} 
-		else if (this.isWall()) {
+			g.drawRect(x, y, width, height);
+			g.setColor(Color.YELLOW.darker());
+		} else if (this.isWall()) {
 			g.setColor(Color.BLACK);
-		}
-		else if (this.isRoom()) {
+		} else if (this.isRoom()) {
 			g.setColor(Color.GRAY);
-		}
-		else {
+		} else {
 			g.setColor(Color.BLACK);
 		}
-		
+
 		g.fillRect(x, y, width, height);
-		
-		if(isDoorway) {
-			switch(doorDirection){
+
+		if (isDoorway) {
+			switch (doorDirection) {
 			case DoorDirection.LEFT:
 				g.setColor(color.BLUE);
 				g.drawRect(x, y, 2, height);
@@ -102,19 +91,30 @@ public class BoardCell {
 				break;
 			case DoorDirection.RIGHT:
 				g.setColor(color.BLUE);
-				g.drawRect(x+width-3, y, 2, height);
-				g.fillRect(x+width-3, y, 2, height);
+				g.drawRect(x + width - 3, y, 2, height);
+				g.fillRect(x + width - 3, y, 2, height);
 				break;
 			case DoorDirection.DOWN:
 				g.setColor(color.BLUE);
-				g.drawRect(x, y+height-3, width, 2);
-				g.fillRect(x, y+height-3, width, 2);
+				g.drawRect(x, y + height - 3, width, 2);
+				g.fillRect(x, y + height - 3, width, 2);
 				break;
 			default:
 				break;
 			}
 		}
+	}
+
+	public void drawLabels(Graphics g, int width, int height, int x, int y) {
+		// info on how to center text:
+		// https://coderanch.com/t/336616/java/Center-Align-text-drawString
+		int stringLen = (int) g.getFontMetrics().getStringBounds(room.getName(), g).getWidth();
+		int start = width / 2 - stringLen / 2;
 		
+		if (isRoomLabel) {
+			g.setColor(color.BLUE);
+			g.drawString(room.getName(), start + x + 10, y + 15);
+		}
 	}
 
 	// Getters and Setters
@@ -125,19 +125,19 @@ public class BoardCell {
 	public void setRoom(boolean isRoom) {
 		this.isRoom = isRoom;
 	}
-	
+
 	public Room getRoom() {
 		return room;
 	}
-	
+
 	public void setRoomLoc(Room room) {
 		this.room = room;
 	}
-	
+
 	public void setRoomLabel(boolean isLabel) {
 		this.isRoomLabel = isLabel;
 	}
-	
+
 	public boolean isOccupied() {
 		return isOccupied;
 	}
@@ -198,11 +198,11 @@ public class BoardCell {
 		isSecretPassage = true;
 		this.seceretPassage = room;
 	}
-	
+
 	public String getSymbol() {
 		return intial;
 	}
-	
+
 	public boolean isWalkway() {
 		return isWalkway;
 	}
@@ -210,7 +210,7 @@ public class BoardCell {
 	public void setWalkway(boolean isWalkway) {
 		this.isWalkway = isWalkway;
 	}
-	
+
 	public boolean isWall() {
 		return isWall;
 	}

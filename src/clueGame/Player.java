@@ -60,7 +60,7 @@ public abstract class Player {
 			this.color = Color.BLACK;
 			break;
 		case "Yellow":
-			this.color = Color.YELLOW.darker();
+			this.color = Color.YELLOW;
 			break;
 		case "Red":
 			this.color = Color.RED;
