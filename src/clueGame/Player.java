@@ -42,6 +42,32 @@ public abstract class Player {
 		this.color = color;
 	}
 	
+	public Player(String name, int row, int col, String color) {
+		this.name = name;
+		this.row = row;
+		this.column = col;
+		switch (color) {
+		case "Green":
+			this.color = Color.GREEN;
+			break;
+		case "White":
+			this.color = Color.WHITE;
+			break;
+		case "Purple":
+			this.color = Color.MAGENTA;
+			break;
+		case "Black":
+			this.color = Color.BLACK;
+			break;
+		case "Yellow":
+			this.color = Color.YELLOW.darker();
+			break;
+		case "Red":
+			this.color = Color.RED;
+			break;
+		}
+	}
+	
 	public Card disproveSuggestion(String room, String person, String weapon) {
 		ArrayList<Card> matching = new ArrayList<Card>();
 		
@@ -79,7 +105,7 @@ public abstract class Player {
 	}
 	
 	public void drawPlayer(Graphics g, int rad, int x, int y) {
-		g.setColor(Color.GREEN);
+		g.setColor(color);
 		g.drawOval(x, y, rad, rad);
 		g.fillOval(x, y, rad, rad);
 	}

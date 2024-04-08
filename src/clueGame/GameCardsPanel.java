@@ -32,7 +32,7 @@ public class GameCardsPanel extends JPanel {
 		setLayout(new GridLayout(3, 0));
 		setBorder(new TitledBorder(new EtchedBorder(), "Known Cards"));
 		
-		addTestCards(); // just for testing functionality
+		//addTestCards(); // just for testing functionality
 		add(panel);
 		
 		this.createAll();
@@ -129,6 +129,7 @@ public class GameCardsPanel extends JPanel {
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Rooms"));
 		JPanel panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "In Hand:"));
+		panel2.setLayout(new GridLayout(0, 1));
 		JLabel Card = new JLabel();
 		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
@@ -149,6 +150,7 @@ public class GameCardsPanel extends JPanel {
 		panel.add(panel2);
 		panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "Seen:"));
+		panel2.setLayout(new GridLayout(0, 1));
 		Card = new JLabel();
 		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
@@ -175,6 +177,7 @@ public class GameCardsPanel extends JPanel {
 		panel.setLayout(new GridLayout(2, 0));
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Weapons"));
 		JPanel panel2 = new JPanel();
+		panel2.setLayout(new GridLayout(0, 1));
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "In Hand:"));
 		JLabel Card = new JLabel();
 		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -195,6 +198,7 @@ public class GameCardsPanel extends JPanel {
 		panel.add(panel2);
 		panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "Seen:"));
+		panel2.setLayout(new GridLayout(0, 1));
 		Card = new JLabel();
 		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
@@ -226,7 +230,7 @@ public class GameCardsPanel extends JPanel {
 	}
 		
 	public static void main(String[] args) {
-		GameCardsPanel panel = new GameCardsPanel(); // create the panel
+		/*GameCardsPanel panel = new GameCardsPanel(); // create the panel
 		JFrame frame = new JFrame();
 		
 		panel.updateAll();
@@ -235,5 +239,6 @@ public class GameCardsPanel extends JPanel {
 		frame.setSize(250, 750); // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
+		*/
 	}
 }

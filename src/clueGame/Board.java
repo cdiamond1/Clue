@@ -1,6 +1,8 @@
 package clueGame;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -48,8 +50,8 @@ public class Board extends JPanel {
 	private ArrayList<Boolean> suggestionCheck = new ArrayList<Boolean>();
 	private Solution Solution = new Solution();
 	
-	private static int panelWidth = 570;
-	private static int panelHeight = 570;
+	private static int panelWidth = 600;
+	private static int panelHeight = 600;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -130,12 +132,12 @@ public class Board extends JPanel {
 				deck.add(new Card(lineSplit[1], CardType.PERSON));
 				// add human player
 				if (lineSplit[2].equals("human")) {
-					HumanPlayer human = new HumanPlayer(lineSplit[1]);
+					HumanPlayer human = new HumanPlayer(lineSplit[1], Integer.parseInt(lineSplit[3]), Integer.parseInt(lineSplit[4]), lineSplit[5]);
 					playerList.add(human);
 					playerCardList.add(new Card(lineSplit[1], CardType.PERSON));
 				}
 				else {
-					ComputerPlayer comp = new ComputerPlayer(lineSplit[1], Integer.parseInt(lineSplit[3]), Integer.parseInt(lineSplit[4]));
+					ComputerPlayer comp = new ComputerPlayer(lineSplit[1], Integer.parseInt(lineSplit[3]), Integer.parseInt(lineSplit[4]), lineSplit[5]);
 					playerList.add(comp);
 					playerCardList.add(new Card(lineSplit[1], CardType.PERSON));
 				}
@@ -467,14 +469,14 @@ public class Board extends JPanel {
 		deck.remove(result);
 		high = deck.size();
 	}
-	
+	/*
 	public boolean accuse(Card person, Card room, Card weapon) {
 		if(person.equals(Solution.getSolPerson()) && room.equals(Solution.getSolRoom()) && weapon.equals(Solution.getSolWeapon())) {
 			return true;
 		}
 		return false;
 	}
-	
+	*/
 	public boolean checkAccusation(String person, String room, String weapon) {
 		if (Solution.getSolPersonName() != person ||
 			Solution.getSolRoomName() != room ||
@@ -551,7 +553,6 @@ public class Board extends JPanel {
 		
 		// iterate through every player
 		for (Player P : playerList) {
-			System.out.println(P.getName() + ", Col: " + P.getColumn() +", Row: " + P.getRow());
 			P.drawPlayer(g, cellHeight-4, P.getColumn()*cellWidth+2, P.getRow()*cellHeight+2);
 		}
 	}
@@ -643,13 +644,13 @@ public class Board extends JPanel {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		
+		frame.setLayout(null);
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
-		
 		frame.setContentPane(Board.getInstance()); // put the panel in the frame
-		frame.setSize(Board.getPanelWidth(), Board.getPanelHeight()); // size the frame
+		
+		frame.setSize(Board.getPanelWidth()+150, Board.getPanelHeight()+150); // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
 	}

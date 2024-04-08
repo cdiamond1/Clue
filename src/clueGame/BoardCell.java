@@ -88,6 +88,33 @@ public class BoardCell {
 		
 		g.fillRect(x, y, width, height);
 		
+		if(isDoorway) {
+			switch(doorDirection){
+			case DoorDirection.LEFT:
+				g.setColor(color.BLUE);
+				g.drawRect(x, y, 2, height);
+				g.fillRect(x, y, 2, height);
+				break;
+			case DoorDirection.UP:
+				g.setColor(color.BLUE);
+				g.drawRect(x, y, width, 2);
+				g.fillRect(x, y, width, 2);
+				break;
+			case DoorDirection.RIGHT:
+				g.setColor(color.BLUE);
+				g.drawRect(x+width-3, y, 2, height);
+				g.fillRect(x+width-3, y, 2, height);
+				break;
+			case DoorDirection.DOWN:
+				g.setColor(color.BLUE);
+				g.drawRect(x, y+height-3, width, 2);
+				g.fillRect(x, y+height-3, width, 2);
+				break;
+			default:
+				break;
+			}
+		}
+		
 	}
 
 	// Getters and Setters

@@ -22,7 +22,7 @@ public class GameControlPanel extends JPanel {
 	private JTextField PlayerTurn = new JTextField();
 	
 	private static final int WINDOW_WIDTH = 750;
-	private static final int WINDOW_HEIGHT = 100;
+	private static final int WINDOW_HEIGHT = 200;
 
 	/**
 	 * Constructor for the panel, it does 90% of the work
@@ -82,14 +82,14 @@ public class GameControlPanel extends JPanel {
 	private JButton createButtonPanel() {
 		// no layout specified, so this is flow
 		JButton accuse = new JButton("Make Accusation");
-		accuse.setPreferredSize(new Dimension(200, 200));
+		accuse.setSize(new Dimension(100, 100));
 		return accuse;
 	}
 
 	private JButton createButtonPanel2() {
 		// no layout specified, so this is flow
 		JButton next = new JButton("NEXT!");
-		next.setPreferredSize(new Dimension(200, 200));
+		next.setSize(new Dimension(100, 100));
 		return next;
 	}
 	
@@ -153,5 +153,6 @@ public class GameControlPanel extends JPanel {
 		frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT); // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
+		
 	}
 }

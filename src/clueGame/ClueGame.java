@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 public class ClueGame extends JFrame {
 	
-	private static final int WINDOW_WIDTH = 1000;
+	private static final int WINDOW_WIDTH = 820;
 	private static final int WINDOW_HEIGHT = 1000;
 	
 	public ClueGame() {
@@ -15,8 +15,15 @@ public class ClueGame extends JFrame {
 		display.setLayout(new BorderLayout());
 		
 		// add sub-JPanels
-		display.add(new GameControlPanel(), BorderLayout.SOUTH);
-		display.add(new GameCardsPanel(), BorderLayout.EAST);
+		GameControlPanel temp = new GameControlPanel();
+		temp.setSize(602, 100);
+		temp.setLocation(0, 600);
+		display.add(temp);
+		
+		GameCardsPanel temp2 = new GameCardsPanel();
+		temp2.setSize(200,725);
+		temp2.setLocation(602,0);
+		display.add(temp2);
 //		display.add(new GameBoardPanel(), BorderLayout.CENTER);
 		
 		Board board = Board.getInstance();
