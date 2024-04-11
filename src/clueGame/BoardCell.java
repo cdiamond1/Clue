@@ -32,6 +32,7 @@ public class BoardCell {
 	private char seceretPassage;
 	private boolean isWalkway = false;
 	private boolean isWall = false;
+	private boolean isTarget = false;
 
 	private Room room;
 
@@ -62,11 +63,18 @@ public class BoardCell {
 	public void drawCell(Graphics g, int width, int height, int x, int y) {
 
 		g.setColor(Color.BLACK);
-		// g.drawRect(x, y, width, height);
+		
 
 		if (this.isWalkway()) {
 			g.drawRect(x, y, width, height);
-			g.setColor(Color.YELLOW.darker());
+			
+			if (this.isTarget()) {
+				g.setColor(Color.CYAN);
+			}
+			else {
+				g.setColor(Color.YELLOW.darker());
+			}
+			
 		} else if (this.isWall()) {
 			g.setColor(Color.BLACK);
 		} else if (this.isRoom()) {
@@ -79,22 +87,22 @@ public class BoardCell {
 
 		if (isDoorway) {
 			switch (doorDirection) {
-			case DoorDirection.LEFT:
+			case LEFT:
 				g.setColor(color.BLUE);
 				g.drawRect(x, y, 2, height);
 				g.fillRect(x, y, 2, height);
 				break;
-			case DoorDirection.UP:
+			case UP:
 				g.setColor(color.BLUE);
 				g.drawRect(x, y, width, 2);
 				g.fillRect(x, y, width, 2);
 				break;
-			case DoorDirection.RIGHT:
+			case RIGHT:
 				g.setColor(color.BLUE);
 				g.drawRect(x + width - 3, y, 2, height);
 				g.fillRect(x + width - 3, y, 2, height);
 				break;
-			case DoorDirection.DOWN:
+			case DOWN:
 				g.setColor(color.BLUE);
 				g.drawRect(x, y + height - 3, width, 2);
 				g.fillRect(x, y + height - 3, width, 2);
@@ -103,6 +111,8 @@ public class BoardCell {
 				break;
 			}
 		}
+		
+		this.setTarget(false); // undoes special coloring for target cells
 	}
 
 	public void drawLabels(Graphics g, int width, int height, int x, int y) {
@@ -219,4 +229,12 @@ public class BoardCell {
 		this.isWall = isWall;
 	}
 
+	public boolean isTarget() {
+		return isTarget;
+	}
+
+	public void setTarget(boolean isTarget) {
+		this.isTarget = isTarget;
+	}
+	
 }

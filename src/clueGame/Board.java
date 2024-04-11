@@ -351,6 +351,7 @@ public class Board extends JPanel {
 			// add cell to targets if out of moves
 			if (pathLength == 1 || cell.isRoomCenter()) {
 				targets.add(cell);
+				cell.setTarget(true);
 			}
 			// recursive call if moves left
 			else {
