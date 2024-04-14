@@ -23,6 +23,7 @@ public class GameControlPanel extends JPanel {
 	private JTextField Roll = new JTextField();
 	private JTextField GuessResult = new JTextField();
 	private JTextField PlayerTurn = new JTextField();	
+	protected Boolean nextPressed;
 	
 	private static final int WINDOW_WIDTH = 750;
 	private static final int WINDOW_HEIGHT = 200;
@@ -105,13 +106,12 @@ public class GameControlPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == next) {
 					System.out.println("A");
+					nextPressed = true;
 				}
 			}
 		});
 		next.setSize(new Dimension(100, 100));
-		
-		next.doClick();
-		
+				
 		return next;
 	}
 	
@@ -152,8 +152,15 @@ public class GameControlPanel extends JPanel {
 
 	public void setTurn(Player computerPlayer, int i) {
 		// TODO Auto-generated method stub
+		nextPressed = false;
 		PlayerTurn.setText(computerPlayer.getName());
-		PlayerTurn.setBackground(computerPlayer.getColor());
+		if(computerPlayer.getColor() == Color.black) {
+			PlayerTurn.setForeground(Color.WHITE);
+			PlayerTurn.setBackground(computerPlayer.getColor());
+		} else {
+			PlayerTurn.setForeground(Color.BLACK);
+			PlayerTurn.setBackground(computerPlayer.getColor());
+		}
 		Roll.setText(""+i);
 		repaint();
 		revalidate();

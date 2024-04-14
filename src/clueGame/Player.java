@@ -24,6 +24,7 @@ public abstract class Player {
 	private ArrayList<Card> seenWeapons = new ArrayList<Card>();
 	private ArrayList<String> seenPeopleStr = new ArrayList<String>();
 	private ArrayList<String> seenWeaponsStr = new ArrayList<String>();
+	private Boolean done = true;	// For testing purposes
 	
 	public Player(String name) {
 		this.name = name;
@@ -159,5 +160,9 @@ public abstract class Player {
 	
 	public Color getColor() {
 		return color;
+	}
+	
+	public boolean isDone() {
+		return done;
 	}
 }

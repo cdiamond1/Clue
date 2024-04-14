@@ -530,6 +530,10 @@ public class Board extends JPanel {
 		deck.add(card);
 	}
 	
+	public void repaintTargets()
+	{
+		paintComponent(getGraphics());
+	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
