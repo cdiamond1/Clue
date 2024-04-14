@@ -60,7 +60,7 @@ public class GameControlPanel extends JPanel {
 		PlayerTurn.setOpaque(true);
 		PlayerTurn.setForeground(Color.BLACK);
 		PlayerTurn.setEditable(false);
-		PlayerTurn.setBackground(Color.YELLOW);
+		//PlayerTurn.setBackground(Color.YELLOW);
 		panel.add(PlayerTurn);
 
 		return panel;
@@ -133,6 +133,8 @@ public class GameControlPanel extends JPanel {
 		PlayerTurn.setText(computerPlayer.getName());
 		PlayerTurn.setBackground(computerPlayer.getColor());
 		Roll.setText(""+i);
+		repaint();
+		revalidate();
 		
 	}
 

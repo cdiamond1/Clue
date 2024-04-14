@@ -77,8 +77,10 @@ public class BoardCell {
 			
 		} else if (this.isWall()) {
 			g.setColor(Color.BLACK);
-		} else if (this.isRoom()) {
+		} else if (this.isRoom() && !this.isTarget) {
 			g.setColor(Color.GRAY);
+		} else if(this.isRoom() && this.isTarget){
+			g.setColor(Color.CYAN);
 		} else {
 			g.setColor(Color.BLACK);
 		}

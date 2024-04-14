@@ -61,8 +61,21 @@ public class ClueGame extends JFrame {
 		while (!game.isGameOver()) {
 			// do game stuff
 			Player currPlayer = board.getPlayerList().get(turnCount);
+			int roll = board.roll();
 			
-			controlPanel.setTurn(currPlayer, board.roll());
+			if(currPlayer.isHuman()) {
+				board.calcTargets(board.getCell(currPlayer.getRow(), currPlayer.getColumn()), roll);
+				for(BoardCell C : board.getTargets()) {
+					C.setTarget(true);
+				}
+				board.repaint();
+				board.revalidate();
+			}
+			for(BoardCell C : board.getTargets()) {
+				C.setTarget(false);
+			}
+			
+			controlPanel.setTurn(currPlayer, roll);
 			controlPanel.repaint();
 			
 			// process NEXT button
