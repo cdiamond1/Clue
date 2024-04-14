@@ -7,11 +7,17 @@ import javax.swing.JPanel;
 
 public class ClueGame extends JFrame {
 	
+	private static Board board = Board.getInstance();
+	private static GameControlPanel controlPanel;
+	private static GameCardsPanel cardsPanel;
+	
 	private static final int WINDOW_WIDTH = 820;
 	private static final int WINDOW_HEIGHT = 1000;
 	
 	private final static String SPLASH_TITLE = "Welcome to Clue";
 	private final static String SPLASH_CONTENT = "You are Wolfgang Gwawl.\nCan you find the solution\nbefore the computer players?";
+	
+	private boolean gameOver = false;
 	
 	public ClueGame() {
 		// create display panel object
@@ -19,18 +25,17 @@ public class ClueGame extends JFrame {
 		display.setLayout(new BorderLayout());
 		
 		// add sub-JPanels
-		GameControlPanel temp = new GameControlPanel();
-		temp.setSize(602, 175);
-		temp.setLocation(0, 600);
-		display.add(temp);
+		controlPanel = new GameControlPanel();
+		controlPanel.setSize(602, 175);
+		controlPanel.setLocation(0, 600);
+		display.add(controlPanel);
 		
-		GameCardsPanel temp2 = new GameCardsPanel();
-		temp2.setSize(200,775);
-		temp2.setLocation(602,0);
-		display.add(temp2);
-//		display.add(new GameBoardPanel(), BorderLayout.CENTER);
+		cardsPanel = new GameCardsPanel();
+		cardsPanel.setSize(200,775);
+		cardsPanel.setLocation(602,0);
+		display.add(cardsPanel);
 		
-		Board board = Board.getInstance();
+		
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
 		
@@ -50,5 +55,30 @@ public class ClueGame extends JFrame {
 		// welcome splash message
 		JOptionPane splash = new JOptionPane();
 		splash.showMessageDialog(null, SPLASH_CONTENT, SPLASH_TITLE, JOptionPane.INFORMATION_MESSAGE);
+		
+		// run turns
+		int turnCount = 0;
+		while (!game.isGameOver()) {
+			// do game stuff
+			Player currPlayer = board.getPlayerList().get(turnCount);
+			
+			controlPanel.setTurn(currPlayer, board.roll());
+			controlPanel.repaint();
+			
+			// process NEXT button
+			
+			turnCount = (turnCount + 1) % board.getPlayerList().size();
+		}
+	}
+
+	
+	// GETTERS & SETTERS
+	
+	public boolean isGameOver() {
+		return gameOver;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
 	}
 }
