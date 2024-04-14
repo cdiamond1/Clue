@@ -2,12 +2,16 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ClueGame extends JFrame {
 	
 	private static final int WINDOW_WIDTH = 820;
 	private static final int WINDOW_HEIGHT = 1000;
+	
+	private final static String SPLASH_TITLE = "Welcome to Clue";
+	private final static String SPLASH_CONTENT = "You are Wolfgang Gwawl.\nCan you find the solution\nbefore the computer players?";
 	
 	public ClueGame() {
 		// create display panel object
@@ -42,5 +46,9 @@ public class ClueGame extends JFrame {
 		game.setSize(WINDOW_WIDTH, WINDOW_HEIGHT); // size the frame
 		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		game.setVisible(true); // make it visible
+		
+		// welcome splash message
+		JOptionPane splash = new JOptionPane();
+		splash.showMessageDialog(null, SPLASH_CONTENT, SPLASH_TITLE, JOptionPane.INFORMATION_MESSAGE);
 	}
 }
