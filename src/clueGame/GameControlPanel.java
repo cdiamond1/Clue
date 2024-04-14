@@ -4,11 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
@@ -19,7 +22,7 @@ public class GameControlPanel extends JPanel {
 	private JTextField Guess = new JTextField();
 	private JTextField Roll = new JTextField();
 	private JTextField GuessResult = new JTextField();
-	private JTextField PlayerTurn = new JTextField();
+	private JTextField PlayerTurn = new JTextField();	
 	
 	private static final int WINDOW_WIDTH = 750;
 	private static final int WINDOW_HEIGHT = 200;
@@ -82,6 +85,14 @@ public class GameControlPanel extends JPanel {
 	private JButton createButtonPanel() {
 		// no layout specified, so this is flow
 		JButton accuse = new JButton("Make Accusation");
+		accuse.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == accuse) {
+					System.out.println("B");
+				}
+			}
+		});
 		accuse.setSize(new Dimension(100, 100));
 		return accuse;
 	}
@@ -89,7 +100,18 @@ public class GameControlPanel extends JPanel {
 	private JButton createButtonPanel2() {
 		// no layout specified, so this is flow
 		JButton next = new JButton("NEXT!");
+		next.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == next) {
+					System.out.println("A");
+				}
+			}
+		});
 		next.setSize(new Dimension(100, 100));
+		
+		next.doClick();
+		
 		return next;
 	}
 	
