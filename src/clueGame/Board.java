@@ -268,9 +268,7 @@ public class Board extends JPanel {
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		// catch (BadConfigFormatException e) {
-		// e.printStackTrace();
-		// }
+
 		// return dataList at the end of the method
 		return dataList;
 	}
@@ -411,24 +409,14 @@ public class Board extends JPanel {
 
 	public void deal() {
 		Random r = new Random();
-		int low = 0;
-		int high = deck.size();
-		int result = r.nextInt(high - low) + low;
+		int result = r.nextInt(deck.size());
 
 		// Deal cards for players and remove them from the deck (as opposed to the
 		// solution the player can have duplicate types)
 		for (Player p : playerList) {
 			for (int cardCount = 0; cardCount < 3; cardCount++) { // Nested for loop but easier than writing 'add card
-																	// and reroll random 3 times' also makes it variable
-																	// if each player gets 4 cards etc.
-				high = deck.size();
-
-//				if (high - low != 0) {
-				result = r.nextInt(high - low) + low;
-//				}
-//				else {
-//					result = 0;
-//				}
+																  // and reroll random 3 times' also makes it variable
+				result = r.nextInt(deck.size());			      // if each player gets 4 cards etc.
 
 				p.updateHand(deck.get(result));
 				deck.remove(result);
@@ -445,39 +433,28 @@ public class Board extends JPanel {
 
 	public void generateSolution() {
 		Random r = new Random();
-		int low = 0;
-		int high = deck.size();
-		int result = r.nextInt(high - low) + low;
+		int result = r.nextInt(deck.size());
 
 		// Generating Solution
 		while (deck.get(result).getCardType() != CardType.ROOM) {
-			result = r.nextInt(high - low) + low;
+			result = r.nextInt(deck.size());
 		}
 		Solution.setSolRoom(deck.get(result));
 		deck.remove(result);
-		high = deck.size();
 
 		while (deck.get(result).getCardType() != CardType.PERSON) {
-			result = r.nextInt(high - low) + low;
+			result = r.nextInt(deck.size());
 		}
 		Solution.setSolPerson(deck.get(result));
 		deck.remove(result);
-		high = deck.size();
 
 		while (deck.get(result).getCardType() != CardType.WEAPON) {
-			result = r.nextInt(high - low) + low;
+			result = r.nextInt(deck.size());
 		}
 		Solution.setSolWeapon(deck.get(result));
 		deck.remove(result);
-		high = deck.size();
 	}
 
-	/*
-	 * public boolean accuse(Card person, Card room, Card weapon) {
-	 * if(person.equals(Solution.getSolPerson()) &&
-	 * room.equals(Solution.getSolRoom()) && weapon.equals(Solution.getSolWeapon()))
-	 * { return true; } return false; }
-	 */
 	public boolean checkAccusation(String person, String room, String weapon) {
 		if (Solution.getSolPersonName() != person || Solution.getSolRoomName() != room
 				|| Solution.getSolWeaponName() != weapon) {
