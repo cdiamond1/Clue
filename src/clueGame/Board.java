@@ -268,9 +268,7 @@ public class Board extends JPanel {
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		// catch (BadConfigFormatException e) {
-		// e.printStackTrace();
-		// }
+
 		// return dataList at the end of the method
 		return dataList;
 	}
@@ -422,13 +420,7 @@ public class Board extends JPanel {
 																	// and reroll random 3 times' also makes it variable
 																	// if each player gets 4 cards etc.
 				high = deck.size();
-
-//				if (high - low != 0) {
 				result = r.nextInt(high - low) + low;
-//				}
-//				else {
-//					result = 0;
-//				}
 
 				p.updateHand(deck.get(result));
 				deck.remove(result);
@@ -472,12 +464,6 @@ public class Board extends JPanel {
 		high = deck.size();
 	}
 
-	/*
-	 * public boolean accuse(Card person, Card room, Card weapon) {
-	 * if(person.equals(Solution.getSolPerson()) &&
-	 * room.equals(Solution.getSolRoom()) && weapon.equals(Solution.getSolWeapon()))
-	 * { return true; } return false; }
-	 */
 	public boolean checkAccusation(String person, String room, String weapon) {
 		if (Solution.getSolPersonName() != person || Solution.getSolRoomName() != room
 				|| Solution.getSolWeaponName() != weapon) {

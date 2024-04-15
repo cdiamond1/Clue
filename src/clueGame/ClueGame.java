@@ -155,7 +155,7 @@ public class ClueGame extends JFrame {
 
 			}
 
-			if (controlPanel.nextPressed) { // && (!currPlayer.isHuman() && currPlayer.isDone())
+			if (controlPanel.nextPressed) {
 
 				board.repaint();
 				board.revalidate();
