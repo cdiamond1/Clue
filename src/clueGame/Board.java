@@ -41,7 +41,7 @@ public class Board extends JPanel {
 	private Map<Character, Room> roomMap = new HashMap<Character, Room>();
 	private File csv;
 	private File txt;
-	
+
 	private ArrayList<Card> deck = new ArrayList<Card>();
 	private ArrayList<Player> playerList = new ArrayList<Player>();
 	private ArrayList<Card> playerCardList = new ArrayList<Card>();
@@ -49,7 +49,7 @@ public class Board extends JPanel {
 	private ArrayList<Card> weaponsList = new ArrayList<Card>();
 	private ArrayList<Boolean> suggestionCheck = new ArrayList<Boolean>();
 	private Solution Solution = new Solution();
-	
+
 	private static int panelWidth = 600;
 	private static int panelHeight = 600;
 
@@ -77,7 +77,7 @@ public class Board extends JPanel {
 			loadLayoutConfig();
 			calcAdjacencyList();
 			generateSolution();
-			//deal();
+			// deal();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -85,7 +85,6 @@ public class Board extends JPanel {
 
 	// readData gets passed a file name, and returns a 2D array of the
 	// information in the file
-	
 
 	// Loads setup file, populating roomMap
 	public void loadSetupConfig() throws BadConfigFormatException {
@@ -111,43 +110,44 @@ public class Board extends JPanel {
 
 			// split at comma
 			lineSplit = line.split(", ");
-			if(lineSplit[0].equals("Room") || lineSplit[0].equals("Space") || lineSplit[0].equals("Player") || lineSplit[0].equals("Weapon")) {
-				
+			if (lineSplit[0].equals("Room") || lineSplit[0].equals("Space") || lineSplit[0].equals("Player")
+					|| lineSplit[0].equals("Weapon")) {
+
 			} else {
 				throw new BadConfigFormatException("Bad config file: " + lineSplit[0]);
 			}
-			
+
 			if ((lineSplit[0].equals("Room") || lineSplit[0].equals("Space")) && lineSplit.length == 3) {
 				// create room object
 				Room temp = new Room(lineSplit[1]);
 				roomMap.put(lineSplit[2].charAt(0), temp);
-				
+
 				if (lineSplit[0].equals("Room")) {
 					deck.add(new Card(lineSplit[1], CardType.ROOM));
 					roomsList.add(new Card(lineSplit[1], CardType.ROOM));
 				}
 
-			} 
+			}
 			if (lineSplit[0].equals("Player")) {
 				deck.add(new Card(lineSplit[1], CardType.PERSON));
 				// add human player
 				if (lineSplit[2].equals("human")) {
-					HumanPlayer human = new HumanPlayer(lineSplit[1], Integer.parseInt(lineSplit[3]), Integer.parseInt(lineSplit[4]), lineSplit[5]);
+					HumanPlayer human = new HumanPlayer(lineSplit[1], Integer.parseInt(lineSplit[3]),
+							Integer.parseInt(lineSplit[4]), lineSplit[5]);
 					playerList.add(human);
 					playerCardList.add(new Card(lineSplit[1], CardType.PERSON));
-				}
-				else {
-					ComputerPlayer comp = new ComputerPlayer(lineSplit[1], Integer.parseInt(lineSplit[3]), Integer.parseInt(lineSplit[4]), lineSplit[5]);
+				} else {
+					ComputerPlayer comp = new ComputerPlayer(lineSplit[1], Integer.parseInt(lineSplit[3]),
+							Integer.parseInt(lineSplit[4]), lineSplit[5]);
 					playerList.add(comp);
 					playerCardList.add(new Card(lineSplit[1], CardType.PERSON));
 				}
-				
-				
-			} 
+
+			}
 			if (lineSplit[0].equals("Weapon")) {
 				deck.add(new Card(lineSplit[1], CardType.WEAPON));
 				weaponsList.add(new Card(lineSplit[1], CardType.WEAPON));
-				
+
 			}
 		}
 		in.close();
@@ -178,17 +178,15 @@ public class Board extends JPanel {
 					temp.setRoom(false);
 					temp.setOccupied(true);
 					temp.setWall(true);
-				}
-				else if (initial.charAt(0) == 'W') {
+				} else if (initial.charAt(0) == 'W') {
 					temp.setRoomLoc(roomMap.get('W'));
 					temp.setRoom(true);
 					temp.setWalkway(true);
-				} 
+				}
 				if (roomMap.get(initial.charAt(0)) != null) {
 					temp.setRoomLoc(roomMap.get(initial.charAt(0)));
 					temp.setRoom(true);
-				}
-				else {
+				} else {
 					throw new BadConfigFormatException("Bad room symbol: " + initial.charAt(0));
 				}
 
@@ -232,7 +230,7 @@ public class Board extends JPanel {
 			}
 		}
 	}
-	
+
 	public ArrayList<String[]> readData(File file) throws BadConfigFormatException {
 		ArrayList<String[]> dataList = new ArrayList<>();
 
@@ -247,7 +245,7 @@ public class Board extends JPanel {
 			while (scanner.hasNextLine()) {
 				// add all file data to string
 				currLine = scanner.nextLine();
-				if(currLine.charAt(currLine.length()-1) == ',') {
+				if (currLine.charAt(currLine.length() - 1) == ',') {
 					throw new BadConfigFormatException();
 				}
 				String[] temp = currLine.split(",");
@@ -269,14 +267,14 @@ public class Board extends JPanel {
 
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} 
-		//catch (BadConfigFormatException e) {
-		//	e.printStackTrace();
-		//}
+		}
+		// catch (BadConfigFormatException e) {
+		// e.printStackTrace();
+		// }
 		// return dataList at the end of the method
 		return dataList;
 	}
-	
+
 	// iterate through every cell and add doorways to their associated room
 	public void addDoorwaysAndSecretPassages() {
 		BoardCell currCell = new BoardCell();
@@ -328,13 +326,13 @@ public class Board extends JPanel {
 			}
 		}
 	}
-	
+
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 		recurseTarget(startCell, pathLength);
 	}
-	
+
 	public void recurseTarget(BoardCell startCell, int pathLength) {
 		visited.add(startCell);
 
@@ -351,7 +349,7 @@ public class Board extends JPanel {
 			// add cell to targets if out of moves
 			if (pathLength == 1 || cell.isRoomCenter()) {
 				targets.add(cell);
-				cell.setTarget(true);
+				// cell.setTarget(true);
 			}
 			// recursive call if moves left
 			else {
@@ -409,89 +407,90 @@ public class Board extends JPanel {
 				}
 			}
 		}
-	}	
+	}
 
 	public void deal() {
 		Random r = new Random();
 		int low = 0;
 		int high = deck.size();
-		int result = r.nextInt(high-low) + low;
-		
-		// Deal cards for players and remove them from the deck (as opposed to the solution the player can have duplicate types)
+		int result = r.nextInt(high - low) + low;
+
+		// Deal cards for players and remove them from the deck (as opposed to the
+		// solution the player can have duplicate types)
 		for (Player p : playerList) {
-			for (int cardCount = 0 ; cardCount < 3 ; cardCount++) {	// Nested for loop but easier than writing 'add card and reroll random 3 times' also makes it variable if each player gets 4 cards etc. 
+			for (int cardCount = 0; cardCount < 3; cardCount++) { // Nested for loop but easier than writing 'add card
+																	// and reroll random 3 times' also makes it variable
+																	// if each player gets 4 cards etc.
 				high = deck.size();
-				
+
 //				if (high - low != 0) {
-					result = r.nextInt(high-low) + low;
+				result = r.nextInt(high - low) + low;
 //				}
 //				else {
 //					result = 0;
 //				}
-				
+
 				p.updateHand(deck.get(result));
 				deck.remove(result);
 			}
 		}
 	}
-	
+
 	public int roll() {
 		Random r = new Random();
 		int low = 1;
 		int high = 7;
-		return r.nextInt(high-low) + low;
+		return r.nextInt(high - low) + low;
 	}
-		
+
 	public void generateSolution() {
 		Random r = new Random();
 		int low = 0;
 		int high = deck.size();
-		int result = r.nextInt(high-low) + low;
-		
-		//	Generating Solution
-		while(deck.get(result).getCardType() != CardType.ROOM) {
-			result = r.nextInt(high-low) + low;
+		int result = r.nextInt(high - low) + low;
+
+		// Generating Solution
+		while (deck.get(result).getCardType() != CardType.ROOM) {
+			result = r.nextInt(high - low) + low;
 		}
 		Solution.setSolRoom(deck.get(result));
 		deck.remove(result);
 		high = deck.size();
-		
-		while(deck.get(result).getCardType() != CardType.PERSON) {
-			result = r.nextInt(high-low) + low;
+
+		while (deck.get(result).getCardType() != CardType.PERSON) {
+			result = r.nextInt(high - low) + low;
 		}
 		Solution.setSolPerson(deck.get(result));
 		deck.remove(result);
 		high = deck.size();
-		
-		while(deck.get(result).getCardType() != CardType.WEAPON) {
-			result = r.nextInt(high-low) + low;
+
+		while (deck.get(result).getCardType() != CardType.WEAPON) {
+			result = r.nextInt(high - low) + low;
 		}
 		Solution.setSolWeapon(deck.get(result));
 		deck.remove(result);
 		high = deck.size();
 	}
+
 	/*
-	public boolean accuse(Card person, Card room, Card weapon) {
-		if(person.equals(Solution.getSolPerson()) && room.equals(Solution.getSolRoom()) && weapon.equals(Solution.getSolWeapon())) {
-			return true;
-		}
-		return false;
-	}
-	*/
+	 * public boolean accuse(Card person, Card room, Card weapon) {
+	 * if(person.equals(Solution.getSolPerson()) &&
+	 * room.equals(Solution.getSolRoom()) && weapon.equals(Solution.getSolWeapon()))
+	 * { return true; } return false; }
+	 */
 	public boolean checkAccusation(String person, String room, String weapon) {
-		if (Solution.getSolPersonName() != person ||
-			Solution.getSolRoomName() != room ||
-			Solution.getSolWeaponName() != weapon) {
+		if (Solution.getSolPersonName() != person || Solution.getSolRoomName() != room
+				|| Solution.getSolWeaponName() != weapon) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	public Card handleSuggestion(Solution sol, Player startingPlayer) {
 		int startingPlayerIndex = 0;
 		int count = 0;
 
-		for (Player currPlayer: playerList) {
+		for (Player currPlayer : playerList) {
 			if (currPlayer.getName().equals(startingPlayer.getName())) {
 				startingPlayerIndex = count;
 			}
@@ -517,7 +516,7 @@ public class Board extends JPanel {
 
 		return null;
 	}
-	
+
 	public void removeCardFromDeck(Card card) {
 		for (int i = 0; i < deck.size(); i++) {
 			if (deck.get(i).getCardName().equals(card.getCardName())) {
@@ -525,66 +524,66 @@ public class Board extends JPanel {
 			}
 		}
 	}
-	
+
 	public void addCardtoDeck(Card card) {
 		deck.add(card);
 	}
-	
-	public void repaintEverything()
+
+	public void repaintEverything() // Not Actually needed, maybe for total resets but repaint + revalidate works
+									// for now
 	{
 		paintComponent(getGraphics());
 	}
-	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
-		int cellWidth = panelWidth / boardCols;   // Not sure how to get panelWidth and panelHeight
+
+		int cellWidth = panelWidth / boardCols; // Not sure how to get panelWidth and panelHeight
 		int cellHeight = panelHeight / boardRows;
-		
+
 		int cellX = 0;
 		int cellY = 0;
-		
+
 		// iterate through every cell in grid[][]
 		for (BoardCell[] gridCol : grid) {
 			cellX = 0;
-			
+
 			for (BoardCell cell : gridCol) {
 				cell.drawCell(g, cellWidth, cellHeight, cellX, cellY);
-				
+
 				cellX += cellWidth;
 			}
-			
+
 			cellY += cellHeight;
 		}
-		
+
 		// iterate through every player
 		for (Player P : playerList) {
-			P.drawPlayer(g, cellHeight-4, P.getColumn()*cellWidth+2, P.getRow()*cellHeight+2);	
+			P.drawPlayer(g, cellHeight - 4, P.getColumn() * cellWidth + 2, P.getRow() * cellHeight + 2);
 		}
-		
+
 		cellY = 0;
-		
+
 		for (BoardCell[] gridCol : grid) {
 			cellX = 0;
-			
+
 			for (BoardCell cell : gridCol) {
 				cell.drawLabels(g, cellWidth, cellHeight, cellX, cellY);
-				
+
 				cellX += cellWidth;
 			}
-			
+
 			cellY += cellHeight;
 		}
 	}
-	
-	
-	
+
 	// WARNING NOW ENTERING SETTERS/GETTERS
 
 	public void setConfigFiles(String string, String string2) {
 		csv = new File(string);
 		txt = new File(string2);
 	}
+
 	// getCell: returns cell given row+column. If cell doesn't exist, returns null
 	public BoardCell getCell(int row, int col) {
 		return grid[row][col];
@@ -593,7 +592,7 @@ public class Board extends JPanel {
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
-	
+
 	public Set<BoardCell> getVisited() {
 		return visited;
 	}
@@ -622,35 +621,39 @@ public class Board extends JPanel {
 		return playerList;
 	}
 	
+	public void updatePlayerList(ArrayList<Player> temp) {
+		this.playerList = temp;
+	}
+
 	public ArrayList<Card> getPlayerCardList() {
 		return playerCardList;
 	}
-	
-	public ArrayList<Card> getWeaponsList(){
+
+	public ArrayList<Card> getWeaponsList() {
 		return weaponsList;
 	}
-	
-	public ArrayList<Card> getRoomsList(){
+
+	public ArrayList<Card> getRoomsList() {
 		return roomsList;
 	}
 
 	public Solution getSolution() {
 		return Solution;
 	}
-	
+
 	public void setSolution(Solution solution) {
 		Solution = solution;
 	}
-	
+
 	public ArrayList<Card> getDeck() {
 		return deck;
 	}
-	
+
 	public void setPanelDimensions(int w, int h) {
 		panelWidth = w;
 		panelHeight = h;
 	}
-	
+
 	public static int getPanelWidth() {
 		return panelWidth;
 	}
@@ -658,8 +661,7 @@ public class Board extends JPanel {
 	public static int getPanelHeight() {
 		return panelHeight;
 	}
-	
-	
+
 	// MAIN
 
 	public static void main(String[] args) {
@@ -669,11 +671,10 @@ public class Board extends JPanel {
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
 		frame.setContentPane(Board.getInstance()); // put the panel in the frame
-		
-		frame.setSize(Board.getPanelWidth()+150, Board.getPanelHeight()+150); // size the frame
+
+		frame.setSize(Board.getPanelWidth() + 150, Board.getPanelHeight() + 150); // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
 	}
-	
 
 }

@@ -74,16 +74,18 @@ public class ClueGame extends JFrame {
 					for (BoardCell C : board.getTargets()) {
 						C.setTarget(true);
 					}
+
 					board.repaint();
 					board.revalidate();
 					display.repaint();
 					display.revalidate();
 				} else { // Computer player stuff
-					BoardCell temp = currPlayer.selectTarget(roll);
-					for (BoardCell C : board.getTargets()) {
-						C.setTarget(true);
-					}
-					currPlayer.setPos(temp.getRow(), temp.getColumn());
+					board.getPlayerList().get(turnCount).selectTarget(roll);
+
+					board.repaint();
+					board.revalidate();
+					display.repaint();
+					display.revalidate();
 				}
 
 			}
@@ -92,8 +94,8 @@ public class ClueGame extends JFrame {
 				for (BoardCell C : board.getTargets()) {
 					C.setTarget(false);
 				}
-				
-				//board.repaintEverything();
+
+				// board.repaintEverything();
 				board.repaint();
 				board.revalidate();
 				display.repaint();
