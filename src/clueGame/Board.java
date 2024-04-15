@@ -529,12 +529,6 @@ public class Board extends JPanel {
 		deck.add(card);
 	}
 
-	public void repaintEverything() // Not Actually needed, maybe for total resets but repaint + revalidate works
-									// for now
-	{
-		paintComponent(getGraphics());
-	}
-
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
