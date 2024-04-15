@@ -530,10 +530,11 @@ public class Board extends JPanel {
 		deck.add(card);
 	}
 	
-	public void repaintTargets()
+	public void repaintEverything()
 	{
 		paintComponent(getGraphics());
 	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -558,7 +559,7 @@ public class Board extends JPanel {
 		
 		// iterate through every player
 		for (Player P : playerList) {
-			P.drawPlayer(g, cellHeight-4, P.getColumn()*cellWidth+2, P.getRow()*cellHeight+2);
+			P.drawPlayer(g, cellHeight-4, P.getColumn()*cellWidth+2, P.getRow()*cellHeight+2);	
 		}
 		
 		cellY = 0;

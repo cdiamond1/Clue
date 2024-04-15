@@ -27,13 +27,13 @@ public class ComputerPlayer extends Player {
 		this.row = row;
 		this.column = col;
 	}
-	
+
 	public ComputerPlayer(String name, int row, int col, Color color) {
 		super(name, row, col, color);
 		this.row = row;
 		this.column = col;
 	}
-	
+
 	public ComputerPlayer(String name, int row, int col, String color) {
 		super(name, row, col, color);
 		this.row = row;
@@ -52,20 +52,20 @@ public class ComputerPlayer extends Player {
 	public BoardCell getCurrCell() {
 		return board.getCell(row, column);
 	}
-	
+
 	public void addVisited(BoardCell cell) {
 		visitedList.add(cell);
 	}
 
+	@Override
 	public BoardCell selectTarget(int roll) {
 		Random r = new Random();
-		int tempRow = 0; 
+		int tempRow = 0;
 		int tempCol = 0;
 		board.calcTargets(board.getCell(row, column), roll);
 		for (BoardCell B : board.getTargets()) {
 			if (B.isRoomCenter() && !(visitedList.contains(B))) {
-				this.column = B.getColumn();
-				this.row = B.getRow();
+				setPos(B.getRow(), B.getColumn());
 				visitedList.add(B);
 				return board.getCell(row, column);
 			}
@@ -73,18 +73,16 @@ public class ComputerPlayer extends Player {
 		// If no room on list (or all rooms previously visited) roll a random cell
 		for (BoardCell B : board.getTargets()) {
 			if (r.nextBoolean()) {
-				this.column = B.getColumn();
-				this.row = B.getRow();
+				setPos(B.getRow(), B.getColumn());
 				visitedList.add(B);
 				return board.getCell(row, column);
 			}
 			tempRow = B.getRow();
 			tempCol = B.getColumn();
-			
+
 		}
 		// If all rolls are false, return the last one to avoid null errors
-		this.column = tempCol;
-		this.row = tempRow;
+		setPos(tempRow, tempCol);
 		visitedList.add(board.getCell(tempRow, tempCol));
 		return board.getCell(tempRow, tempCol);
 	}
@@ -119,10 +117,5 @@ public class ComputerPlayer extends Player {
 		}
 
 		return null;
-	}
-
-	public void setPos(int i, int j) {
-		this.row = i;
-		this.column = j;
 	}
 }

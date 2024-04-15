@@ -105,7 +105,7 @@ public class GameControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == next) {
-					System.out.println("A");
+					//System.out.println("A");
 					nextPressed = true;
 				}
 			}

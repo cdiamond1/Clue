@@ -29,5 +29,10 @@ public class HumanPlayer extends Player{
 	public boolean isHuman() {
 		return true;
 	}
+
+	@Override	// This should never need to be called, it's just here to satisfy the abstract class
+	public BoardCell selectTarget(int roll) {
+		return null;
+	}
 	
 }

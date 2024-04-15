@@ -113,6 +113,8 @@ public abstract class Player {
 	
 	public abstract boolean isHuman();
 	
+	public abstract BoardCell selectTarget(int roll);
+	
 	public void updateHand(Card card) {
 		hand.add(card);
 	}

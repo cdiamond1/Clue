@@ -58,42 +58,57 @@ public class ClueGame extends JFrame {
 
 		// run turns
 		int turnCount = 0;
-		int temp = 0;
+		int counter = 0;
 		while (!game.isGameOver()) {
 			// do game stuff
 			Player currPlayer = board.getPlayerList().get(turnCount);
 			int roll = board.roll();
 
-			if (temp == 0) { // Just to set the first player
+			if (counter == 0) { // Just to set the first player
 				controlPanel.setTurn(currPlayer, roll);
-				temp++;
+				counter++;
 
+				// Human player stuff
 				if (currPlayer.isHuman()) {
 					board.calcTargets(board.getCell(currPlayer.getRow(), currPlayer.getColumn()), roll);
 					for (BoardCell C : board.getTargets()) {
 						C.setTarget(true);
 					}
-					board.repaintTargets();
-					display.add(cardsPanel);
+					board.repaint();
+					board.revalidate();
+					display.repaint();
+					display.revalidate();
+				} else { // Computer player stuff
+					BoardCell temp = currPlayer.selectTarget(roll);
+					for (BoardCell C : board.getTargets()) {
+						C.setTarget(true);
+					}
+					currPlayer.setPos(temp.getRow(), temp.getColumn());
 				}
-				for (BoardCell C : board.getTargets()) {
-					C.setTarget(false);
-				}
+
 			}
 
 			if (controlPanel.nextPressed) { // && (!currPlayer.isHuman() && currPlayer.isDone())
-				if(currPlayer.isHuman()) {
-					board.repaintTargets();
+				for (BoardCell C : board.getTargets()) {
+					C.setTarget(false);
 				}
+				
+				//board.repaintEverything();
+				board.repaint();
+				board.revalidate();
+				display.repaint();
+				display.revalidate();
+
 				roll = board.roll();
 				controlPanel.setTurn(currPlayer, roll);
 				controlPanel.repaint();
 				controlPanel.revalidate();
 
 				turnCount = (turnCount + 1) % board.getPlayerList().size();
-				temp = 0;
+				counter = 0;
 			}
 		}
+
 	}
 
 	// GETTERS & SETTERS
