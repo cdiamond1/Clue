@@ -78,7 +78,7 @@ public class GameControlPanel extends JPanel {
 		Roll.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		Roll.setOpaque(false);
 		Roll.setForeground(Color.BLACK);
-		Roll.setEnabled(false);
+		Roll.setEditable(false);
 		panel.add(Roll);
 		return panel;
 	}
