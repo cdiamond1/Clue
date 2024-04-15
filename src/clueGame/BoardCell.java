@@ -75,8 +75,6 @@ public class BoardCell {
 				g.setColor(Color.YELLOW.darker());
 			}
 			
-			//	For refactoring, draw secret passages as dark red
-			
 		} else if (this.isWall()) {
 			g.setColor(Color.BLACK);
 		} else if (this.isRoom() && !this.isTarget) {
@@ -85,6 +83,10 @@ public class BoardCell {
 			g.setColor(Color.CYAN);
 		} else {
 			g.setColor(Color.BLACK);
+		}
+		
+		if(this.isSecretPassage) {
+			g.setColor(Color.RED.darker().darker());
 		}
 
 		g.fillRect(x, y, width, height);
