@@ -19,6 +19,8 @@ public class ClueGame extends JFrame {
 
 	private final static String SPLASH_TITLE = "Welcome to Clue";
 	private final static String SPLASH_CONTENT = "You are Wolfgang Gwawl.\nCan you find the solution\nbefore the computer players?";
+	private final static String ERROR_TITLE = "Wrong cell choice";
+	private final static String ERROR_CONTENT = "You can't move there.\nPick a different cell.";
 
 	private static int turnCount;
 	private static int mouseCellX, mouseCellY;
@@ -26,7 +28,7 @@ public class ClueGame extends JFrame {
 	private boolean gameOver = false;
 	private static JPanel display = new JPanel();
 
-	public ClueGame() {
+	public ClueGame() {	
 		// create display panel object
 		display = new JPanel();
 		display.setLayout(new BorderLayout());
@@ -34,6 +36,8 @@ public class ClueGame extends JFrame {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				boolean targetPicked = false;
+				
 				if (e.getX() < 600 && e.getY() < 600) {
 					mouseCellX = (e.getX() - 2) / (board.getPanelWidth() / board.getNumColumns());
 					mouseCellY = (e.getY() - 2) / (board.getPanelHeight() / board.getNumRows());
@@ -48,7 +52,13 @@ public class ClueGame extends JFrame {
 							display.revalidate();
 							
 							controlPanel.nextPressed = true;
+							targetPicked = true;
 						}
+					}
+					
+					if (!targetPicked) {
+						JOptionPane splash = new JOptionPane();
+						splash.showMessageDialog(null, ERROR_CONTENT, ERROR_TITLE, JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}
