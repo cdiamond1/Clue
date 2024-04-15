@@ -63,30 +63,30 @@ public class BoardCell {
 	public void drawCell(Graphics g, int width, int height, int x, int y) {
 
 		g.setColor(Color.BLACK);
-		
 
-		if (this.isWalkway()) {
-			g.drawRect(x, y, width, height);
-			
-			if (this.isTarget()) {
-				g.setColor(Color.CYAN);
-			}
-			else {
-				g.setColor(Color.YELLOW.darker());
-			}
-			
-		} else if (this.isWall()) {
+		if (this.isWall()) {
 			g.setColor(Color.BLACK);
 		} else if (this.isRoom() && !this.isTarget) {
 			g.setColor(Color.GRAY);
-		} else if(this.isRoom() && this.isTarget){
+		} else if (this.isRoom() && this.isTarget) {
 			g.setColor(Color.CYAN);
 		} else {
 			g.setColor(Color.BLACK);
 		}
+
+		if (this.isWalkway()) {
+			g.drawRect(x, y, width, height);
+
+			if (this.isTarget()) {
+				g.setColor(Color.CYAN);
+			} else {
+				g.setColor(Color.YELLOW.darker());
+			}
+
+		}
 		
-		if(this.isSecretPassage) {
-			g.setColor(Color.RED.darker().darker());
+		if (this.isSecretPassage) {
+			g.setColor(Color.GRAY.darker());
 		}
 
 		g.fillRect(x, y, width, height);
@@ -117,7 +117,7 @@ public class BoardCell {
 				break;
 			}
 		}
-		
+
 		this.setTarget(false); // undoes special coloring for target cells
 	}
 
@@ -126,7 +126,7 @@ public class BoardCell {
 		// https://coderanch.com/t/336616/java/Center-Align-text-drawString
 		int stringLen = (int) g.getFontMetrics().getStringBounds(room.getName(), g).getWidth();
 		int start = width / 2 - stringLen / 2;
-		
+
 		if (isRoomLabel) {
 			g.setColor(color.BLUE);
 			g.drawString(room.getName(), start + x + 10, y + 15);
@@ -242,5 +242,5 @@ public class BoardCell {
 	public void setTarget(boolean isTarget) {
 		this.isTarget = isTarget;
 	}
-	
+
 }

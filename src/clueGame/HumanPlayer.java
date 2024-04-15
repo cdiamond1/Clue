@@ -30,7 +30,7 @@ public class HumanPlayer extends Player{
 		return true;
 	}
 
-	@Override	// This should never need to be called, it's just here to satisfy the abstract class
+	@Override
 	public BoardCell selectTarget(int roll) {
 		return null;
 	}
