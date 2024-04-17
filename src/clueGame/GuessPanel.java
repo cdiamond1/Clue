@@ -111,9 +111,6 @@ public class GuessPanel extends JDialog {
 	}
 
 	public static void main(String[] args) {
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-		board.initialize();
 
-		new GuessPanel();
 	}
 }

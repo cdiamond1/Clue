@@ -77,7 +77,6 @@ public class Board extends JPanel {
 			loadLayoutConfig();
 			calcAdjacencyList();
 			generateSolution();
-			// deal();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}

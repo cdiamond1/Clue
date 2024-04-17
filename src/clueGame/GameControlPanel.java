@@ -35,9 +35,6 @@ public class GameControlPanel extends JPanel {
 	 * Constructor for the panel, it does 90% of the work
 	 */
 	public GameControlPanel() {
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-		board.initialize();
-		
 		setLayout(new GridLayout(2, 0));
 		JPanel pane2 = new JPanel();
 		pane2.setLayout(new GridLayout(1, 4));
