@@ -130,8 +130,10 @@ public class ClueGame extends JFrame {
 					display.revalidate();
 										
 				} else { // Computer player stuff
+					board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).setOccupied(false);
 					board.getPlayerList().get(turnCount).selectTarget(roll);
-
+					board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).setOccupied(true);
+					
 					board.repaint();
 					board.revalidate();
 					display.repaint();
@@ -142,7 +144,7 @@ public class ClueGame extends JFrame {
 
 			if (controlPanel.nextPressed) {
 
-				board.repaint();
+				//board.repaint();
 				board.revalidate();
 				display.repaint();
 				display.revalidate();

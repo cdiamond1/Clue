@@ -64,7 +64,6 @@ public class GameControlPanel extends JPanel {
 		PlayerTurn.setOpaque(true);
 		PlayerTurn.setForeground(Color.BLACK);
 		PlayerTurn.setEditable(false);
-		//PlayerTurn.setBackground(Color.YELLOW);
 		panel.add(PlayerTurn);
 
 		return panel;
