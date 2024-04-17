@@ -32,7 +32,7 @@ public class GameCardsPanel extends JPanel {
 		setLayout(new GridLayout(3, 0));
 		setBorder(new TitledBorder(new EtchedBorder(), "Known Cards"));
 		
-		//addTestCards(); // just for testing functionality
+		//WaddTestCards(); // just for testing functionality
 		add(panel);
 		
 		this.createAll();
@@ -45,6 +45,18 @@ public class GameCardsPanel extends JPanel {
 		add(panel);
 		panel = createWeaponPanel();
 		add(panel);
+	}
+	
+	public void updateHand(ArrayList<Card> inHand) {
+		this.hand = inHand;
+	}
+	
+	public void updateSeen(ArrayList<Card> inSeen) {
+		this.seen = inSeen;
+	}
+	
+	public void addSeenCardTest(Card c) {
+		this.seen.add(c);
 	}
 	
 	public void addTestCards() {

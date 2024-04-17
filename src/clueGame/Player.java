@@ -20,6 +20,7 @@ public abstract class Player {
 	private int row, column;
 	
 	private ArrayList<Card> hand = new ArrayList<Card>();
+	private ArrayList<Card> seen = new ArrayList<Card>();
 	private ArrayList<Card> seenPeople = new ArrayList<Card>();
 	private ArrayList<Card> seenWeapons = new ArrayList<Card>();
 	private ArrayList<String> seenPeopleStr = new ArrayList<String>();
@@ -96,12 +97,17 @@ public abstract class Player {
 
 	public void updateSeen(Card card) {
 		if (card.getCardType() == CardType.PERSON) {
+			seen.add(card);
 			seenPeople.add(card);
 			seenPeopleStr.add(card.getCardName());
 		}
 		if (card.getCardType() == CardType.WEAPON) {
+			seen.add(card);
 			seenWeapons.add(card);
 			seenWeaponsStr.add(card.getCardName());
+		}
+		if (card.getCardType() == CardType.ROOM) {
+			seen.add(card);
 		}
 	}
 	
@@ -121,6 +127,10 @@ public abstract class Player {
 	
 	public ArrayList<Card> getHand() {
 		return hand;
+	}
+	
+	public ArrayList<Card> getSeen() {
+		return seen;
 	}
 	
 	public ArrayList<Card> getSeenWeapons() {

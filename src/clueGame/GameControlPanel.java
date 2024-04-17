@@ -2,13 +2,14 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,11 +28,16 @@ public class GameControlPanel extends JPanel {
 	
 	private static final int WINDOW_WIDTH = 750;
 	private static final int WINDOW_HEIGHT = 200;
+	
+	private static Board board = Board.getInstance();
 
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
 	public GameControlPanel() {
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.initialize();
+		
 		setLayout(new GridLayout(2, 0));
 		JPanel pane2 = new JPanel();
 		pane2.setLayout(new GridLayout(1, 4));
@@ -89,7 +95,8 @@ public class GameControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == accuse) {
-					System.out.println("B");
+					GuessPanel accusePanel = new GuessPanel();
+					accusePanel.setVisible(true);
 				}
 			}
 		});
@@ -104,7 +111,6 @@ public class GameControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == next) {
-					//System.out.println("A");
 					nextPressed = true;
 				}
 			}

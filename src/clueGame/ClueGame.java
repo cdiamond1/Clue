@@ -45,11 +45,16 @@ public class ClueGame extends JFrame {
 					for(BoardCell C : board.getTargets()) {
 						if(mouseCellX == C.getColumn() && mouseCellY == C.getRow()) {
 							board.getPlayerList().get(turnCount).setPos(mouseCellY, mouseCellX);
+							board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).setOccupied(true);
 							
 							board.repaint();
 							board.revalidate();
 							display.repaint();
 							display.revalidate();
+							
+							if(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
+								GuessPanel guessPanel = new GuessPanel(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).getRoom().getName());
+							}
 							
 							controlPanel.nextPressed = true;
 							targetPicked = true;
@@ -86,6 +91,7 @@ public class ClueGame extends JFrame {
 
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
+		board.deal();
 
 		display.add(board, BorderLayout.CENTER);
 
@@ -118,7 +124,13 @@ public class ClueGame extends JFrame {
 
 				// Human player stuff
 				if (currPlayer.isHuman()) {
+					board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).setOccupied(false);
 					board.calcTargets(board.getCell(currPlayer.getRow(), currPlayer.getColumn()), roll);
+					
+					cardsPanel.updateHand(board.getPlayerList().get(turnCount).getHand());
+					cardsPanel.updateSeen(board.getPlayerList().get(turnCount).getSeen());
+					cardsPanel.updateAll();
+					
 					
 					for (BoardCell C : board.getTargets()) {
 						board.getCell(C.getRow(), C.getColumn()).setTarget(true);
@@ -144,11 +156,12 @@ public class ClueGame extends JFrame {
 
 			if (controlPanel.nextPressed) {
 
-				//board.repaint();
 				board.revalidate();
 				display.repaint();
 				display.revalidate();
-
+				
+				cardsPanel.updateAll();
+				
 				roll = board.roll();
 				controlPanel.setTurn(currPlayer, roll);
 				controlPanel.repaint();
