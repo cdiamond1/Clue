@@ -46,7 +46,20 @@ public class GuessPanel extends JDialog {
 		for (Card C : board.getWeaponsList()) {
 			weaponList.addItem(C.getCardName());
 		}
-
+		
+		submitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Solution sol = new Solution(board.getRoomsList().get(roomList.getSelectedIndex()), board.getPlayerCardList().get(playerList.getSelectedIndex()), board.getWeaponsList().get(weaponList.getSelectedIndex()));
+				if(board.checkAccusation(sol)) {
+					System.out.println("You win :)");
+				} else {
+					System.out.println("You accused the wrong place/person/thing");
+				}
+				//panel.dispose();
+			}
+		});
+		
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -67,17 +80,17 @@ public class GuessPanel extends JDialog {
 		panel.setVisible(true);
 	}
 
-	public GuessPanel(String room) {
+	public GuessPanel(Room room) {
 		JDialog panel = new JDialog();
 		panel.setTitle("Suggest");
 		panel.setModal(true);
 		panel.setLayout(new GridLayout(4, 2));
 		panel.setResizable(false);
-		panel.setSize(300, 300);
+		panel.setSize(300, 300);		
 
 		roomText.setText("   Current Room");
 
-		JLabel currentRoom = new JLabel(room);
+		JLabel currentRoom = new JLabel(room.getName());
 		currentRoom.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
 		JComboBox<String> playerList = new JComboBox<String>();
@@ -90,6 +103,21 @@ public class GuessPanel extends JDialog {
 			weaponList.addItem(C.getCardName());
 		}
 
+		submitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Card tempCard = null;
+				for(Card C : board.getRoomsList()) {
+					if(C.getCardName() == room.getName()) {
+						tempCard = C;
+					}
+				}
+				Solution sol = new Solution(tempCard, board.getPlayerCardList().get(playerList.getSelectedIndex()), board.getWeaponsList().get(weaponList.getSelectedIndex()));
+				//panel.dispose();
+
+			}
+		});
+		
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

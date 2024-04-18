@@ -25,7 +25,7 @@ public class ClueGame extends JFrame {
 	private static int turnCount;
 	private static int mouseCellX, mouseCellY;
 	
-	private boolean gameOver = false;
+	protected boolean gameOver = false;
 	private static JPanel display = new JPanel();
 
 	public ClueGame() {	
@@ -53,7 +53,7 @@ public class ClueGame extends JFrame {
 							display.revalidate();
 							
 							if(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
-								GuessPanel guessPanel = new GuessPanel(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).getRoom().getName());
+								GuessPanel guessPanel = new GuessPanel(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).getRoom());
 							}
 							
 							controlPanel.nextPressed = true;
@@ -131,6 +131,10 @@ public class ClueGame extends JFrame {
 					cardsPanel.updateSeen(board.getPlayerList().get(turnCount).getSeen());
 					cardsPanel.updateAll();
 					
+					// For testing winning accusation
+					//System.out.println(board.getSolution().getSolPersonName());
+					//System.out.println(board.getSolution().getSolRoomName());
+					//System.out.println(board.getSolution().getSolWeaponName());					
 					
 					for (BoardCell C : board.getTargets()) {
 						board.getCell(C.getRow(), C.getColumn()).setTarget(true);

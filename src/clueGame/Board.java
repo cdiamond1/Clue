@@ -462,6 +462,15 @@ public class Board extends JPanel {
 		return true;
 	}
 
+	public boolean checkAccusation(Solution sol) {
+		if (Solution.getSolPersonName() != sol.getSolPersonName() || Solution.getSolRoomName() != sol.getSolRoomName()
+				|| Solution.getSolWeaponName() != sol.getSolWeaponName()) {
+			return false;
+		}
+		return true;
+	}
+
+	
 	public Card handleSuggestion(Solution sol, Player startingPlayer) {
 		int startingPlayerIndex = 0;
 		int count = 0;
