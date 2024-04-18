@@ -21,11 +21,16 @@ public class ClueGame extends JFrame {
 	private final static String SPLASH_CONTENT = "You are Wolfgang Gwawl.\nCan you find the solution\nbefore the computer players?";
 	private final static String ERROR_TITLE = "Wrong cell choice";
 	private final static String ERROR_CONTENT = "You can't move there.\nPick a different cell.";
+	
+	private final static String WIN_TITLE = "Congratulations!";
+	private final static String WIN_CONTENT = "Congratulations you successfully found the murder! You win :)";
+	private final static String LOSE_TITLE = "Uh Oh!";
+	private final static String LOSE_CONTENT = "The murder got away! You Lose :(";
 
 	private static int turnCount;
 	private static int mouseCellX, mouseCellY;
 	
-	protected boolean gameOver = false;
+	private static boolean gameOver = false;
 	private static JPanel display = new JPanel();
 
 	public ClueGame() {	
@@ -132,9 +137,9 @@ public class ClueGame extends JFrame {
 					cardsPanel.updateAll();
 					
 					// For testing winning accusation
-					//System.out.println(board.getSolution().getSolPersonName());
-					//System.out.println(board.getSolution().getSolRoomName());
-					//System.out.println(board.getSolution().getSolWeaponName());					
+					System.out.println(board.getSolution().getSolPersonName());
+					System.out.println(board.getSolution().getSolRoomName());
+					System.out.println(board.getSolution().getSolWeaponName());					
 					
 					for (BoardCell C : board.getTargets()) {
 						board.getCell(C.getRow(), C.getColumn()).setTarget(true);
@@ -157,7 +162,11 @@ public class ClueGame extends JFrame {
 				}
 
 			}
-
+			
+			if (controlPanel.isAccusationMade()) {
+				gameOver = true;
+			}
+			
 			if (controlPanel.nextPressed) {
 				
 				board.repaint();
@@ -176,7 +185,14 @@ public class ClueGame extends JFrame {
 				counter = 0;
 			}
 		}
-
+		if(controlPanel.isAccusationCorrect()) {
+			splash = new JOptionPane();
+			splash.showMessageDialog(null, WIN_CONTENT, WIN_TITLE, JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			splash = new JOptionPane();
+			splash.showMessageDialog(null, LOSE_CONTENT, LOSE_TITLE, JOptionPane.INFORMATION_MESSAGE);
+		}
+		
 	}
 
 	// GETTERS & SETTERS

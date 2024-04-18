@@ -30,7 +30,10 @@ public class GameControlPanel extends JPanel {
 	private static final int WINDOW_HEIGHT = 200;
 	
 	private static Board board = Board.getInstance();
-
+	private GuessPanel accusePanel;
+	private boolean isAccusationCorrect;
+	private boolean accusationMade = false;
+	
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
@@ -92,8 +95,15 @@ public class GameControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == accuse) {
-					GuessPanel accusePanel = new GuessPanel();
+					accusePanel = new GuessPanel();
 					accusePanel.setVisible(true);
+				}
+				if(accusePanel.isAccusationRight()) {
+					accusationMade = true;
+					isAccusationCorrect = true;
+				} else {
+					accusationMade = true;
+					isAccusationCorrect = false;
 				}
 			}
 		});
@@ -169,6 +179,15 @@ public class GameControlPanel extends JPanel {
 		
 	}
 
+	public boolean isAccusationCorrect() {
+		return isAccusationCorrect;
+	}
+	
+	public boolean isAccusationMade() {
+		return accusationMade;
+	}
+
+	
 	/**
 	 * Main to test the panel
 	 * 

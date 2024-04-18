@@ -21,6 +21,9 @@ public class GuessPanel extends JDialog {
 
 	private JButton submitButton = new JButton("Submit");
 	private JButton cancelButton = new JButton("Cancel");
+	
+	private boolean correct;
+	private boolean accusationMade;
 
 	public GuessPanel() {
 		JDialog panel = new JDialog(frame, "Accuse", true);
@@ -52,11 +55,13 @@ public class GuessPanel extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				Solution sol = new Solution(board.getRoomsList().get(roomList.getSelectedIndex()), board.getPlayerCardList().get(playerList.getSelectedIndex()), board.getWeaponsList().get(weaponList.getSelectedIndex()));
 				if(board.checkAccusation(sol)) {
+					correct = true;
 					System.out.println("You win :)");
 				} else {
+					correct = false;
 					System.out.println("You accused the wrong place/person/thing");
 				}
-				//panel.dispose();
+				panel.dispose();
 			}
 		});
 		
@@ -138,6 +143,11 @@ public class GuessPanel extends JDialog {
 		panel.setVisible(true);
 	}
 
+	public boolean isAccusationRight() {
+		return correct;
+	}
+	
+		
 	public static void main(String[] args) {
 
 	}
