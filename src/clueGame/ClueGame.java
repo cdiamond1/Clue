@@ -30,6 +30,8 @@ public class ClueGame extends JFrame {
 	private static int turnCount;
 	private static int mouseCellX, mouseCellY;
 	
+	private static Player currPlayerSuggest;
+	
 	private static boolean gameOver = false;
 	private static JPanel display = new JPanel();
 
@@ -58,7 +60,9 @@ public class ClueGame extends JFrame {
 							display.revalidate();
 							
 							if(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
-								GuessPanel guessPanel = new GuessPanel(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).getRoom());
+								GuessPanel guessPanel = new GuessPanel(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).getRoom(), currPlayerSuggest);
+								controlPanel.setGuess(guessPanel.getSuggestion().getSolRoomName() + "\n" + guessPanel.getSuggestion().getSolPersonName() + "\n" + guessPanel.getSuggestion().getSolWeaponName());
+								controlPanel.setGuessResult(guessPanel.getNewCard().getCardName());
 							}
 							
 							controlPanel.nextPressed = true;
@@ -122,7 +126,8 @@ public class ClueGame extends JFrame {
 			// do game stuff
 			Player currPlayer = board.getPlayerList().get(turnCount);
 			int roll = board.roll();
-
+			currPlayerSuggest = currPlayer;
+			
 			if (counter == 0) { // Just to set the first player
 				controlPanel.setTurn(currPlayer, roll);
 				counter++;

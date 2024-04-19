@@ -210,6 +210,7 @@ public class Board extends JPanel {
 						break;
 					case '*':
 						temp.setRoomCenter(true);
+						roomMap.get(initial.charAt(0)).setCenterCell(temp);
 						temp.getRoom().setCenterCell(temp);
 						break;
 					case '#':

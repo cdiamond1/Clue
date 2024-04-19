@@ -23,7 +23,9 @@ public class GuessPanel extends JDialog {
 	private JButton cancelButton = new JButton("Cancel");
 	
 	private boolean correct;
-	private boolean accusationMade;
+	private boolean suggestionCorrect;
+	private Solution suggestion;
+	private Card tempCard = null;
 
 	public GuessPanel() {
 		JDialog panel = new JDialog(frame, "Accuse", true);
@@ -53,13 +55,11 @@ public class GuessPanel extends JDialog {
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Solution sol = new Solution(board.getRoomsList().get(roomList.getSelectedIndex()), board.getPlayerCardList().get(playerList.getSelectedIndex()), board.getWeaponsList().get(weaponList.getSelectedIndex()));
-				if(board.checkAccusation(sol)) {
+				suggestion = new Solution(board.getRoomsList().get(roomList.getSelectedIndex()), board.getPlayerCardList().get(playerList.getSelectedIndex()), board.getWeaponsList().get(weaponList.getSelectedIndex()));
+				if(board.checkAccusation(suggestion)) {
 					correct = true;
-					System.out.println("You win :)");
 				} else {
 					correct = false;
-					System.out.println("You accused the wrong place/person/thing");
 				}
 				panel.dispose();
 			}
@@ -85,7 +85,7 @@ public class GuessPanel extends JDialog {
 		panel.setVisible(true);
 	}
 
-	public GuessPanel(Room room) {
+	public GuessPanel(Room room, Player currPlayer) {
 		JDialog panel = new JDialog();
 		panel.setTitle("Suggest");
 		panel.setModal(true);
@@ -111,15 +111,20 @@ public class GuessPanel extends JDialog {
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Card tempCard = null;
 				for(Card C : board.getRoomsList()) {
 					if(C.getCardName() == room.getName()) {
 						tempCard = C;
 					}
 				}
-				Solution sol = new Solution(tempCard, board.getPlayerCardList().get(playerList.getSelectedIndex()), board.getWeaponsList().get(weaponList.getSelectedIndex()));
-				//panel.dispose();
-
+				suggestion = new Solution(tempCard, board.getPlayerCardList().get(playerList.getSelectedIndex()), board.getWeaponsList().get(weaponList.getSelectedIndex()));
+				tempCard = board.handleSuggestion(suggestion, currPlayer);
+				if(tempCard != null && !(currPlayer.getHand().contains(tempCard))) {
+					currPlayer.updateSeen(tempCard);
+					suggestionCorrect = false;
+				} else {
+					suggestionCorrect = true;
+				}
+				panel.dispose();
 			}
 		});
 		
@@ -146,7 +151,19 @@ public class GuessPanel extends JDialog {
 	public boolean isAccusationRight() {
 		return correct;
 	}
+
+	public boolean isSuggestionRight() {
+		return suggestionCorrect;
+	}
 	
+	public Solution getSuggestion() {
+		return suggestion;
+	}
+	
+	public Card getNewCard() {
+		return tempCard;
+	}
+
 		
 	public static void main(String[] args) {
 

@@ -14,13 +14,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class GameControlPanel extends JPanel {
 	private JTextField name;
-	private JTextField Guess = new JTextField();
+	private JTextArea Guess = new JTextArea();
 	private JTextField Roll = new JTextField();
 	private JTextField GuessResult = new JTextField();
 	private JTextField PlayerTurn = new JTextField();	
@@ -131,7 +132,6 @@ public class GameControlPanel extends JPanel {
 		JPanel panel = new JPanel();
 		// Use a grid layout, 1 row, 2 elements (label, text)
 		panel.setLayout(new GridLayout(1, 0));
-		
 		GuessResult.setOpaque(false);
 		GuessResult.setForeground(Color.BLACK);
 		GuessResult.setEnabled(false);
@@ -144,21 +144,19 @@ public class GameControlPanel extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 0));
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
-		JTextField Guess = new JTextField("I have no guess!");
 		Guess.setOpaque(false);
 		Guess.setForeground(Color.BLACK);
 		Guess.setEnabled(false);
+		Guess.setText("I have no guess!");
 		panel.add(Guess);
 		return panel;
 	}
 
 	public void setGuessResult(String string) {
-		// TODO Auto-generated method stub
 		GuessResult.setText(string);
 	}
 
 	public void setGuess(String string) {
-		// TODO Auto-generated method stub
 		Guess.setText(string);
 	}
 
