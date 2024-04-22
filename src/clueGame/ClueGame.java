@@ -62,7 +62,12 @@ public class ClueGame extends JFrame {
 							if(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
 								GuessPanel guessPanel = new GuessPanel(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).getRoom(), currPlayerSuggest);
 								controlPanel.setGuess(guessPanel.getSuggestion().getSolRoomName() + "\n" + guessPanel.getSuggestion().getSolPersonName() + "\n" + guessPanel.getSuggestion().getSolWeaponName());
-								controlPanel.setGuessResult(guessPanel.getNewCard().getCardName());
+								if (guessPanel.getNewCard() != null) {
+									controlPanel.setGuessResult(guessPanel.getNewCard().getCardName());
+								}
+								else {
+									controlPanel.setGuessResult("None");
+								}
 							}
 							
 							controlPanel.nextPressed = true;
