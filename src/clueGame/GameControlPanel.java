@@ -58,6 +58,8 @@ public class GameControlPanel extends JPanel {
 		panel = createGuessResultPanel();
 		add(panel);
 
+		setGuess("I have no guess!");
+		setGuessResult("So you have nothing?");
 	}
 
 	private JPanel createPlayerPane1() {
@@ -134,7 +136,7 @@ public class GameControlPanel extends JPanel {
 		panel.setLayout(new GridLayout(1, 0));
 		GuessResult.setOpaque(false);
 		GuessResult.setForeground(Color.BLACK);
-		GuessResult.setEnabled(false);
+		GuessResult.setEditable(false);
 		panel.add(GuessResult);
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
 		return panel;
@@ -146,7 +148,7 @@ public class GameControlPanel extends JPanel {
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
 		Guess.setOpaque(false);
 		Guess.setForeground(Color.BLACK);
-		Guess.setEnabled(false);
+		Guess.setEditable(false);
 		Guess.setText("I have no guess!");
 		panel.add(Guess);
 		return panel;

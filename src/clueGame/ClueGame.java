@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,7 +22,7 @@ public class ClueGame extends JFrame {
 	private final static String SPLASH_CONTENT = "You are Wolfgang Gwawl.\nCan you find the solution\nbefore the computer players?";
 	private final static String ERROR_TITLE = "Wrong cell choice";
 	private final static String ERROR_CONTENT = "You can't move there.\nPick a different cell.";
-	
+
 	private final static String WIN_TITLE = "Congratulations!";
 	private final static String WIN_CONTENT = "Congratulations you successfully found the murder! You win :)";
 	private final static String LOSE_TITLE = "Uh Oh!";
@@ -29,13 +30,13 @@ public class ClueGame extends JFrame {
 
 	private static int turnCount;
 	private static int mouseCellX, mouseCellY;
-	
+
 	private static Player currPlayerSuggest;
-	
+
 	private static boolean gameOver = false;
 	private static JPanel display = new JPanel();
 
-	public ClueGame() {	
+	public ClueGame() {
 		// create display panel object
 		display = new JPanel();
 		display.setLayout(new BorderLayout());
@@ -44,52 +45,62 @@ public class ClueGame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				boolean targetPicked = false;
-				
+
 				if (e.getX() < 600 && e.getY() < 600) {
 					mouseCellX = (e.getX() - 2) / (board.getPanelWidth() / board.getNumColumns());
 					mouseCellY = (e.getY() - 2) / (board.getPanelHeight() / board.getNumRows());
-					
-					for(BoardCell C : board.getTargets()) {
-						if(mouseCellX == C.getColumn() && mouseCellY == C.getRow()) {
+
+					for (BoardCell C : board.getTargets()) {
+						if (mouseCellX == C.getColumn() && mouseCellY == C.getRow()) {
 							board.getPlayerList().get(turnCount).setPos(mouseCellY, mouseCellX);
-							board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).setOccupied(true);
-							
+							board.getCell(board.getPlayerList().get(turnCount).getRow(),
+									board.getPlayerList().get(turnCount).getColumn()).setOccupied(true);
+
 							board.repaint();
 							board.revalidate();
 							display.repaint();
 							display.revalidate();
-							
-							if(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
-								GuessPanel guessPanel = new GuessPanel(board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).getRoom(), currPlayerSuggest);
-								controlPanel.setGuess(guessPanel.getSuggestion().getSolRoomName() + "\n" + guessPanel.getSuggestion().getSolPersonName() + "\n" + guessPanel.getSuggestion().getSolWeaponName());
-								if (guessPanel.getNewCard() != null) {
-									controlPanel.setGuessResult(guessPanel.getNewCard().getCardName());
-								}
-								else {
-									controlPanel.setGuessResult("None");
-								}
+
+							if (board.getCell(board.getPlayerList().get(turnCount).getRow(),
+									board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
+								GuessPanel guessPanel = new GuessPanel(
+										board.getCell(board.getPlayerList().get(turnCount).getRow(),
+												board.getPlayerList().get(turnCount).getColumn()).getRoom(),
+										currPlayerSuggest);
+								controlPanel.setGuess(guessPanel.getSuggestion().getSolRoomName() + "\n"
+										+ guessPanel.getSuggestion().getSolPersonName() + "\n"
+										+ guessPanel.getSuggestion().getSolWeaponName());
+								controlPanel.setGuessResult(guessPanel.getNewCard().getCardName());
 							}
-							
+
 							controlPanel.nextPressed = true;
 							targetPicked = true;
 						}
 					}
-					
+
 					if (!targetPicked) {
 						JOptionPane splash = new JOptionPane();
 						splash.showMessageDialog(null, ERROR_CONTENT, ERROR_TITLE, JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}
+
 			// unused mouse action method stubs
 			@Override
-			public void mousePressed(MouseEvent e) {}
+			public void mousePressed(MouseEvent e) {
+			}
+
 			@Override
-			public void mouseReleased(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e) {
+			}
+
 			@Override
-			public void mouseEntered(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {
+			}
+
 			@Override
-			public void mouseExited(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {
+			}
 		});
 
 		// add sub-JPanels
@@ -132,60 +143,76 @@ public class ClueGame extends JFrame {
 			Player currPlayer = board.getPlayerList().get(turnCount);
 			int roll = board.roll();
 			currPlayerSuggest = currPlayer;
-			
+			Card tempCard = null;
+			Solution tempSol = null;
 			if (counter == 0) { // Just to set the first player
 				controlPanel.setTurn(currPlayer, roll);
 				counter++;
 
 				// Human player stuff
 				if (currPlayer.isHuman()) {
-					board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).setOccupied(false);
+					board.getCell(board.getPlayerList().get(turnCount).getRow(),
+							board.getPlayerList().get(turnCount).getColumn()).setOccupied(false);
 					board.calcTargets(board.getCell(currPlayer.getRow(), currPlayer.getColumn()), roll);
-					
+
 					cardsPanel.updateHand(board.getPlayerList().get(turnCount).getHand());
 					cardsPanel.updateSeen(board.getPlayerList().get(turnCount).getSeen());
 					cardsPanel.updateAll();
-					
+
 					// For testing winning accusation
 					System.out.println(board.getSolution().getSolPersonName());
 					System.out.println(board.getSolution().getSolRoomName());
-					System.out.println(board.getSolution().getSolWeaponName());					
-					
+					System.out.println(board.getSolution().getSolWeaponName());
+
 					for (BoardCell C : board.getTargets()) {
 						board.getCell(C.getRow(), C.getColumn()).setTarget(true);
 					}
-					
-					board.repaint();
-					board.revalidate();
-					display.repaint();
-					display.revalidate();
-										
-				} else { // Computer player stuff
-					board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).setOccupied(false);
-					board.getPlayerList().get(turnCount).selectTarget(roll);
-					board.getCell(board.getPlayerList().get(turnCount).getRow(), board.getPlayerList().get(turnCount).getColumn()).setOccupied(true);
-					
-					board.repaint();
-					board.revalidate();
-					display.repaint();
-					display.revalidate();
-				}
 
+					board.repaint();
+					board.revalidate();
+					display.repaint();
+					display.revalidate();
+
+				} else { // Computer player stuff
+					board.getCell(board.getPlayerList().get(turnCount).getRow(),
+							board.getPlayerList().get(turnCount).getColumn()).setOccupied(false);
+					board.getPlayerList().get(turnCount).selectTarget(roll);
+					board.getCell(board.getPlayerList().get(turnCount).getRow(),
+							board.getPlayerList().get(turnCount).getColumn()).setOccupied(true);
+
+					board.repaint();
+					board.revalidate();
+					display.repaint();
+					display.revalidate();
+
+					if (board.getCell(board.getPlayerList().get(turnCount).getRow(),
+							board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
+						tempSol = board.getPlayerList().get(turnCount).createSuggestion();
+						controlPanel.setGuess(tempSol.getSolRoomName() + "\n" + tempSol.getSolPersonName() + "\n"
+								+ tempSol.getSolWeaponName());
+						tempCard = board.handleSuggestion(tempSol, currPlayer);
+						if (tempCard != null) {
+							controlPanel.setGuessResult("Suggestion Disproven!");
+						} else {
+							controlPanel.setGuessResult("Suggestion Not Disproven!");
+						}
+					}
+				}
 			}
-			
+
 			if (controlPanel.isAccusationMade()) {
 				gameOver = true;
 			}
-			
+
 			if (controlPanel.nextPressed) {
-				
+
 				board.repaint();
 				board.revalidate();
 				display.repaint();
 				display.revalidate();
-				
+
 				cardsPanel.updateAll();
-				
+
 				roll = board.roll();
 				controlPanel.setTurn(currPlayer, roll);
 				controlPanel.repaint();
@@ -195,14 +222,14 @@ public class ClueGame extends JFrame {
 				counter = 0;
 			}
 		}
-		if(controlPanel.isAccusationCorrect()) {
+		if (controlPanel.isAccusationCorrect()) {
 			splash = new JOptionPane();
 			splash.showMessageDialog(null, WIN_CONTENT, WIN_TITLE, JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			splash = new JOptionPane();
 			splash.showMessageDialog(null, LOSE_CONTENT, LOSE_TITLE, JOptionPane.INFORMATION_MESSAGE);
 		}
-		
+
 	}
 
 	// GETTERS & SETTERS

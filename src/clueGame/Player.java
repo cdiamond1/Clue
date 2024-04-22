@@ -117,6 +117,8 @@ public abstract class Player {
 		g.fillOval(x, y, rad, rad);
 	}
 	
+	public abstract Solution createSuggestion();
+	
 	public abstract boolean isHuman();
 	
 	public abstract BoardCell selectTarget(int roll);
