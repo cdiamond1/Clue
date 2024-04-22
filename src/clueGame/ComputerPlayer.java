@@ -66,6 +66,8 @@ public class ComputerPlayer extends Player {
 		for (BoardCell B : board.getTargets()) {
 			if (B.isRoomCenter() && !(visitedList.contains(B))) {
 				setPos(B.getRow(), B.getColumn());
+				this.row = B.getRow();
+				this.column = B.getColumn();
 				visitedList.add(B);
 				return board.getCell(row, column);
 			}
@@ -74,6 +76,8 @@ public class ComputerPlayer extends Player {
 		for (BoardCell B : board.getTargets()) {
 			if (r.nextBoolean()) {
 				setPos(B.getRow(), B.getColumn());
+				this.row = B.getRow();
+				this.column = B.getColumn();
 				visitedList.add(B);
 				return board.getCell(row, column);
 			}
@@ -83,15 +87,19 @@ public class ComputerPlayer extends Player {
 		}
 		// If all rolls are false, return the last one to avoid null errors
 		setPos(tempRow, tempCol);
+		this.row = tempRow;
+		this.column = tempCol;
 		visitedList.add(board.getCell(tempRow, tempCol));
 		return board.getCell(tempRow, tempCol);
 	}
 
+	@Override
 	public Solution createSuggestion() {
 		Card suggPerson = null;
 		Card suggWeapon = null;
 		Card suggRoom = null;
 
+		
 		if (board.getCell(row, column).getRoom().getName() != "Walkway") {
 			// find card for current room
 			for (Card C : totalRooms) {
@@ -107,15 +115,13 @@ public class ComputerPlayer extends Player {
 				high = totalPeople.size();
 				suggPerson = totalPeople.get(r.nextInt(high - low) + low);
 			} while (super.getSeenPeopleStr().contains(suggPerson.getCardName()));
-
 			do {
 				high = totalWeapons.size();
 				suggWeapon = totalWeapons.get(r.nextInt(high - low) + low);
 			} while (super.getSeenWeaponsStr().contains(suggWeapon.getCardName()));
-
+			
 			return new Solution(suggRoom, suggPerson, suggWeapon);
 		}
-
 		return null;
 	}
 }

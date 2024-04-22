@@ -30,8 +30,15 @@ public class HumanPlayer extends Player{
 		return true;
 	}
 
+	
+	//		These methods should not be called for human players
 	@Override
 	public BoardCell selectTarget(int roll) {
+		return null;
+	}
+
+	@Override
+	public Solution createSuggestion() {
 		return null;
 	}
 	
