@@ -33,6 +33,9 @@ public class BoardCell {
 	private boolean isWalkway = false;
 	private boolean isWall = false;
 	private boolean isTarget = false;
+	
+	// for room centers
+	private int occupants = 0;
 
 	private Room room;
 

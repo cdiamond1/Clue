@@ -46,12 +46,16 @@ public class ClueGame extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				boolean targetPicked = false;
 
+				// check that mouse click is on board
 				if (e.getX() < 600 && e.getY() < 600) {
 					mouseCellX = (e.getX() - 2) / (board.getPanelWidth() / board.getNumColumns());
 					mouseCellY = (e.getY() - 2) / (board.getPanelHeight() / board.getNumRows());
 
+					// find corresponding cell
 					for (BoardCell C : board.getTargets()) {
 						if (mouseCellX == C.getColumn() && mouseCellY == C.getRow()) {
+							
+							// set player position
 							board.getPlayerList().get(turnCount).setPos(mouseCellY, mouseCellX);
 							board.getCell(board.getPlayerList().get(turnCount).getRow(),
 									board.getPlayerList().get(turnCount).getColumn()).setOccupied(true);
@@ -63,13 +67,16 @@ public class ClueGame extends JFrame {
 
 							if (board.getCell(board.getPlayerList().get(turnCount).getRow(),
 									board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
+								
 								GuessPanel guessPanel = new GuessPanel(
 										board.getCell(board.getPlayerList().get(turnCount).getRow(),
 												board.getPlayerList().get(turnCount).getColumn()).getRoom(),
 										currPlayerSuggest);
+								
 								controlPanel.setGuess(guessPanel.getSuggestion().getSolRoomName() + "\n"
 										+ guessPanel.getSuggestion().getSolPersonName() + "\n"
 										+ guessPanel.getSuggestion().getSolWeaponName());
+								
 								controlPanel.setGuessResult(guessPanel.getNewCard().getCardName());
 							}
 

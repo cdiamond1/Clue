@@ -27,6 +27,8 @@ public abstract class Player {
 	private ArrayList<String> seenWeaponsStr = new ArrayList<String>();
 	private Boolean done = true;	// For testing purposes
 	
+	private Board board = Board.getInstance();
+	
 	public Player(String name) {
 		this.name = name;
 	}
@@ -127,6 +129,10 @@ public abstract class Player {
 		hand.add(card);
 	}
 	
+	public boolean isInRoom() {
+		return board.getCell(row, column).getRoom().getName() != "Walkway";
+	}
+	
 	public ArrayList<Card> getHand() {
 		return hand;
 	}
@@ -179,4 +185,5 @@ public abstract class Player {
 	public boolean isDone() {
 		return done;
 	}
+	
 }

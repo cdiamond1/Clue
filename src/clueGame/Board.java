@@ -471,7 +471,6 @@ public class Board extends JPanel {
 		return true;
 	}
 
-	
 	public Card handleSuggestion(Solution sol, Player startingPlayer) {
 		int startingPlayerIndex = 0;
 		int count = 0;
