@@ -45,5 +45,16 @@ public class HumanPlayer extends Player{
 	public Solution createSuggestion() {
 		return null;
 	}
+
+	@Override
+	public void createAccusation(Card room, Card person, Card weapon) {
+		return;
+		
+	}
+
+	@Override
+	public Solution getAccusation() {
+		return null;
+	}
 	
 }

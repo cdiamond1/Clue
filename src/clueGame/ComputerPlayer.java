@@ -21,6 +21,7 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> totalRooms = board.getRoomsList();
 	private ArrayList<BoardCell> visitedList = new ArrayList<BoardCell>();
 	private int row, column;
+	private Solution accusation;
 
 	public ComputerPlayer(String name, int row, int col) {
 		super(name, row, col);
@@ -62,8 +63,6 @@ public class ComputerPlayer extends Player {
 		Random r = new Random();
 		int tempRow = 0;
 		int tempCol = 0;
-		
-		System.out.println("3. Row: " + row + " Col: " + column);
 		
 		board.calcTargets(board.getCell(newRow, newCol), roll);
 		
@@ -132,5 +131,15 @@ public class ComputerPlayer extends Player {
 			return new Solution(suggRoom, suggPerson, suggWeapon);
 		}
 		return null;
+	}
+	
+	@Override
+	public void createAccusation(Card room, Card person, Card weapon) {
+		accusation = new Solution(room, person, weapon);
+	}
+
+	@Override
+	public Solution getAccusation() {
+		return accusation;
 	}
 }

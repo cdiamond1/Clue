@@ -217,10 +217,33 @@ public class ClueGame extends JFrame {
 					if (board.getCell(board.getPlayerList().get(turnCount).getRow(),
 							board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
 						
-						tempSol = board.getPlayerList().get(turnCount).createSuggestion();
-						controlPanel.setGuess(tempSol.getSolRoomName() + "\n" + tempSol.getSolPersonName() + "\n"
-								+ tempSol.getSolWeaponName());
-						tempCard = board.handleSuggestion(tempSol, currPlayer);
+						if (!board.getPlayerList().get(turnCount).shouldAccuse()) {
+							tempSol = board.getPlayerList().get(turnCount).createSuggestion();
+							controlPanel.setGuess(tempSol.getSolRoomName() + "\n" + tempSol.getSolPersonName() + "\n"
+									+ tempSol.getSolWeaponName());
+							
+							tempCard = board.handleSuggestion(tempSol, currPlayer);
+						}
+						// computer wins
+						else {
+							splash = new JOptionPane();
+							splash.showMessageDialog(null, "The Computer Wins!", "Computer wins", JOptionPane.INFORMATION_MESSAGE);
+							gameOver = true;
+							
+							break;
+						}
+						
+						// tell computer player to accuse next turn
+						if (tempCard == null) {
+							for (Card c : board.getPlayerList().get(turnCount).getHand()) {
+								if (c.getCardName().equals(tempSol.getSolRoomName())) {
+									board.getPlayerList().get(turnCount).setShouldAccuse(true);
+									
+									board.getPlayerList().get(turnCount).createAccusation(tempSol.getSolRoom(), 
+											tempSol.getSolPerson(), tempSol.getSolWeapon());
+								}
+							}
+						}
 						
 						// move player to room where they've been suggested
 						for (Player p : board.getPlayerList()) {

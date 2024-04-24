@@ -26,6 +26,7 @@ public abstract class Player {
 	private ArrayList<String> seenPeopleStr = new ArrayList<String>();
 	private ArrayList<String> seenWeaponsStr = new ArrayList<String>();
 	private Boolean done = true;	// For testing purposes
+	private boolean shouldAccuse = false;
 	
 	private Board board = Board.getInstance();
 	
@@ -186,5 +187,17 @@ public abstract class Player {
 	public boolean isDone() {
 		return done;
 	}
+
+	public boolean shouldAccuse() {
+		return shouldAccuse;
+	}
+
+	public void setShouldAccuse(boolean shouldAccuse) {
+		this.shouldAccuse = shouldAccuse;
+	}
+
+	public abstract void createAccusation(Card room, Card person, Card weapon);
+
+	public abstract Solution getAccusation();
 	
 }
