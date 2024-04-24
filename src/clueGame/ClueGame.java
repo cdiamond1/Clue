@@ -65,6 +65,7 @@ public class ClueGame extends JFrame {
 							display.repaint();
 							display.revalidate();
 
+							// get suggestion if in room
 							if (board.getCell(board.getPlayerList().get(turnCount).getRow(),
 									board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
 								
@@ -78,6 +79,20 @@ public class ClueGame extends JFrame {
 										+ guessPanel.getSuggestion().getSolWeaponName());
 								
 								controlPanel.setGuessResult(guessPanel.getNewCard().getCardName());
+								
+								// move computer player when suggested 
+								for (Player p : board.getPlayerList()) {
+									if (p.getName() == guessPanel.getSuggestion().getSolPersonName()) {
+										p.setPos(mouseCellY, mouseCellX);
+										
+										board.repaint();
+										board.revalidate();
+										display.repaint();
+										display.revalidate();
+										
+										break;
+									}
+								} 
 							}
 
 							controlPanel.nextPressed = true;
@@ -152,6 +167,7 @@ public class ClueGame extends JFrame {
 			currPlayerSuggest = currPlayer;
 			Card tempCard = null;
 			Solution tempSol = null;
+			
 			if (counter == 0) { // Just to set the first player
 				controlPanel.setTurn(currPlayer, roll);
 				counter++;
@@ -160,6 +176,7 @@ public class ClueGame extends JFrame {
 				if (currPlayer.isHuman()) {
 					board.getCell(board.getPlayerList().get(turnCount).getRow(),
 							board.getPlayerList().get(turnCount).getColumn()).setOccupied(false);
+					
 					board.calcTargets(board.getCell(currPlayer.getRow(), currPlayer.getColumn()), roll);
 
 					cardsPanel.updateHand(board.getPlayerList().get(turnCount).getHand());
@@ -183,7 +200,12 @@ public class ClueGame extends JFrame {
 				} else { // Computer player stuff
 					board.getCell(board.getPlayerList().get(turnCount).getRow(),
 							board.getPlayerList().get(turnCount).getColumn()).setOccupied(false);
-					board.getPlayerList().get(turnCount).selectTarget(roll);
+					
+					int row = board.getPlayerList().get(turnCount).getRow();
+					int col = board.getPlayerList().get(turnCount).getColumn();
+					
+					board.getPlayerList().get(turnCount).selectTarget(roll, row, col);
+					
 					board.getCell(board.getPlayerList().get(turnCount).getRow(),
 							board.getPlayerList().get(turnCount).getColumn()).setOccupied(true);
 
@@ -191,13 +213,36 @@ public class ClueGame extends JFrame {
 					board.revalidate();
 					display.repaint();
 					display.revalidate();
-
+					
 					if (board.getCell(board.getPlayerList().get(turnCount).getRow(),
 							board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
+						
 						tempSol = board.getPlayerList().get(turnCount).createSuggestion();
 						controlPanel.setGuess(tempSol.getSolRoomName() + "\n" + tempSol.getSolPersonName() + "\n"
 								+ tempSol.getSolWeaponName());
 						tempCard = board.handleSuggestion(tempSol, currPlayer);
+						
+						// move player to room where they've been suggested
+						for (Player p : board.getPlayerList()) {
+							if (p.getName() == tempSol.getSolPersonName()) {
+								row = board.getPlayerList().get(turnCount).getRow();
+								col = board.getPlayerList().get(turnCount).getColumn();
+								p.setPos(row, col);
+								
+								board.repaint();
+								board.revalidate();
+								display.repaint();
+								display.revalidate();
+								
+								break;
+							}
+						}
+						
+						board.repaint();
+						board.revalidate();
+						display.repaint();
+						display.revalidate();
+						
 						if (tempCard != null) {
 							controlPanel.setGuessResult("Suggestion Disproven!");
 						} else {

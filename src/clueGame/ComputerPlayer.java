@@ -58,11 +58,15 @@ public class ComputerPlayer extends Player {
 	}
 
 	@Override
-	public BoardCell selectTarget(int roll) {
+	public BoardCell selectTarget(int roll, int newRow, int newCol) {
 		Random r = new Random();
 		int tempRow = 0;
 		int tempCol = 0;
-		board.calcTargets(board.getCell(row, column), roll);
+		
+		System.out.println("3. Row: " + row + " Col: " + column);
+		
+		board.calcTargets(board.getCell(newRow, newCol), roll);
+		
 		for (BoardCell B : board.getTargets()) {
 			if (B.isRoomCenter() && !(visitedList.contains(B))) {
 				setPos(B.getRow(), B.getColumn());
@@ -91,6 +95,11 @@ public class ComputerPlayer extends Player {
 		this.column = tempCol;
 		visitedList.add(board.getCell(tempRow, tempCol));
 		return board.getCell(tempRow, tempCol);
+	}
+	
+	@Override
+	public BoardCell selectTarget(int roll) {
+		return selectTarget(roll, row, column);
 	}
 
 	@Override
