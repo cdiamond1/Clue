@@ -24,7 +24,7 @@ public class ClueGame extends JFrame {
 	private final static String ERROR_CONTENT = "You can't move there.\nPick a different cell.";
 
 	private final static String WIN_TITLE = "Congratulations!";
-	private final static String WIN_CONTENT = "Congratulations you successfully found the murder! You win :)";
+	private static String WIN_CONTENT = "Congratulations you successfully found the murder! You win :)";
 	private final static String LOSE_TITLE = "Uh Oh!";
 	private final static String LOSE_CONTENT = "The murder got away! You Lose :(";
 
@@ -34,6 +34,7 @@ public class ClueGame extends JFrame {
 	private static Player currPlayerSuggest;
 
 	private static boolean gameOver = false;
+	private static boolean compWin = false;
 	private static JPanel display = new JPanel();
 
 	public ClueGame() {
@@ -73,16 +74,23 @@ public class ClueGame extends JFrame {
 										board.getCell(board.getPlayerList().get(turnCount).getRow(),
 												board.getPlayerList().get(turnCount).getColumn()).getRoom(),
 										currPlayerSuggest);
-								
-								controlPanel.setGuess(guessPanel.getSuggestion().getSolRoomName() + "\n"
-										+ guessPanel.getSuggestion().getSolPersonName() + "\n"
-										+ guessPanel.getSuggestion().getSolWeaponName());
-								
-								controlPanel.setGuessResult(guessPanel.getNewCard().getCardName());
-								
+								if(guessPanel.getSuggestion() != null) {
+									controlPanel.setGuess(guessPanel.getSuggestion().getSolRoomName() + "\n"
+											+ guessPanel.getSuggestion().getSolPersonName() + "\n"
+											+ guessPanel.getSuggestion().getSolWeaponName());
+									if(guessPanel.getNewCard() != null) {
+										controlPanel.setGuessResult(guessPanel.getNewCard().getCardName());
+									} else {
+										for (Player p : board.getPlayerList()) {
+											p.setShouldAccuse(true);
+										}
+									}
+									
+								}
 								// move computer player when suggested 
 								for (Player p : board.getPlayerList()) {
-									if (p.getName() == guessPanel.getSuggestion().getSolPersonName()) {
+									if (guessPanel.getSuggestion() != null && p.getName() == guessPanel.getSuggestion().getSolPersonName()) {
+										board.getCell(p.getRow(), p.getColumn()).setOccupied(false);
 										p.setPos(mouseCellY, mouseCellX);
 										
 										board.repaint();
@@ -228,6 +236,7 @@ public class ClueGame extends JFrame {
 						else {
 							splash = new JOptionPane();
 							splash.showMessageDialog(null, "The Computer Wins!", "Computer wins", JOptionPane.INFORMATION_MESSAGE);
+							compWin = true;
 							gameOver = true;
 							
 							break;
@@ -248,6 +257,7 @@ public class ClueGame extends JFrame {
 						// move player to room where they've been suggested
 						for (Player p : board.getPlayerList()) {
 							if (p.getName() == tempSol.getSolPersonName()) {
+								board.getCell(p.getRow(), p.getColumn()).setOccupied(false);
 								row = board.getPlayerList().get(turnCount).getRow();
 								col = board.getPlayerList().get(turnCount).getColumn();
 								p.setPos(row, col);
@@ -296,11 +306,17 @@ public class ClueGame extends JFrame {
 				turnCount = (turnCount + 1) % board.getPlayerList().size();
 				counter = 0;
 			}
+			WIN_CONTENT = "Congratulations " + currPlayer.getName() + " has found the murderer!" + currPlayer.getName() + " wins :)";
 		}
 		if (controlPanel.isAccusationCorrect()) {
 			splash = new JOptionPane();
 			splash.showMessageDialog(null, WIN_CONTENT, WIN_TITLE, JOptionPane.INFORMATION_MESSAGE);
 		} else {
+			if(compWin) {
+				splash = new JOptionPane();
+				splash.showMessageDialog(null, "A computer player found the murderer! They win", LOSE_TITLE, JOptionPane.INFORMATION_MESSAGE);
+			}
+			
 			splash = new JOptionPane();
 			splash.showMessageDialog(null, LOSE_CONTENT, LOSE_TITLE, JOptionPane.INFORMATION_MESSAGE);
 		}
