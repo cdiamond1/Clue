@@ -180,9 +180,4 @@ public class GuessPanel extends JDialog {
 	public Card getNewCard() {
 		return tempCard;
 	}
-
-		
-	public static void main(String[] args) {
-
-	}
 }

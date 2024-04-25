@@ -113,7 +113,8 @@ public class Board extends JPanel {
 			} else {
 				throw new BadConfigFormatException("Bad config file: " + lineSplit[0]);
 			}
-
+			
+			// Detects what kind of card to create and adds it too the deck
 			if ((lineSplit[0].equals("Room") || lineSplit[0].equals("Space")) && lineSplit.length == 3) {
 				// create room object
 				Room temp = new Room(lineSplit[1]);
@@ -127,7 +128,7 @@ public class Board extends JPanel {
 			}
 			if (lineSplit[0].equals("Player")) {
 				deck.add(new Card(lineSplit[1], CardType.PERSON));
-				// add human player
+				// add human or computer players
 				if (lineSplit[2].equals("human")) {
 					HumanPlayer human = new HumanPlayer(lineSplit[1], Integer.parseInt(lineSplit[3]),
 							Integer.parseInt(lineSplit[4]), lineSplit[5]);
@@ -269,7 +270,7 @@ public class Board extends JPanel {
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
+		
 		// return dataList at the end of the method
 		return dataList;
 	}

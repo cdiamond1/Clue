@@ -13,12 +13,14 @@ public class Solution {
 	private Card person;
 	private Card weapon;
 	
+	// default constructor
 	public Solution() {
 		this.room = null;
 		this.person = null;
 		this.weapon = null;
 	}
-		
+	
+	// constructor with inputs
 	public Solution(Card room, Card person, Card weapon) {
 		this.room = room;
 		this.person = person;

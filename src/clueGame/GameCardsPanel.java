@@ -65,20 +65,6 @@ public class GameCardsPanel extends JPanel {
 		hand.add(new Card("Miss Scarlet", CardType.PERSON));
 		hand.add(new Card("Wrench", CardType.WEAPON));
 		
-		
-		//Add these to test overlapping
-		/*
-		seen.add(new Card("Mrs. White", CardType.PERSON));
-		seen.add(new Card("Colonel Mustard", CardType.PERSON));
-		seen.add(new Card("Reverand Green", CardType.PERSON));
-		seen.add(new Card("Mrs. Peacock", CardType.PERSON));
-		seen.add(new Card("Colonel Mustard", CardType.PERSON));
-		seen.add(new Card("Mrs. White", CardType.PERSON));
-		
-		seen.add(new Card("Colonel Mustard", CardType.PERSON));
-		seen.add(new Card("Mrs. Peacock", CardType.PERSON));
-		*/
-		
 		seen.add(new Card("Reverand Green", CardType.PERSON));
 		seen.add(new Card("Kitchen", CardType.ROOM));
 		seen.add(new Card("Knife", CardType.WEAPON));
@@ -119,9 +105,9 @@ public class GameCardsPanel extends JPanel {
 		panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "Seen:"));
 		panel2.setLayout(new GridLayout(0,1));
-		Card = new JLabel();										// Tried JTextField and JPanel but JLabel seems to work the best
-		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));	// Maybe there's a better way, but JLabel overlaps the least atm
-																	// Assignment uses JTextFields I think
+		Card = new JLabel();
+		Card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
 		// iterate through every card that's been seen
 		for (Card C : seen) {
 			if (C.getCardType() == CardType.PERSON) {
@@ -248,19 +234,5 @@ public class GameCardsPanel extends JPanel {
 		this.createAll();
 		this.repaint();
 		this.revalidate();
-	}
-	
-	// MAIN (unused)
-	public static void main(String[] args) {
-		/*GameCardsPanel panel = new GameCardsPanel(); // create the panel
-		JFrame frame = new JFrame();
-		
-		panel.updateAll();
-		
-		frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(250, 750); // size the frame
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
-		frame.setVisible(true); // make it visible
-		*/
 	}
 }

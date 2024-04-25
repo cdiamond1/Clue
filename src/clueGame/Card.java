@@ -19,6 +19,7 @@ public class Card {
 		this.type = type;
 	}
 	
+	// equals to compare two cards via name
 	public boolean equals(Card Target) {
 		if(this.cardName.equals(Target.getCardName())) {
 			return true;

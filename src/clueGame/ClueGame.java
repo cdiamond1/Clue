@@ -212,11 +212,6 @@ public class ClueGame extends JFrame {
 					cardsPanel.updateSeen(board.getPlayerList().get(turnCount).getSeen());
 					cardsPanel.updateAll();
 
-					// For testing winning accusation
-					System.out.println(board.getSolution().getSolPersonName());
-					System.out.println(board.getSolution().getSolRoomName());
-					System.out.println(board.getSolution().getSolWeaponName());
-
 					for (BoardCell C : board.getTargets()) {
 						board.getCell(C.getRow(), C.getColumn()).setTarget(true);
 					}
