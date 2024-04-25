@@ -98,18 +98,28 @@ public class GameControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == accuse) {
-					accusePanel = new GuessPanel();
-					accusePanel.setVisible(true);
-				}
-				if(accusePanel.isAccusationRight()) {
-					accusationMade = true;
-					isAccusationCorrect = true;
-				} else {
-					accusationMade = true;
-					isAccusationCorrect = false;
+					
+					// ensure you can only accuse on your turn
+					if (!board.getPlayerList().get(ClueGame.getTurnCount()).isHuman()) {
+						JOptionPane splash = new JOptionPane();
+						splash.showMessageDialog(null, "You can only accuse during your turn.", "bad", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else {
+						accusePanel = new GuessPanel();
+						accusePanel.setVisible(true);
+					
+						if (accusePanel.isAccusationRight()) {
+							accusationMade = true;
+							isAccusationCorrect = true;
+						} else {
+							accusationMade = true;
+							isAccusationCorrect = false;
+						}
+					}
 				}
 			}
 		});
+		
 		accuse.setSize(new Dimension(100, 100));
 		return accuse;
 	}

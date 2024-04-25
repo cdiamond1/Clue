@@ -152,6 +152,12 @@ public class ClueGame extends JFrame {
 
 		add(display);
 	}
+	
+
+	public static int getTurnCount() {
+		return turnCount;
+	}
+
 
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame(); // create the panel
@@ -306,7 +312,7 @@ public class ClueGame extends JFrame {
 				turnCount = (turnCount + 1) % board.getPlayerList().size();
 				counter = 0;
 			}
-			WIN_CONTENT = "Congratulations " + currPlayer.getName() + " has found the murderer!" + currPlayer.getName() + " wins :)";
+			WIN_CONTENT = "Congratulations " + currPlayer.getName() + " has found the murderer! " + currPlayer.getName() + " wins :)";
 		}
 		if (controlPanel.isAccusationCorrect()) {
 			splash = new JOptionPane();
