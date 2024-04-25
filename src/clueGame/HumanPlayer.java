@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 /*
- * HumanPlayer Class - 
+ * HumanPlayer Class. Extends Player class. contains methods
+ * for human player
  *  
  * @author Carson Diamond
  * @author Charlie Dupras

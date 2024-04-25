@@ -19,6 +19,15 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+/*
+ * GameControlPanel class. Holds information and methods
+ * about the game control panel at the bottom of the GUI.
+ * 
+ * Authors:
+ * Carson Diamond
+ * Charlie Dupras
+ */
+
 public class GameControlPanel extends JPanel {
 	private JTextField name;
 	private JTextArea Guess = new JTextArea();

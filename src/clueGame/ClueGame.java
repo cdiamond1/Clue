@@ -9,6 +9,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/* ClueGame class - runs the game. Provides framework to hold
+ * all GUI elements
+ * 
+ * @Author: Carson D.
+ * @Author: Charlie D.
+ * 
+ * @Date: 4/1/2024
+ */
+
 public class ClueGame extends JFrame {
 
 	private static Board board = Board.getInstance();
@@ -24,7 +33,7 @@ public class ClueGame extends JFrame {
 	private final static String ERROR_CONTENT = "You can't move there.\nPick a different cell.";
 
 	private final static String WIN_TITLE = "Congratulations!";
-	private static String WIN_CONTENT = "Congratulations you successfully found the murder! You win :)";
+	private static String winContent = "Congratulations you successfully found the murder! You win :)";
 	private final static String LOSE_TITLE = "Uh Oh!";
 	private final static String LOSE_CONTENT = "The murder got away! You Lose :(";
 
@@ -37,12 +46,14 @@ public class ClueGame extends JFrame {
 	private static boolean compWin = false;
 	private static JPanel display = new JPanel();
 
+	// constructor: sets up GUI and detects mouse clicks
 	public ClueGame() {
 		// create display panel object
 		display = new JPanel();
 		display.setLayout(new BorderLayout());
 		display.addMouseListener(new MouseListener() {
 
+			// detect mouse click
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				boolean targetPicked = false;
@@ -74,19 +85,23 @@ public class ClueGame extends JFrame {
 										board.getCell(board.getPlayerList().get(turnCount).getRow(),
 												board.getPlayerList().get(turnCount).getColumn()).getRoom(),
 										currPlayerSuggest);
-								if(guessPanel.getSuggestion() != null) {
+								
+								// set suggestion in panel
+								if (guessPanel.getSuggestion() != null) {
 									controlPanel.setGuess(guessPanel.getSuggestion().getSolRoomName() + "\n"
 											+ guessPanel.getSuggestion().getSolPersonName() + "\n"
 											+ guessPanel.getSuggestion().getSolWeaponName());
-									if(guessPanel.getNewCard() != null) {
+									
+									if (guessPanel.getNewCard() != null) {
 										controlPanel.setGuessResult(guessPanel.getNewCard().getCardName());
-									} else {
+									}
+									else {
 										for (Player p : board.getPlayerList()) {
 											p.setShouldAccuse(true);
 										}
-									}
-									
+									}	
 								}
+								
 								// move computer player when suggested 
 								for (Player p : board.getPlayerList()) {
 									if (guessPanel.getSuggestion() != null && p.getName() == guessPanel.getSuggestion().getSolPersonName()) {
@@ -158,7 +173,7 @@ public class ClueGame extends JFrame {
 		return turnCount;
 	}
 
-
+	// MAIN
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame(); // create the panel
 
@@ -218,6 +233,7 @@ public class ClueGame extends JFrame {
 					int row = board.getPlayerList().get(turnCount).getRow();
 					int col = board.getPlayerList().get(turnCount).getColumn();
 					
+					// randomly pick target
 					board.getPlayerList().get(turnCount).selectTarget(roll, row, col);
 					
 					board.getCell(board.getPlayerList().get(turnCount).getRow(),
@@ -228,9 +244,12 @@ public class ClueGame extends JFrame {
 					display.repaint();
 					display.revalidate();
 					
+					// create suggestion if moved into room
 					if (board.getCell(board.getPlayerList().get(turnCount).getRow(),
 							board.getPlayerList().get(turnCount).getColumn()).isRoomCenter()) {
 						
+						// Makes suggestion if shouldAccuse is false; otherwise, computer knows the answer
+						// and wins
 						if (!board.getPlayerList().get(turnCount).shouldAccuse()) {
 							tempSol = board.getPlayerList().get(turnCount).createSuggestion();
 							controlPanel.setGuess(tempSol.getSolRoomName() + "\n" + tempSol.getSolPersonName() + "\n"
@@ -264,6 +283,7 @@ public class ClueGame extends JFrame {
 						for (Player p : board.getPlayerList()) {
 							if (p.getName() == tempSol.getSolPersonName()) {
 								board.getCell(p.getRow(), p.getColumn()).setOccupied(false);
+								
 								row = board.getPlayerList().get(turnCount).getRow();
 								col = board.getPlayerList().get(turnCount).getColumn();
 								p.setPos(row, col);
@@ -282,6 +302,7 @@ public class ClueGame extends JFrame {
 						display.repaint();
 						display.revalidate();
 						
+						// set panel
 						if (tempCard != null) {
 							controlPanel.setGuessResult("Suggestion Disproven!");
 						} else {
@@ -291,10 +312,12 @@ public class ClueGame extends JFrame {
 				}
 			}
 
+			// end game when human player makes accusation
 			if (controlPanel.isAccusationMade()) {
 				gameOver = true;
 			}
 
+			// NEXT button
 			if (controlPanel.nextPressed) {
 
 				board.repaint();
@@ -312,11 +335,14 @@ public class ClueGame extends JFrame {
 				turnCount = (turnCount + 1) % board.getPlayerList().size();
 				counter = 0;
 			}
-			WIN_CONTENT = "Congratulations " + currPlayer.getName() + " has found the murderer! " + currPlayer.getName() + " wins :)";
+			
+			winContent = "Congratulations " + currPlayer.getName() + " has found the murderer! " + currPlayer.getName() + " wins :)";
 		}
+		
+		// check if accusation is correct
 		if (controlPanel.isAccusationCorrect()) {
 			splash = new JOptionPane();
-			splash.showMessageDialog(null, WIN_CONTENT, WIN_TITLE, JOptionPane.INFORMATION_MESSAGE);
+			splash.showMessageDialog(null, winContent, WIN_TITLE, JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			if(compWin) {
 				splash = new JOptionPane();

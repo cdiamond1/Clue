@@ -16,7 +16,8 @@ import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-/* Board class - contains our board
+/* Board class - contains our board, lists of important objects, and
+ * board GUI information
  * 
  * @Author: Carson D.
  * @Author: Charlie D.
@@ -29,14 +30,13 @@ public class Board extends JPanel {
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> boardCells = new HashSet<BoardCell>();
 
-	// C14A-1 additional variables
 	public BoardCell[][] grid;
 	private Set<BoardCell> visited = new HashSet<BoardCell>();
 
+	// not final for testing purposes
 	private static int boardCols = 30;
 	private static int boardRows = 30;
 
-	// C14A-2 additional variables
 	private String initial;
 	private Map<Character, Room> roomMap = new HashMap<Character, Room>();
 	private File csv;
@@ -50,6 +50,7 @@ public class Board extends JPanel {
 	private ArrayList<Boolean> suggestionCheck = new ArrayList<Boolean>();
 	private Solution Solution = new Solution();
 
+	// GUI info
 	private static int panelWidth = 600;
 	private static int panelHeight = 600;
 
@@ -81,9 +82,6 @@ public class Board extends JPanel {
 			e.printStackTrace();
 		}
 	}
-
-	// readData gets passed a file name, and returns a 2D array of the
-	// information in the file
 
 	// Loads setup file, populating roomMap
 	public void loadSetupConfig() throws BadConfigFormatException {
@@ -231,6 +229,8 @@ public class Board extends JPanel {
 		}
 	}
 
+	// readData gets passed a file name, and returns a 2D array of the
+	// information in the file
 	public ArrayList<String[]> readData(File file) throws BadConfigFormatException {
 		ArrayList<String[]> dataList = new ArrayList<>();
 
@@ -250,6 +250,7 @@ public class Board extends JPanel {
 				}
 				String[] temp = currLine.split(",");
 				dataList.add(temp);
+				
 				// check configuration
 				for (String item : dataList.get(boardRows)) {
 					if (item.equals("") || item.equals(" ") || item.equals(null)) {
@@ -325,12 +326,14 @@ public class Board extends JPanel {
 		}
 	}
 
+	// helper function that sets up, then calls recursive recurseTarget function
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 		recurseTarget(startCell, pathLength);
 	}
 
+	// Calculates all possible targets from a given starting cell and path length
 	public void recurseTarget(BoardCell startCell, int pathLength) {
 		visited.add(startCell);
 
@@ -358,6 +361,7 @@ public class Board extends JPanel {
 		}
 	}
 
+	// Called during initialization - calculates adjacencies for all cells
 	public void calcAdjacencyList() {
 		BoardCell currCell = new BoardCell();
 		BoardCell temp = new BoardCell();
@@ -407,6 +411,7 @@ public class Board extends JPanel {
 		}
 	}
 
+	// deals cards to all players randomly
 	public void deal() {
 		Random r = new Random();
 		int result = r.nextInt(deck.size());
@@ -424,6 +429,7 @@ public class Board extends JPanel {
 		}
 	}
 
+	// returns a dice roll between 1 and 6
 	public int roll() {
 		Random r = new Random();
 		int low = 1;
@@ -431,6 +437,7 @@ public class Board extends JPanel {
 		return r.nextInt(high - low) + low;
 	}
 
+	// randomly pulls cards from the deck to generate a solution
 	public void generateSolution() {
 		Random r = new Random();
 		int result = r.nextInt(deck.size());
@@ -455,6 +462,7 @@ public class Board extends JPanel {
 		deck.remove(result);
 	}
 
+	// checks arguments against stored solution
 	public boolean checkAccusation(String person, String room, String weapon) {
 		if (Solution.getSolPersonName() != person || Solution.getSolRoomName() != room
 				|| Solution.getSolWeaponName() != weapon) {
@@ -463,6 +471,7 @@ public class Board extends JPanel {
 		return true;
 	}
 
+	// overloaded from above
 	public boolean checkAccusation(Solution sol) {
 		if (Solution.getSolPersonName() != sol.getSolPersonName() || Solution.getSolRoomName() != sol.getSolRoomName()
 				|| Solution.getSolWeaponName() != sol.getSolWeaponName()) {
@@ -471,10 +480,13 @@ public class Board extends JPanel {
 		return true;
 	}
 
+	// checks suggestion made against all player hands, starting with the player following the one making
+	// a suggestion
 	public Card handleSuggestion(Solution sol, Player startingPlayer) {
 		int startingPlayerIndex = 0;
 		int count = 0;
 
+		// find starting player index
 		for (Player currPlayer : playerList) {
 			if (currPlayer.getName().equals(startingPlayer.getName())) {
 				startingPlayerIndex = count;
@@ -502,6 +514,7 @@ public class Board extends JPanel {
 		return null;
 	}
 
+	// removes card from deck
 	public void removeCardFromDeck(Card card) {
 		for (int i = 0; i < deck.size(); i++) {
 			if (deck.get(i).getCardName().equals(card.getCardName())) {
@@ -514,10 +527,11 @@ public class Board extends JPanel {
 		deck.add(card);
 	}
 
+	// draws Board object in GUI
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		int cellWidth = panelWidth / boardCols; // Not sure how to get panelWidth and panelHeight
+		int cellWidth = panelWidth / boardCols;
 		int cellHeight = panelHeight / boardRows;
 
 		int cellX = 0;
@@ -536,13 +550,14 @@ public class Board extends JPanel {
 			cellY += cellHeight;
 		}
 
-		// iterate through every player
+		// iterate through every player and draw them
 		for (Player P : playerList) {
 			P.drawPlayer(g, cellHeight - 4, P.getColumn() * cellWidth + 2, P.getRow() * cellHeight + 2);
 		}
 
 		cellY = 0;
 
+		// iterate through every cell and have it draw itself
 		for (BoardCell[] gridCol : grid) {
 			cellX = 0;
 

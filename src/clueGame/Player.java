@@ -30,6 +30,8 @@ public abstract class Player {
 	
 	private Board board = Board.getInstance();
 	
+	// constructors
+	
 	public Player(String name) {
 		this.name = name;
 	}
@@ -51,6 +53,7 @@ public abstract class Player {
 		this.name = name;
 		this.row = row;
 		this.column = col;
+		
 		switch (color) {
 		case "Green":
 			this.color = Color.GREEN;
@@ -73,6 +76,7 @@ public abstract class Player {
 		}
 	}
 	
+	// return card that disproves a suggestion made
 	public Card disproveSuggestion(String room, String person, String weapon) {
 		ArrayList<Card> matching = new ArrayList<Card>();
 		
@@ -98,6 +102,7 @@ public abstract class Player {
 		return null;
 	}
 
+	// updates seen cards
 	public void updateSeen(Card card) {
 		if (card.getCardType() == CardType.PERSON) {
 			seen.add(card);
@@ -114,6 +119,7 @@ public abstract class Player {
 		}
 	}
 	
+	// draws player on board
 	public void drawPlayer(Graphics g, int rad, int x, int y) {
 		g.setColor(color);
 		g.drawOval(x, y, rad, rad);
@@ -130,6 +136,8 @@ public abstract class Player {
 	public void updateHand(Card card) {
 		hand.add(card);
 	}
+	
+	// getters and setters
 	
 	public boolean isInRoom() {
 		return board.getCell(row, column).getRoom().getName() != "Walkway";

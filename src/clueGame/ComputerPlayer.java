@@ -23,33 +23,33 @@ public class ComputerPlayer extends Player {
 	private int row, column;
 	private Solution accusation;
 
+	// default constructor
 	public ComputerPlayer(String name, int row, int col) {
 		super(name, row, col);
 		this.row = row;
 		this.column = col;
 	}
 
+	// overloaded constructor
 	public ComputerPlayer(String name, int row, int col, Color color) {
 		super(name, row, col, color);
 		this.row = row;
 		this.column = col;
 	}
 
+	// overloaded constructor
 	public ComputerPlayer(String name, int row, int col, String color) {
 		super(name, row, col, color);
 		this.row = row;
 		this.column = col;
 	}
 
+	// overloaded constructor
 	public ComputerPlayer(String name) {
 		super(name);
 	}
 
-	@Override
-	public boolean isHuman() {
-		return false;
-	}
-
+	// returns current player cell
 	public BoardCell getCurrCell() {
 		return board.getCell(row, column);
 	}
@@ -58,6 +58,7 @@ public class ComputerPlayer extends Player {
 		visitedList.add(cell);
 	}
 
+	// selects target from adjacency list
 	@Override
 	public BoardCell selectTarget(int roll, int newRow, int newCol) {
 		Random r = new Random();
@@ -66,6 +67,7 @@ public class ComputerPlayer extends Player {
 		
 		board.calcTargets(board.getCell(newRow, newCol), roll);
 		
+		// look for room to move to
 		for (BoardCell B : board.getTargets()) {
 			if (B.isRoomCenter() && !(visitedList.contains(B))) {
 				setPos(B.getRow(), B.getColumn());
@@ -101,6 +103,7 @@ public class ComputerPlayer extends Player {
 		return selectTarget(roll, row, column);
 	}
 
+	// creates suggestion based on what's been seen and current room
 	@Override
 	public Solution createSuggestion() {
 		Card suggPerson = null;
@@ -115,14 +118,17 @@ public class ComputerPlayer extends Player {
 					suggRoom = C;
 				}
 			}
+			
 			Random r = new Random();
 			int low = 0;
 			int high = 0;
+			
 			// pick random person and weapon, check against seen lists
 			do {
 				high = totalPeople.size();
 				suggPerson = totalPeople.get(r.nextInt(high - low) + low);
 			} while (super.getSeenPeopleStr().contains(suggPerson.getCardName()));
+			
 			do {
 				high = totalWeapons.size();
 				suggWeapon = totalWeapons.get(r.nextInt(high - low) + low);
@@ -133,6 +139,7 @@ public class ComputerPlayer extends Player {
 		return null;
 	}
 	
+	// create and store accusation
 	@Override
 	public void createAccusation(Card room, Card person, Card weapon) {
 		accusation = new Solution(room, person, weapon);
@@ -142,4 +149,10 @@ public class ComputerPlayer extends Player {
 	public Solution getAccusation() {
 		return accusation;
 	}
+	
+	@Override
+	public boolean isHuman() {
+		return false;
+	}
+
 }

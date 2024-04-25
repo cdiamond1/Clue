@@ -22,7 +22,6 @@ public class BoardCell {
 	private boolean isRoom = false;
 	private Set<BoardCell> adjList = new HashSet<BoardCell>();
 
-	// C14A-2 additional variables
 	private String intial;
 	private DoorDirection doorDirection;
 	private boolean isRoomLabel;
@@ -35,7 +34,6 @@ public class BoardCell {
 	private boolean isTarget = false;
 
 	private Room room;
-
 	private Color color;
 
 	// default constructor
@@ -45,14 +43,11 @@ public class BoardCell {
 		this.intial = null;
 	}
 
+	// overloaded constructor
 	public BoardCell(int row, int column, String intial) {
 		this.row = row;
 		this.column = column;
 		this.intial = intial;
-	}
-
-	public Set<BoardCell> getAdjList() {
-		return adjList;
 	}
 
 	// add cell to adjacency list
@@ -60,8 +55,10 @@ public class BoardCell {
 		adjList.add(cell);
 	}
 
+	// draws cell in GUI
 	public void drawCell(Graphics g, int width, int height, int x, int y) {
 
+		// set color
 		g.setColor(Color.BLACK);
 
 		if (this.isWall()) {
@@ -91,6 +88,7 @@ public class BoardCell {
 
 		g.fillRect(x, y, width, height);
 
+		// draw doorways
 		if (isDoorway) {
 			switch (doorDirection) {
 			case LEFT:
@@ -121,6 +119,7 @@ public class BoardCell {
 		this.setTarget(false); // undoes special coloring for target cells
 	}
 
+	// draws labels on top of rooms
 	public void drawLabels(Graphics g, int width, int height, int x, int y) {
 		// info on how to center text:
 		// https://coderanch.com/t/336616/java/Center-Align-text-drawString
@@ -134,6 +133,10 @@ public class BoardCell {
 	}
 
 	// Getters and Setters
+	public Set<BoardCell> getAdjList() {
+		return adjList;
+	}
+	
 	public boolean isRoom() {
 		return isRoom;
 	}

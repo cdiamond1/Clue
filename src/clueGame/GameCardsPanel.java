@@ -32,12 +32,12 @@ public class GameCardsPanel extends JPanel {
 		setLayout(new GridLayout(3, 0));
 		setBorder(new TitledBorder(new EtchedBorder(), "Known Cards"));
 		
-		//WaddTestCards(); // just for testing functionality
 		add(panel);
 		
 		this.createAll();
 	}
 
+	// create all subpanels
 	public void createAll() {
 		panel = createPeoplePanel();
 		add(panel);
@@ -59,6 +59,7 @@ public class GameCardsPanel extends JPanel {
 		this.seen.add(c);
 	}
 	
+	// test function - not used in final implementation
 	public void addTestCards() {
 		hand.add(new Card("Professor Plum", CardType.PERSON));
 		hand.add(new Card("Miss Scarlet", CardType.PERSON));
@@ -83,11 +84,13 @@ public class GameCardsPanel extends JPanel {
 		seen.add(new Card("Knife", CardType.WEAPON));
 	}
 	
+	// people card panel
 	public JPanel createPeoplePanel() {
 		cardCount = 0;
 		// panel setup
 		panel.setLayout(new GridLayout(2, 0));
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "People"));
+		
 		JPanel panel2 = new JPanel();
 		panel2.setBorder(new TitledBorder(new EtchedBorder(), "In Hand:"));
 		panel2.setLayout(new GridLayout(0, 1));
@@ -103,11 +106,14 @@ public class GameCardsPanel extends JPanel {
 				panel2.add(Card);
 			}
 		}
+		
+		// say none if no cards
 		if (cardCount == 0) {
 			Card = new JLabel("None");
 			panel2.add(Card);
 		}
 		
+		// seen cards
 		cardCount = 0;
 		panel.add(panel2);
 		panel2 = new JPanel();
@@ -134,6 +140,7 @@ public class GameCardsPanel extends JPanel {
 		return panel;
 	}
 
+	// room panel - works similarly to player panel
 	public JPanel createRoomPanel() {
 		cardCount = 0;
 		panel = new JPanel();
@@ -183,6 +190,7 @@ public class GameCardsPanel extends JPanel {
 		return panel;
 	}
 	
+	// weapons panel
 	public JPanel createWeaponPanel() {
 		cardCount = 0;
 		panel = new JPanel();
@@ -230,6 +238,7 @@ public class GameCardsPanel extends JPanel {
 		return panel;
 	}
 	
+	// removes everything, remakes panel, and adds everything again
 	public void updateAll() {
 		
 		this.removeAll();
@@ -240,7 +249,8 @@ public class GameCardsPanel extends JPanel {
 		this.repaint();
 		this.revalidate();
 	}
-		
+	
+	// MAIN (unused)
 	public static void main(String[] args) {
 		/*GameCardsPanel panel = new GameCardsPanel(); // create the panel
 		JFrame frame = new JFrame();

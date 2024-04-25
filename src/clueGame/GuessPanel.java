@@ -12,6 +12,16 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/*
+ * GuessPanel class. Holds information and methods
+ * about the guess panel that pops up for suggestions
+ * and accusations.
+ * 
+ * Authors:
+ * Carson Diamond
+ * Charlie Dupras
+ */
+
 public class GuessPanel extends JDialog {
 	private static Board board = Board.getInstance();
 	private JFrame frame = new JFrame();
@@ -27,6 +37,7 @@ public class GuessPanel extends JDialog {
 	private Solution suggestion;
 	private Card tempCard = null;
 
+	// constructor for accusations
 	public GuessPanel() {
 		JDialog panel = new JDialog(frame, "Accuse", true);
 		panel.setTitle("Accuse");
@@ -36,7 +47,8 @@ public class GuessPanel extends JDialog {
 		panel.setSize(300, 300);
 
 		roomText.setText("   Room");
-
+		
+		// combo boxes for selecting cards
 		JComboBox<String> roomList = new JComboBox<String>();
 		for (Card C : board.getRoomsList()) {
 			roomList.addItem(C.getCardName());
@@ -52,6 +64,7 @@ public class GuessPanel extends JDialog {
 			weaponList.addItem(C.getCardName());
 		}
 		
+		// submit button
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -65,6 +78,7 @@ public class GuessPanel extends JDialog {
 			}
 		});
 		
+		// cancel button
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -85,6 +99,7 @@ public class GuessPanel extends JDialog {
 		panel.setVisible(true);
 	}
 
+	// consructor for suggestions
 	public GuessPanel(Room room, Player currPlayer) {
 		JDialog panel = new JDialog();
 		panel.setTitle("Suggest");
@@ -148,6 +163,8 @@ public class GuessPanel extends JDialog {
 		panel.setVisible(true);
 	}
 
+	// getters and setters
+	
 	public boolean isAccusationRight() {
 		return correct;
 	}

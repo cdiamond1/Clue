@@ -1,7 +1,7 @@
 package clueGame;
 
 /*
- * Solution Class - 
+ * Solution Class - stores data for Solution objects
  *  
  * @author Carson Diamond
  * @author Charlie Dupras
